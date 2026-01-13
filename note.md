@@ -1,0 +1,1 @@
+Place GenerateBlocks Pro in a folder named `generateblocks-pro` for better results.
