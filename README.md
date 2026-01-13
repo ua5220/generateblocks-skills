@@ -4,6 +4,8 @@ LLM-optimized skill documentation and development resources for [GenerateBlocks]
 
 ## How to Use These Skills
 
+> Just paste the link https://github.com/wpgaurav/generateblocks-skills to your AI assistant and tell it to read the skill files and it will take care of everything for you.
+
 These skill files teach AI assistants how to work with GenerateBlocks. Here's how to use them with different tools:
 
 ### With Claude Code (Terminal/CLI)
