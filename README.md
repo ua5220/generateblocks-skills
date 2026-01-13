@@ -2,6 +2,56 @@
 
 LLM-optimized skill documentation and development resources for [GenerateBlocks](https://generateblocks.com/) WordPress plugin.
 
+## How to Use These Skills
+
+These skill files teach AI assistants how to work with GenerateBlocks. Here's how to use them with different tools:
+
+### With Claude Code (Terminal/CLI)
+
+If you're using [Claude Code](https://claude.ai/code) in your terminal:
+
+1. Open this folder in your terminal
+2. Run `claude` to start Claude Code
+3. Claude automatically reads `CLAUDE.md` and understands the skills
+4. Just ask: *"Create a hero section with GenerateBlocks"*
+
+### With VS Code + Claude/Copilot Extensions
+
+1. Open this folder in VS Code
+2. The `CLAUDE.md` file provides context to AI extensions
+3. For best results, open a skill file (e.g., `layout-skills/generateblocks-layouts.md`) in a tab
+4. Ask your AI assistant to create GenerateBlocks layouts
+
+### With Claude.ai, ChatGPT, or Gemini (Web)
+
+1. **Copy the skill file content** - Open the skill you need (e.g., `generateblocks-layouts.md`)
+2. **Paste into chat** - Start a new conversation and paste the skill content
+3. **Ask your question** - Now the AI understands GenerateBlocks format
+
+**Example workflow:**
+```
+1. Copy contents of layout-skills/generateblocks-layouts.md
+2. Paste into Claude/ChatGPT/Gemini
+3. Ask: "Create a pricing table with 3 tiers using GenerateBlocks"
+4. Copy the output into WordPress block editor (Code view)
+```
+
+### With Cursor, Windsurf, or Other AI IDEs
+
+1. Open this folder as your project
+2. The AI will read `CLAUDE.md` for context
+3. Reference skill files in your prompts: *"Using generateblocks-responsive.md, create a mobile-first grid"*
+
+### Quick Start Example
+
+**Want to create a card grid?**
+
+1. Tell your AI: *"Read layout-skills/generateblocks-layouts.md and create a 3-column card grid with hover effects"*
+2. Copy the generated block code
+3. In WordPress, open your page/post, switch to Code Editor (three dots menu > Code Editor)
+4. Paste the blocks
+5. Switch back to Visual Editor to see your layout
+
 ## What's Included
 
 ### Plugin Source Code
