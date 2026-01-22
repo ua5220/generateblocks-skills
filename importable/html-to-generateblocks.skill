@@ -1,0 +1,175 @@
+---
+name: html-to-generateblocks
+version: 2.0.0
+description: Convert HTML/CSS layouts to GenerateBlocks V2 format with inline styles
+author: Gaurav Tiwari
+trigger:
+  - HTML to GenerateBlocks
+  - convert to GB
+  - convert HTML to blocks
+  - GenerateBlocks conversion
+tags:
+  - wordpress
+  - generateblocks
+  - conversion
+  - html
+---
+
+# HTML to GenerateBlocks V2 Conversion
+
+Convert HTML/CSS layouts to GenerateBlocks V2 format using inline styles in block attributes.
+
+## Core Principle
+
+**Use both `styles` and `css` attributes:**
+- `styles`: Basic properties (padding, margin, colors, display, flex, grid)
+- `css`: Complex features (hover states, pseudo-elements, media queries, transitions)
+
+**Never use BEM or custom classes** - all styling goes in block attributes.
+
+## Block Structure
+
+### Element Block
+
+```html
+<!-- wp:generateblocks/element {"uniqueId":"elem001","tagName":"div","styles":{"display":"flex","gap":"1rem","padding":"2rem"},"css":".gb-element-elem001{display:flex;gap:1rem;padding:2rem}@media(max-width:768px){.gb-element-elem001{flex-direction:column}}"} -->
+<div class="gb-element gb-element-elem001">
+    <!-- Inner content -->
+</div>
+<!-- /wp:generateblocks/element -->
+```
+
+### Text Block
+
+```html
+<!-- wp:generateblocks/text {"uniqueId":"text001","tagName":"h2","styles":{"fontSize":"2rem","fontWeight":"900","color":"#0a0a0a"},"css":".gb-text-text001{font-size:2rem;font-weight:900;color:#0a0a0a}"} -->
+<h2 class="gb-text gb-text-text001">Heading Text</h2>
+<!-- /wp:generateblocks/text -->
+```
+
+### Link as Card Wrapper
+
+```html
+<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"/services/"},"styles":{"display":"flex","flexDirection":"column","padding":"2rem","backgroundColor":"white","borderRadius":"1rem","textDecoration":"none"},"css":".gb-text-card001{display:flex;flex-direction:column;padding:2rem;background-color:white;border-radius:1rem;text-decoration:none;transition:all 0.3s}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15)}"} -->
+<a class="gb-text gb-text-card001" href="/services/">
+    <!-- Card content -->
+</a>
+<!-- /wp:generateblocks/text -->
+```
+
+### Media Block
+
+```html
+<!-- wp:generateblocks/media {"uniqueId":"img001","mediaType":"image","htmlAttributes":{"src":"https://example.com/image.jpg","alt":"Description","loading":"lazy","width":"600","height":"400"},"styles":{"display":"block","width":"100%"},"css":".gb-media-img001{display:block;width:100%}"} -->
+<img class="gb-media gb-media-img001" src="https://example.com/image.jpg" alt="Description" loading="lazy" width="600" height="400" />
+<!-- /wp:generateblocks/media -->
+```
+
+## Styles vs CSS Matrix
+
+| Feature | `styles` | `css` |
+|---------|----------|-------|
+| Layout (display, flex, grid) | ✅ | Also |
+| Spacing (padding, margin, gap) | ✅ | Also |
+| Colors (background, text) | ✅ | Also |
+| Typography (font-size, weight) | ✅ | Also |
+| Borders, border-radius | ✅ | Also |
+| Hover states | ❌ | ✅ Only |
+| Pseudo-elements (::before, ::after) | ❌ | ✅ Only |
+| Media queries | ❌ | ✅ Only |
+| Transitions/animations | ❌ | ✅ Only |
+
+## Common Patterns
+
+### Card with Hover Effect
+
+```html
+<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"/link/"},"styles":{"display":"flex","flexDirection":"column","backgroundColor":"white","borderRadius":"1rem","padding":"2rem","border":"1px solid transparent","textDecoration":"none"},"css":".gb-text-card001{display:flex;flex-direction:column;background-color:white;border-radius:1rem;padding:2rem;border:1px solid transparent;text-decoration:none;transition:all 0.3s}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:#e5e5e5}"} -->
+<a class="gb-text gb-text-card001" href="/link/">
+    <!-- Card content -->
+</a>
+<!-- /wp:generateblocks/text -->
+```
+
+### Responsive Grid
+
+```html
+<!-- wp:generateblocks/element {"uniqueId":"grid001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(4, 1fr)","gap":"1rem"},"css":".gb-element-grid001{display:grid;grid-template-columns:repeat(4, 1fr);gap:1rem}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, 1fr)!important}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr!important}}"} -->
+<div class="gb-element gb-element-grid001">
+    <!-- Grid items -->
+</div>
+<!-- /wp:generateblocks/element -->
+```
+
+### Icon Container with Hover
+
+```html
+<!-- wp:generateblocks/element {"uniqueId":"icon001","tagName":"div","styles":{"width":"3.5rem","height":"3.5rem","display":"flex","alignItems":"center","justifyContent":"center","backgroundColor":"#f5f5f3","borderRadius":"1rem","color":"#c0392b"},"css":".gb-element-icon001{width:3.5rem;height:3.5rem;display:flex;align-items:center;justify-content:center;background-color:#f5f5f3;border-radius:1rem;color:#c0392b;transition:all 0.3s}.gb-text-parentcard:hover .gb-element-icon001{background-color:#c0392b;color:white;transform:scale(1.05)}"} -->
+<div class="gb-element gb-element-icon001">
+    <i class="icon-name" aria-hidden="true"></i>
+</div>
+<!-- /wp:generateblocks/element -->
+```
+
+## Conversion Workflow
+
+1. **Read original HTML/CSS** - Understand structure and styles
+2. **Identify sections** - Break into logical components
+3. **Map classes to blocks** - Each `.block__element` becomes a GB block
+4. **Extract base styles** - Put in `styles` attribute
+5. **Extract complex styles** - Put in `css` (hovers, pseudo, media queries)
+6. **Create unique IDs** - Follow `{section}{number}{letter}` convention
+7. **Test responsive** - Ensure media queries work
+
+## CSS Syntax Rules
+
+### In `styles` (JavaScript object):
+```json
+{
+  "display": "flex",
+  "flexDirection": "column",
+  "backgroundColor": "#ffffff",
+  "borderRadius": "1rem"
+}
+```
+
+### In `css` (CSS string):
+```css
+.gb-element-id{display:flex;flex-direction:column;background-color:#ffffff;border-radius:1rem}.gb-element-id:hover{background-color:#f5f5f5}@media(max-width:768px){.gb-element-id{flex-direction:row}}
+```
+
+**Note**: CSS must be minified (no line breaks).
+
+## Unique ID Convention
+
+Format: `{section}{number}{letter}`
+- Section: 3-4 chars (hero, serv, tool, blog, feat)
+- Number: 001-999
+- Letter: Optional for nested (a, b, c)
+
+Examples: `hero001a`, `serv023`, `tool014`
+
+## Critical Rules
+
+1. **No HTML comments** - Only `<!-- wp:... -->` block comments
+2. **Minify CSS** - No line breaks in `css` attribute
+3. **Duplicate properties** - Put in both `styles` and `css`
+4. **Transitions on all** - `transition:all 0.3s` for smooth interactions
+5. **Pseudo-elements need content** - `content:''` for ::before/::after
+6. **Gradients only in CSS** - Can't use in `styles` attribute
+
+## Default Design System
+
+**Colors:**
+- Primary: `#c0392b`
+- Text: `#0a0a0a`, Muted: `#5c5c5c`
+- Background: `#ffffff`, Light: `#f5f5f3`
+
+**Typography:**
+- Headings: weight `900`, letter-spacing `-0.03em`
+- Section padding: `4rem`
+
+**Effects:**
+- Card radius: `1rem`, Button radius: `2rem`
+- Hover lift: `translateY(-6px)`
+- Shadow: `0 20px 60px rgba(0,0,0,0.15)`

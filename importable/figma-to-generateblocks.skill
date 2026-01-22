@@ -1,0 +1,272 @@
+---
+name: figma-to-generateblocks
+version: 1.0.0
+description: Convert Figma designs to GenerateBlocks V2 format for WordPress
+author: Gaurav Tiwari
+trigger:
+  - Figma to GenerateBlocks
+  - convert Figma
+  - Figma design to WordPress
+  - Figma to GB
+  - implement Figma design
+  - Figma screenshot
+  - design to blocks
+tags:
+  - wordpress
+  - generateblocks
+  - figma
+  - conversion
+  - design
+---
+
+# Figma to GenerateBlocks Converter
+
+Convert Figma designs to clean, semantic GenerateBlocks V2 blocks for WordPress.
+
+## Input Types
+
+| Input Type | How to Process |
+|------------|----------------|
+| **Screenshot/Image** | Analyze visual layout, colors, typography, spacing |
+| **Figma URL** | Extract design tokens if Dev Mode access available |
+| **Copied CSS** | Parse Figma's generated CSS values |
+| **Design specs** | Use provided measurements and colors |
+| **Verbal description** | Infer from user's description |
+
+## Conversion Workflow
+
+### Step 1: Analyze the Design
+
+Extract:
+- **Layout**: Container hierarchy, grid/flex patterns, spacing, alignment
+- **Typography**: Font families, sizes (convert to rem/clamp), weights, colors
+- **Colors**: Background, text, border, gradients
+- **Spacing**: Padding, margin, gap values
+- **Effects**: Border radius, shadows, hover states
+
+### Step 2: Map to GenerateBlocks
+
+| Figma Element | GenerateBlocks Block |
+|---------------|---------------------|
+| Frame/Section | `generateblocks/element` tagName="section" |
+| Auto Layout (horizontal) | `generateblocks/element` display: flex |
+| Auto Layout (vertical) | `generateblocks/element` flex-direction: column |
+| Grid | `generateblocks/element` display: grid |
+| Text | `generateblocks/text` |
+| Image | `generateblocks/media` |
+| Icon/Vector | `generateblocks/shape` with inline SVG |
+| Button | `generateblocks/text` tagName="a" or "button" |
+| Card | `generateblocks/element` or `generateblocks/text` (if clickable) |
+
+## Figma CSS Conversion
+
+### Typography
+
+**Figma:**
+```css
+font-family: Inter;
+font-size: 48px;
+font-weight: 700;
+line-height: 120%;
+letter-spacing: -0.02em;
+```
+
+**GenerateBlocks:**
+```json
+{
+  "styles": {
+    "fontFamily": "'Inter', sans-serif",
+    "fontSize": "clamp(2rem, 5vw, 3rem)",
+    "fontWeight": "700",
+    "lineHeight": "1.2",
+    "letterSpacing": "-0.02em"
+  },
+  "css": ".gb-text-head001{font-family:'Inter', sans-serif;font-size:clamp(2rem, 5vw, 3rem);font-weight:700;line-height:1.2;letter-spacing:-0.02em}"
+}
+```
+
+### Auto Layout to Flexbox
+
+**Figma:** Direction: Horizontal, Gap: 24px, Padding: 32px, Align: Center
+
+**GenerateBlocks:**
+```json
+{
+  "styles": {
+    "display": "flex",
+    "flexDirection": "row",
+    "gap": "1.5rem",
+    "padding": "2rem",
+    "alignItems": "center"
+  },
+  "css": ".gb-element-row001{display:flex;flex-direction:row;gap:1.5rem;padding:2rem;align-items:center}"
+}
+```
+
+### Grid Layout
+
+**Figma:** 3 columns, 24px gap
+
+**GenerateBlocks:**
+```json
+{
+  "styles": {
+    "display": "grid",
+    "gridTemplateColumns": "repeat(3, 1fr)",
+    "gap": "1.5rem"
+  },
+  "css": ".gb-element-grid001{display:grid;grid-template-columns:repeat(3, 1fr);gap:1.5rem}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, 1fr)}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr}}"
+}
+```
+
+### Shadow
+
+**Figma:** X: 0, Y: 20px, Blur: 60px, Color: rgba(0,0,0,0.15)
+
+**GenerateBlocks:**
+```json
+{
+  "styles": { "boxShadow": "0 20px 60px rgba(0,0,0,0.15)" },
+  "css": ".gb-element-card001{box-shadow:0 20px 60px rgba(0,0,0,0.15)}"
+}
+```
+
+## Responsive Conversion
+
+Figma designs are typically desktop width. Add responsive breakpoints:
+
+| Figma Width | Target | Media Query |
+|-------------|--------|-------------|
+| 1440px | Desktop | Base styles |
+| 1024px | Tablet | `@media(max-width:1024px)` |
+| 768px | Mobile landscape | `@media(max-width:768px)` |
+| 375px | Mobile | `@media(max-width:480px)` |
+
+### Font Size Scaling
+
+| Figma Size | GenerateBlocks |
+|------------|----------------|
+| 64px | `clamp(2.5rem, 5vw, 4rem)` |
+| 48px | `clamp(2rem, 4vw, 3rem)` |
+| 36px | `clamp(1.75rem, 3vw, 2.25rem)` |
+| 24px | `clamp(1.25rem, 2vw, 1.5rem)` |
+| 18px | `1.125rem` |
+| 16px | `1rem` |
+
+### Spacing Scaling
+
+| Figma | Desktop | Mobile |
+|-------|---------|--------|
+| 80px | `4rem` | `2rem` |
+| 60px | `3rem` | `1.5rem` |
+| 40px | `2rem` | `1rem` |
+| 24px | `1.5rem` | `1.5rem` |
+
+## Common Patterns
+
+### Hero Section
+
+```html
+<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"paddingTop":"4rem","paddingBottom":"4rem"},"css":".gb-element-hero001{padding-top:4rem;padding-bottom:4rem}@media(max-width:768px){.gb-element-hero001{padding-top:2rem;padding-bottom:2rem}}"} -->
+<section class="gb-element gb-element-hero001">
+    <!-- wp:generateblocks/element {"uniqueId":"hero002","tagName":"div","styles":{"maxWidth":"1200px","marginLeft":"auto","marginRight":"auto","paddingLeft":"1rem","paddingRight":"1rem","display":"grid","gridTemplateColumns":"1fr 1fr","gap":"3rem","alignItems":"center"},"css":".gb-element-hero002{max-width:1200px;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}@media(max-width:768px){.gb-element-hero002{grid-template-columns:1fr;text-align:center}}"} -->
+    <div class="gb-element gb-element-hero002">
+        <!-- Content column -->
+        <!-- Image column -->
+    </div>
+    <!-- /wp:generateblocks/element -->
+</section>
+<!-- /wp:generateblocks/element -->
+```
+
+### Card Component
+
+```html
+<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"/link/"},"styles":{"display":"flex","flexDirection":"column","backgroundColor":"white","borderRadius":"1rem","overflow":"hidden","textDecoration":"none","border":"1px solid #e5e5e5"},"css":".gb-text-card001{display:flex;flex-direction:column;background-color:white;border-radius:1rem;overflow:hidden;text-decoration:none;border:1px solid #e5e5e5;transition:all 0.3s}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:transparent}"} -->
+<a class="gb-text gb-text-card001" href="/link/">
+    <!-- Image -->
+    <!-- Content area -->
+</a>
+<!-- /wp:generateblocks/text -->
+```
+
+## Hover States
+
+Figma shows static designs. Add these hover effects:
+
+### Buttons
+```css
+.gb-text-btn001:hover{background-color:#a33024;transform:translateY(-2px);box-shadow:0 4px 12px rgba(192,57,43,0.3)}
+```
+
+### Cards
+```css
+.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:transparent}
+```
+
+### Links
+```css
+.gb-text-link001:hover{color:#c0392b;text-decoration:underline}
+```
+
+## Color Extraction
+
+### From Screenshot
+1. Identify primary brand color (buttons, links, accents)
+2. Identify text colors (dark body, lighter secondary)
+3. Identify backgrounds (white, off-white, dark sections)
+4. Note gradients or overlays
+
+### Default Fallbacks
+
+**Light theme:**
+- Primary: `#c0392b`
+- Text: `#0a0a0a`, Muted: `#5c5c5c`
+- Background: `#ffffff`, Light: `#f5f5f3`
+- Border: `#e5e5e5`
+
+**Dark theme:**
+- Primary: `#e74c3c`
+- Text: `#ffffff`, Muted: `#a0a0a0`
+- Background: `#0a0a0a`, Card: `#1a1a1a`
+- Border: `#333333`
+
+## Critical Rules
+
+1. **No HTML comments** - Only `<!-- wp:... -->` allowed
+2. **Both styles AND css** - Always include both attributes
+3. **Minified CSS** - No line breaks in css attribute
+4. **Unique IDs** - Format: `{section}{number}{letter}`
+5. **Add transitions** - `transition:all 0.3s` for interactive elements
+6. **Test responsive** - Add media queries for 1024px and 768px
+
+## Image Handling
+
+### Placeholder Images
+```json
+{
+  "htmlAttributes": {
+    "src": "https://placehold.co/800x600/f5f5f3/5c5c5c?text=Image",
+    "alt": "Descriptive alt text",
+    "width": "800",
+    "height": "600",
+    "loading": "lazy"
+  }
+}
+```
+
+### Common Aspect Ratios
+| Ratio | Use Case | CSS |
+|-------|----------|-----|
+| 16:9 | Hero, video | `aspect-ratio:16/9` |
+| 4:3 | Blog cards | `aspect-ratio:4/3` |
+| 1:1 | Avatars | `aspect-ratio:1/1` |
+| 3:2 | Products | `aspect-ratio:3/2` |
+
+## Limitations
+
+- Cannot access Figma API directly - requires screenshots or exported CSS
+- Color extraction from screenshots is approximate
+- Font matching depends on web font availability
+- Hover states must be inferred from static designs
+- Animations/interactions need manual specification

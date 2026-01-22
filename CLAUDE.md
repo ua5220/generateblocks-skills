@@ -4,12 +4,67 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This repository contains GenerateBlocks WordPress plugin development and HTML-to-GenerateBlocks conversion skills/documentation.
+This repository contains GenerateBlocks WordPress plugin development and skills for creating/converting layouts.
 
 **Contents:**
 - `generateblocks/` - Free plugin source code (V2.2.0)
 - `generateblocks-pro/` - Pro plugin source code
-- `layout-skills/` - Skill documentation for working with GenerateBlocks
+- `skills/` - Claude Code skills for GenerateBlocks workflows
+
+## Skills
+
+All skills follow Claude Code skill folder convention with `SKILL.md` as the main entry point.
+
+### Available Skills
+
+| Skill | Folder | Purpose |
+|-------|--------|---------|
+| **GenerateBlocks Layouts** | `skills/generateblocks-layouts/` | Build layouts using GenerateBlocks V2 blocks |
+| **HTML to GenerateBlocks** | `skills/html-to-generateblocks/` | Convert HTML/CSS to GenerateBlocks format |
+| **Elementor to GenerateBlocks** | `skills/elementor-to-generateblocks/` | Migrate Elementor layouts to clean GB blocks |
+| **Figma to GenerateBlocks** | `skills/figma-to-generateblocks/` | Convert Figma designs to GB blocks |
+
+### Skill Structure
+
+```
+skills/
+├── generateblocks-layouts/
+│   ├── SKILL.md              # Main skill entry (V2 blocks, styling, patterns)
+│   ├── references/           # Detailed documentation
+│   │   ├── block-types.md    # Element, Text, Media, Shape specs
+│   │   ├── css-patterns.md   # Hover, transitions, gradients
+│   │   ├── responsive.md     # Media queries, breakpoints
+│   │   ├── svg-icons.md      # Shape block, inline SVG
+│   │   ├── troubleshooting.md# Complex layouts, chunking
+│   │   ├── query-loops.md    # Dynamic content loops
+│   │   ├── dynamic-content.md# Dynamic tags, ACF, Pro templates
+│   │   ├── global-styles.md  # Design tokens, theme.json
+│   │   ├── patterns.md       # Block pattern registration
+│   │   ├── performance.md    # CSS delivery optimization
+│   │   └── migrations.md     # V1 to V2 migration guide
+│   └── examples/             # Copy-paste ready blocks
+│       ├── basic/            # Single blocks (buttons, containers)
+│       ├── compound/         # Combined blocks (cards, features)
+│       ├── layouts/          # Full sections (hero, services)
+│       └── svg/              # Icons and decorative shapes
+├── html-to-generateblocks/
+│   ├── SKILL.md              # Conversion workflow, patterns
+│   └── CLAUDE.md             # Trigger conditions
+├── elementor-to-generateblocks/
+│   ├── SKILL.md              # DIVception cleanup, widget mapping
+│   └── CLAUDE.md             # Trigger conditions
+└── figma-to-generateblocks/
+    ├── SKILL.md              # Figma CSS mapping, design inference
+    └── CLAUDE.md             # Trigger conditions
+```
+
+### Using Skills
+
+**Trigger phrases:**
+- "GenerateBlocks", "GB blocks", "GB layouts" → `generateblocks-layouts`
+- "HTML to GenerateBlocks", "convert to GB" → `html-to-generateblocks`
+- "Elementor to GenerateBlocks", "convert Elementor" → `elementor-to-generateblocks`
+- "Figma to GenerateBlocks", "convert Figma design" → `figma-to-generateblocks`
 
 ## Development Commands
 
@@ -126,22 +181,6 @@ npm run plugin-zip         # Create plugin zip
 
 Use `styles` for: layout, spacing, colors, typography, borders
 Use `css` for: hover states, pseudo-elements, media queries, transitions
-
-## Skill References
-
-All skills are in `layout-skills/` directory:
-
-| Skill | File | Purpose |
-|-------|------|---------|
-| **Layouts** | `generateblocks-layouts.md` | V2 block specs, attributes, layout patterns (hero, cards, grids) |
-| **HTML Conversion** | `html-to-generateblocks-v2.md` | Convert HTML/CSS to GenerateBlocks with inline styles |
-| **Query Loops** | `generateblocks-query-loops.md` | Dynamic content loops, post grids, archives, pagination |
-| **Dynamic Content** | `generateblocks-dynamic-content.md` | Dynamic tags, post meta, ACF fields, templates (Pro) |
-| **Responsive** | `generateblocks-responsive.md` | Breakpoints, device-specific layouts, mobile-first design |
-| **Global Styles** | `generateblocks-global-styles.md` | Design tokens, theme.json integration, global classes |
-| **Patterns** | `generateblocks-patterns.md` | Reusable block patterns, pattern registration |
-| **Performance** | `generateblocks-performance.md` | CSS delivery, optimization, critical CSS |
-| **Migrations** | `generateblocks-migrations.md` | V1 to V2 migrations, deprecations, backward compatibility |
 
 ## Unique ID Convention
 

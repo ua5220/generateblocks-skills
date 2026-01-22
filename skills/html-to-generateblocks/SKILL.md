@@ -1,3 +1,21 @@
+---
+name: html-to-generateblocks
+version: 2.0.0
+description: Convert HTML/CSS layouts to GenerateBlocks V2 format with inline styles
+author: Gaurav Tiwari
+updated: 2026-01-22
+trigger:
+  - HTML to GenerateBlocks
+  - convert to GB
+  - convert HTML to blocks
+  - GenerateBlocks conversion
+tags:
+  - wordpress
+  - generateblocks
+  - conversion
+  - html
+---
+
 # HTML to GenerateBlocks V2 Conversion
 
 Convert HTML/CSS layouts to GenerateBlocks V2 format using inline styles in block attributes.
@@ -198,16 +216,57 @@ For sections with dynamic WordPress posts, use native query blocks with Generate
 .gb-element-sidebar{position:sticky;top:calc(var(--header-height, 80px) + 1rem)}@media(max-width:1024px){.gb-element-sidebar{position:static}}
 ```
 
+## Critical Rules
+
+### No HTML Comments (Except Block Editor)
+
+**WRONG:**
+```html
+<!-- This is a card -->
+<!-- Section header -->
+<!-- wp:generateblocks/element ... -->
+```
+
+**CORRECT:**
+```html
+<!-- wp:generateblocks/element ... -->
+```
+
+Only WordPress block comments (`<!-- wp:... -->` and `<!-- /wp:... -->`) are allowed. All other HTML comments break the block editor design.
+
+### Design Inference (When CSS Not Provided)
+
+When converting HTML without explicit CSS values, infer styles based on context:
+
+**GeneratePress Defaults:**
+- Primary: `#0073e6`
+- Text: `#222222`, Muted: `#757575`
+- Body: `17px`, line-height `1.7`
+- H1: `42px`, H2: `35px`, H3: `29px`
+- Section padding: `60px`
+- Container max-width: `1200px`
+
+**gauravtiwari.org Design System:**
+- Primary: `#c0392b`
+- Text: `#0a0a0a`, Muted: `#5c5c5c`
+- Background: `#ffffff`, Light: `#f5f5f3`
+- Headings: font-weight `900`, letter-spacing `-0.03em`
+- Section padding: `4rem`
+- Card radius: `1rem`, Button radius: `2rem`
+- Hover lift: `translateY(-6px)`
+- Shadow: `0 20px 60px rgba(0,0,0,0.15)`
+
 ## Common Gotchas
 
-1. **Always escape quotes in CSS strings** - Use single quotes for content, attr values
-2. **Duplicate properties** - Put in both `styles` and `css` for consistency
-3. **Use !important sparingly** - Only for overriding at breakpoints
-4. **Test hover states** - Parent hover affecting child (`.parent:hover .child`)
-5. **Pseudo-elements need content** - `content:''` for ::before/::after
-6. **Gradients only in CSS** - Can't use in `styles` attribute
-7. **CSS variables work** - Use var(--custom-property) freely
-8. **Transitions on all** - `transition:all 0.3s` for smooth interactions
+1. **No HTML comments except block markers** - Breaks WordPress block editor
+2. **Always escape quotes in CSS strings** - Use single quotes for content, attr values
+3. **Duplicate properties** - Put in both `styles` and `css` for consistency
+4. **Use !important sparingly** - Only for overriding at breakpoints
+5. **Test hover states** - Parent hover affecting child (`.parent:hover .child`)
+6. **Pseudo-elements need content** - `content:''` for ::before/::after
+7. **Gradients only in CSS** - Can't use in `styles` attribute
+8. **CSS variables work** - Use var(--custom-property) freely
+9. **Transitions on all** - `transition:all 0.3s` for smooth interactions
 
 ## Performance Notes
 
