@@ -2,84 +2,94 @@
 
 LLM-optimized skill documentation and development resources for [GenerateBlocks](https://generateblocks.com/) WordPress plugin.
 
-## How to Use These Skills
+## Start Here
 
-> Just paste the link https://github.com/wpgaurav/generateblocks-skills to your AI assistant and tell it to read the skill files and it will take care of everything for you.
+**Want to build GenerateBlocks layouts with AI?** Pick your path:
 
-These skill files teach AI assistants how to work with GenerateBlocks. Here's how to use them with different tools:
+### Quick Start: Copy-Paste Examples
 
-### With Claude Code (Terminal/CLI)
+Browse the [`examples/`](examples/) folder for 10 ready-to-use section templates:
 
-If you're using [Claude Code](https://claude.ai/code) in your terminal:
+| Section | Description | Copy |
+|---------|-------------|------|
+| [Hero Section](examples/01-hero/) | Stats bar, dual CTAs | [output.html](examples/01-hero/output.html) |
+| [Pricing Table](examples/02-pricing/) | 3-tier with "Popular" badge | [output.html](examples/02-pricing/output.html) |
+| [Card Grid](examples/03-card-grid/) | Blog posts, portfolio | [output.html](examples/03-card-grid/output.html) |
+| [Feature List](examples/04-feature-list/) | 6 features with icons | [output.html](examples/04-feature-list/output.html) |
+| [FAQ Section](examples/05-faq/) | Numbered Q&A, two columns | [output.html](examples/05-faq/output.html) |
+| [Testimonials](examples/06-testimonials/) | Quotes, avatars, stars | [output.html](examples/06-testimonials/output.html) |
+| [Sticky CTA](examples/07-sticky-cta/) | Dark banner, dual buttons | [output.html](examples/07-sticky-cta/output.html) |
+| [Post Grid](examples/08-post-grid/) | Featured + small posts | [output.html](examples/08-post-grid/output.html) |
+| [Stats Section](examples/09-stats/) | 4 metrics on dark bg | [output.html](examples/09-stats/output.html) |
+| [Services Grid](examples/10-services/) | Bento layout | [output.html](examples/10-services/output.html) |
 
-1. Open this folder in your terminal
-2. Run `claude` to start Claude Code
-3. Claude automatically reads `CLAUDE.md` and understands the skills
-4. Just ask: *"Create a hero section with GenerateBlocks"*
+Each example includes the prompt that generated it, so you can learn and modify.
 
-### With VS Code + Claude/Copilot Extensions
+### Full Skill: Teach Your AI
 
-1. Open this folder in VS Code
-2. The `CLAUDE.md` file provides context to AI extensions
-3. For best results, open a skill file (e.g., `skills/generateblocks-layouts/SKILL.md`) in a tab
-4. Ask your AI assistant to create GenerateBlocks layouts
+For custom layouts, load the main skill file into your AI:
 
-### With Claude.ai, ChatGPT, or Gemini (Web)
+**Direct link:** [`skills/generateblocks-layouts/SKILL.md`](skills/generateblocks-layouts/SKILL.md)
 
-1. **Copy the skill file content** - Open the skill you need (e.g., `SKILL.md`)
-2. **Paste into chat** - Start a new conversation and paste the skill content
-3. **Ask your question** - Now the AI understands GenerateBlocks format
+---
 
-**Example workflow:**
+## How to Use
+
+### Option 1: Copy an Example
+
+1. Open any [`examples/`](examples/) folder
+2. Copy the `output.html` content
+3. In WordPress, open your page/post
+4. Switch to Code Editor (three dots menu > Code Editor)
+5. Paste the blocks
+6. Switch back to Visual Editor
+
+### Option 2: Generate Custom Layouts
+
+**With Claude Code / VS Code:**
 ```
-1. Copy contents of skills/generateblocks-layouts/SKILL.md
-2. Paste into Claude/ChatGPT/Gemini
-3. Ask: "Create a pricing table with 3 tiers using GenerateBlocks"
-4. Copy the output into WordPress block editor (Code view)
+Read skills/generateblocks-layouts/SKILL.md and create a testimonial slider with 3 cards
 ```
 
-### With Cursor, Windsurf, or Other AI IDEs
+**With Claude.ai / ChatGPT / Gemini:**
+1. Copy contents of [`SKILL.md`](skills/generateblocks-layouts/SKILL.md)
+2. Paste into chat
+3. Ask: "Create a pricing table with 3 tiers"
 
-1. Open this folder as your project
-2. The AI will read `CLAUDE.md` for context
-3. Reference skill files in your prompts: *"Using the responsive reference, create a mobile-first grid"*
+### Option 3: Clone This Repo
 
-### Quick Start Example
+```bash
+git clone https://github.com/wpgaurav/generateblocks-skills.git
+cd generateblocks-skills
+```
 
-**Want to create a card grid?**
+With Claude Code: Just run `claude` and it reads `CLAUDE.md` automatically.
 
-1. Tell your AI: *"Read skills/generateblocks-layouts/SKILL.md and create a 3-column card grid with hover effects"*
-2. Copy the generated block code
-3. In WordPress, open your page/post, switch to Code Editor (three dots menu > Code Editor)
-4. Paste the blocks
-5. Switch back to Visual Editor to see your layout
+---
 
 ## What's Included
 
-### Plugin Source Code
+### Golden Examples (`examples/`)
 
-- **`generateblocks/`** - GenerateBlocks free plugin (V2.2.0)
+10 canonical sections with:
+- **`prompt.md`** — The exact prompt that generated it
+- **`output.html`** — Copy-paste ready GenerateBlocks markup
+- **`README.md`** — Usage notes and customization tips
 
-### Not Included
-
-- **`generateblocks-pro/`** - GenerateBlocks Pro plugin (proprietary)
-
-### Skills
-
-The `skills/` directory contains Claude Code skills following the standard folder convention:
+### Skills (`skills/`)
 
 | Skill | Folder | Description |
 |-------|--------|-------------|
-| **GenerateBlocks Layouts** | `skills/generateblocks-layouts/` | V2 blocks, attributes, layout patterns, styling |
-| **HTML to GenerateBlocks** | `skills/html-to-generateblocks/` | Convert HTML/CSS to GenerateBlocks format |
-| **Elementor to GenerateBlocks** | `skills/elementor-to-generateblocks/` | Migrate Elementor layouts to clean GB blocks |
-| **Figma to GenerateBlocks** | `skills/figma-to-generateblocks/` | Convert Figma designs to GB blocks |
+| **GenerateBlocks Layouts** | [`skills/generateblocks-layouts/`](skills/generateblocks-layouts/) | V2 blocks, attributes, layout patterns, styling |
+| **HTML to GenerateBlocks** | [`skills/html-to-generateblocks/`](skills/html-to-generateblocks/) | Convert HTML/CSS to GenerateBlocks format |
+| **Elementor to GenerateBlocks** | [`skills/elementor-to-generateblocks/`](skills/elementor-to-generateblocks/) | Migrate Elementor layouts to clean GB blocks |
+| **Figma to GenerateBlocks** | [`skills/figma-to-generateblocks/`](skills/figma-to-generateblocks/) | Convert Figma designs to GB blocks |
 
 #### GenerateBlocks Layouts Skill Structure
 
 ```
 skills/generateblocks-layouts/
-├── SKILL.md              # Main entry point
+├── SKILL.md              # Main entry point — START HERE
 ├── references/           # Detailed documentation
 │   ├── block-types.md    # Element, Text, Media, Shape block specs
 │   ├── css-patterns.md   # Hover effects, transitions, gradients
@@ -92,136 +102,87 @@ skills/generateblocks-layouts/
 │   ├── patterns.md       # Block pattern registration
 │   ├── performance.md    # CSS delivery optimization
 │   └── migrations.md     # V1 to V2 migration guide
-└── examples/             # Copy-paste ready blocks
+└── examples/             # Basic building blocks
     ├── basic/            # Single blocks (buttons, containers)
     ├── compound/         # Combined blocks (cards, features)
     ├── layouts/          # Full sections (hero, services)
     └── svg/              # Icons and decorative shapes
 ```
 
-## GenerateBlocks V2 Block System
+### Plugin Source (`generateblocks/`)
 
-GenerateBlocks V2 uses four generic blocks:
+Full GenerateBlocks free plugin source (V2.2.0) for reference.
+
+---
+
+## GenerateBlocks V2 Quick Reference
+
+Four block types:
 
 ```
-generateblocks/element  - Container (div, section, header, footer, nav, etc.)
-generateblocks/text     - Text content (p, h1-h6, span, a, button)
-generateblocks/media    - Images
-generateblocks/shape    - SVG icons and shapes
+generateblocks/element  → Containers (div, section, nav, etc.)
+generateblocks/text     → Text (h1-h6, p, span, a, button)
+generateblocks/media    → Images
+generateblocks/shape    → SVG icons
 ```
 
-### Block Format
+Block format:
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"abc123","tagName":"section","styles":{...},"css":"..."} -->
-<section class="gb-element gb-element-abc123">
-    <!-- Inner blocks -->
+<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{...},"css":"..."} -->
+<section class="gb-element gb-element-hero001">
+    <!-- content -->
 </section>
 <!-- /wp:generateblocks/element -->
 ```
 
-### Key Attributes
+Key attributes:
+- `uniqueId` — Required for CSS targeting (format: `hero001`, `card023`)
+- `tagName` — HTML element type
+- `styles` — CSS properties as JSON (camelCase)
+- `css` — Complex CSS string (hovers, media queries, pseudo-elements)
+- `htmlAttributes` — Additional HTML attributes (href, target, aria-*)
 
-- `uniqueId` - Required identifier for CSS targeting
-- `tagName` - HTML element type
-- `styles` - Object with basic CSS properties (camelCase)
-- `css` - String with complex CSS (hovers, media queries, pseudo-elements)
-- `globalClasses` - Array of global CSS class names
-- `htmlAttributes` - Additional HTML attributes (href, target, data-*, aria-*)
+---
+
+## Example Prompts
+
+> "Create a hero section with headline, subheadline, two CTA buttons, and a 4-stat bar"
+
+> "Build a 3-column pricing table with a highlighted middle tier"
+
+> "Make a testimonial grid with avatars, star ratings, and quote marks"
+
+> "Convert this HTML to GenerateBlocks: [paste HTML]"
+
+---
+
+## Limitations
+
+- **No external URLs** — Provide HTML, screenshots, or descriptions
+- **Static output** — CSS-only, no JavaScript interactions
+- **Placeholder images** — Replace with real images after generation
+- **Hover inference** — Interactive states inferred from static designs
+
+---
 
 ## Development
-
-### Requirements
-
-- Node.js 18+
-- WordPress 6.5+
-- PHP 7.2+
-
-### Commands
 
 ```bash
 cd generateblocks
 
-# Build
 npm run build          # Production build
 npm run start          # Watch mode
-
-# Test
 npm run test:unit      # Jest unit tests
-npm run test:e2e       # Playwright E2E tests
-
-# Local WordPress
-npm run wp-env:start   # Start local environment
-npm run wp-env:stop    # Stop environment
-
-# Package
-npm run package        # Create plugin zip
+npm run test:e2e       # Playwright E2E
+npm run wp-env:start   # Local WordPress
 ```
 
-## Using with LLMs
-
-These skills are designed for use with LLM assistants (Claude, GPT, etc.) to:
-
-1. **Generate layouts** - Create GenerateBlocks markup from design descriptions
-2. **Convert HTML** - Transform existing HTML/CSS into GenerateBlocks format
-3. **Migrate from Elementor** - Clean up DIVception and convert to semantic blocks
-4. **Convert Figma designs** - Transform Figma screenshots/CSS to GB blocks
-5. **Build dynamic content** - Set up query loops and dynamic tags
-6. **Optimize performance** - Apply best practices for CSS delivery
-7. **Migrate V1 to V2** - Update legacy blocks to new format
-
-### Example Prompts
-
-> "Create a 3-column responsive grid of feature cards using GenerateBlocks V2 elements. Each card should have an icon, heading, and description with hover effects."
-
-> "Convert this Elementor hero section to clean GenerateBlocks markup."
-
-> "Build a blog post grid with query loop that shows 6 posts with featured images."
-
-> "Convert this Figma design to GenerateBlocks with responsive breakpoints."
-
-The LLM will reference the appropriate skill files to generate proper block markup.
-
-## Limitations
-
-These skills have some inherent limitations:
-
-- **No external URL access** - LLMs cannot fetch live URLs; provide screenshots, HTML, or descriptions
-- **Static output only** - Generated markup is CSS-only; no JavaScript interactions
-- **Image placeholders** - Real images must be replaced by user after generation
-- **Font assumptions** - Skills assume common web fonts or Google Fonts availability
-- **Figma limitations** - Cannot access Figma API directly; requires screenshots or exported CSS
-- **Color approximation** - Colors extracted from screenshots may not be exact
-- **Hover state inference** - Interactive states must be inferred from static designs
-
-## Importable Skill Files
-
-The `importable/` directory contains standalone `.skill` files that can be directly imported into Claude Code or other AI tools:
-
-| File | Description |
-|------|-------------|
-| `generateblocks-layouts.skill` | Core layout building skill |
-| `html-to-generateblocks.skill` | HTML/CSS conversion skill |
-| `elementor-to-generateblocks.skill` | Elementor migration skill |
-| `figma-to-generateblocks.skill` | Figma design conversion skill |
-
-### Import into Claude Code
-
-```bash
-# Copy to your Claude Code skills directory
-cp importable/*.skill ~/.claude/skills/
-```
-
-### Use with Other Tools
-
-These `.skill` files are self-contained markdown with YAML frontmatter. They can be:
-- Imported into any tool that supports skill files
-- Copied and pasted into chat interfaces
-- Used as context files in AI IDEs
+---
 
 ## Other LLMs
 
-For non-Claude assistants (GPT, Gemini, etc.), see **`AGENTS.md`** for universal instructions that work across all LLM platforms.
+For non-Claude assistants (GPT, Gemini, etc.), see **`AGENTS.md`** for universal instructions.
 
 ## License
 
