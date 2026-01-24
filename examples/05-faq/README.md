@@ -1,38 +1,53 @@
 # FAQ Section
 
-A clean FAQ section with numbered questions in a two-column layout.
+Multiple FAQ layout variations for different use cases.
 
-## Screenshot
+## Variations
 
-![FAQ Section](screenshot.png)
+| File | Style | Best For |
+|------|-------|----------|
+| `output-1-default.html` | Numbered two-column grid | Knowledge bases, help pages |
+| `output-2-two-column.html` | Sticky sidebar + accordion | Pricing pages, product FAQs |
 
-*Screenshot placeholder - paste your rendered output here*
+## 1. Default Numbered Grid
 
-## Features
+Two-column grid with numbered questions.
 
+**Features:**
 - Two-column layout (stacks on mobile)
 - Numbered questions with accent color
-- Light background cards for visual separation
+- Light background cards
 - Clean typography hierarchy
-- Answers indented under questions
+- Static display (no accordion)
+
+## 2. Sticky Sidebar + Accordion
+
+Sidebar with heading + native HTML `<details>` accordion.
+
+**Features:**
+- Sticky sidebar with heading and CTA
+- Native `<details>`/`<summary>` elements (no JS needed)
+- Plus icon rotates to X on open
+- Border separators between items
+- Contact support CTA in sidebar
 
 ## Usage
 
-1. Copy `output.html`
+1. Copy the desired `output-*.html` file
 2. Paste into WordPress block editor (Code Editor mode)
 3. Replace questions and answers
 4. Switch to Visual Editor
 
 ## Customization
 
-- Add more FAQs: Duplicate a FAQ block and update the number
-- Change layout: Modify `grid-template-columns` for single column
-- Different style: Replace card background with border
-- Accordion style: This requires JavaScript (not included)
+- **Add questions:** Duplicate a FAQ block and update content
+- **Layout:** Change `grid-template-columns` for different ratios
+- **Icons:** Replace plus/minus SVG with chevrons or arrows
+- **Open by default:** Add `open` attribute to `<details>` element
 
-## Note
+## Accordion Note
 
-This is a static FAQ layout. For accordion functionality (expand/collapse), you'll need:
+Variation 2 uses native HTML `<details>` element which provides accordion functionality without JavaScript. For custom animations or "only one open at a time" behavior, you'll need:
 - WordPress Interactivity API
-- Or JavaScript/jQuery toggle
-- Or a dedicated FAQ plugin
+- Or JavaScript/jQuery
+- Or a dedicated FAQ plugin like ACF FAQ block

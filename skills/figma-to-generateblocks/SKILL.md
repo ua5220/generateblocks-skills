@@ -122,6 +122,7 @@ Some Figma elements should convert to WordPress Core Blocks instead:
 | Hero with background image | `core/cover` | Background image, overlay, parallax |
 | Horizontal divider | `core/separator` | Semantic hr element |
 | Download link/file | `core/file` | Download button with filename |
+| **Text with emojis** | `core/paragraph` | GenerateBlocks doesn't render emojis properly |
 
 **Conversion rule:** Use GenerateBlocks for custom layouts and styled containers. Use Core Blocks for content types with built-in functionality (media players, embeds, tables, etc.).
 
@@ -423,15 +424,42 @@ Figma designs often show only the default state. Add these hover effects:
 .parent:hover .gb-element-icon001{background-color:#c0392b;color:white;transform:scale(1.05)}
 ```
 
-## Critical Rules
+## CRITICAL: No Extra HTML Comments
 
-### 1. No HTML Comments
+**⛔ NEVER add HTML comments other than WordPress block markers.**
 
-Only WordPress block comments allowed:
+The ONLY allowed comments are WordPress block delimiters:
+- `<!-- wp:generateblocks/element {...} -->` and `<!-- /wp:generateblocks/element -->`
+- `<!-- wp:generateblocks/text {...} -->` and `<!-- /wp:generateblocks/text -->`
+- `<!-- wp:generateblocks/media {...} -->` and `<!-- /wp:generateblocks/media -->`
+- `<!-- wp:generateblocks/shape {...} -->` and `<!-- /wp:generateblocks/shape -->`
+- `<!-- wp:image {...} -->` and `<!-- /wp:image -->`
+- `<!-- wp:video {...} -->` and `<!-- /wp:video -->`
+- `<!-- wp:cover {...} -->` and `<!-- /wp:cover -->`
+- Any other `<!-- wp:{namespace}/{block} -->` format
+
+**WRONG - These will break the block editor:**
 ```html
-<!-- wp:generateblocks/element ... -->
+<!-- Hero Section -->
+<!-- Card component -->
+<!-- Converted from Figma -->
+<!-- Navigation -->
+```
+
+**CORRECT - Only block delimiters:**
+```html
+<!-- wp:generateblocks/element {"uniqueId":"hero001",...} -->
+<section class="gb-element gb-element-hero001">
+    <!-- wp:generateblocks/text {"uniqueId":"hero002",...} -->
+    <h1 class="gb-text gb-text-hero002">Heading</h1>
+    <!-- /wp:generateblocks/text -->
+</section>
 <!-- /wp:generateblocks/element -->
 ```
+
+Any extra HTML comments will **break the WordPress block editor** and cause parsing errors. This is non-negotiable.
+
+## Other Critical Rules
 
 ### 2. Both styles AND css Required
 

@@ -1,33 +1,60 @@
-# Sticky CTA Banner
+# CTA Banners
 
-A full-width CTA banner for inline use or sticky positioning.
+Multiple CTA banner variations for promotions and conversions.
 
-## Screenshot
+## Variations
 
-![Sticky CTA](screenshot.png)
+| File | Style | Best For |
+|------|-------|----------|
+| `output-1-default.html` | Dark inline banner | Page sections |
+| `output-2-floating-bar.html` | Fixed bottom bar | Site-wide promos |
+| `output-3-countdown.html` | Timer with urgency | Flash sales |
 
-*Screenshot placeholder - paste your rendered output here*
+## 1. Default Inline Banner
 
-## Features
+Full-width dark CTA banner with gradient accent bar.
 
+**Features:**
 - Dark background with gradient accent bar
 - Horizontal layout on desktop
 - Primary and secondary CTA buttons
 - Mobile: stacked, centered layout
 - High contrast for visibility
 
+## 2. Floating Bar
+
+Fixed bottom bar with discount offer and dismiss button.
+
+**Features:**
+- Fixed position at bottom
+- Slide-up animation on load
+- Icon + text + CTA layout
+- Dismiss (X) button
+- White/light theme
+- Promo code display
+
+## 3. Countdown Timer
+
+Urgency-driven CTA with animated countdown.
+
+**Features:**
+- Animated rotating background
+- Days/Hours/Mins/Secs display
+- Glass-morphism timer boxes
+- Purple/indigo theme
+- Prominent discount badge
+
 ## Usage
 
-1. Copy `output.html`
+1. Copy the desired `output-*.html` file
 2. Paste into WordPress block editor (Code Editor mode)
 3. Update headline, description, and button links
 4. Switch to Visual Editor
 
 ## Making It Sticky
 
-To make this banner sticky at the bottom:
+To make variation 1 sticky at the bottom:
 
-1. Add this CSS to your theme:
 ```css
 .gb-element-cta001 {
     position: fixed;
@@ -38,11 +65,12 @@ To make this banner sticky at the bottom:
 }
 ```
 
-2. Or use WordPress Interactivity API for show/hide behavior
+Or use WordPress Interactivity API for show/hide behavior.
 
 ## Customization
 
-- Change gradient: Edit the `::before` background
-- Different colors: Replace `#0a0a0a` and `#c0392b`
-- Single button: Remove the secondary button block
-- Add close button: Include an X icon with JS to dismiss
+- **Change gradient:** Edit the `::before` background
+- **Different colors:** Replace color values in styles
+- **Single button:** Remove the secondary button block
+- **Add close button:** Include an X icon with JS to dismiss
+- **Live countdown:** Add JavaScript to update timer values

@@ -59,6 +59,7 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 | `<hr>` | `core/separator` | Horizontal rule |
 | Gallery layouts | `core/gallery` | Lightbox, columns, captions |
 | Background image sections | `core/cover` | Parallax, overlay, focal point |
+| **Text with emojis** | `core/paragraph` | GenerateBlocks doesn't render emojis properly |
 
 **Conversion rule:** Use GenerateBlocks for layout containers and styled text. Use Core Blocks for specialized content types that have built-in functionality (players, embeds, tables, etc.).
 
@@ -250,23 +251,40 @@ For sections with dynamic WordPress posts, use native query blocks with Generate
 .gb-element-sidebar{position:sticky;top:calc(var(--header-height, 80px) + 1rem)}@media(max-width:1024px){.gb-element-sidebar{position:static}}
 ```
 
-## Critical Rules
+## CRITICAL: No Extra HTML Comments
 
-### No HTML Comments (Except Block Editor)
+**⛔ NEVER add HTML comments other than WordPress block markers.**
 
-**WRONG:**
+The ONLY allowed comments are WordPress block delimiters:
+- `<!-- wp:generateblocks/element {...} -->` and `<!-- /wp:generateblocks/element -->`
+- `<!-- wp:generateblocks/text {...} -->` and `<!-- /wp:generateblocks/text -->`
+- `<!-- wp:generateblocks/media {...} -->` and `<!-- /wp:generateblocks/media -->`
+- `<!-- wp:generateblocks/shape {...} -->` and `<!-- /wp:generateblocks/shape -->`
+- `<!-- wp:image {...} -->` and `<!-- /wp:image -->`
+- `<!-- wp:video {...} -->` and `<!-- /wp:video -->`
+- `<!-- wp:embed {...} -->` and `<!-- /wp:embed -->`
+- Any other `<!-- wp:{namespace}/{block} -->` format
+
+**WRONG - These will break the block editor:**
 ```html
 <!-- This is a card -->
 <!-- Section header -->
-<!-- wp:generateblocks/element ... -->
+<!-- Hero content goes here -->
+<!-- Button wrapper -->
 ```
 
-**CORRECT:**
+**CORRECT - Only block delimiters:**
 ```html
-<!-- wp:generateblocks/element ... -->
+<!-- wp:generateblocks/element {"uniqueId":"card001",...} -->
+<div class="gb-element gb-element-card001">
+    <!-- wp:image {"id":123} -->
+    <figure class="wp-block-image"><img src="image.jpg" alt=""/></figure>
+    <!-- /wp:image -->
+</div>
+<!-- /wp:generateblocks/element -->
 ```
 
-Only WordPress block comments (`<!-- wp:... -->` and `<!-- /wp:... -->`) are allowed. All other HTML comments break the block editor design.
+Any extra HTML comments will **break the WordPress block editor** and cause parsing errors. This is non-negotiable. Do NOT add descriptive comments, section labels, or any other HTML comments.
 
 ### Design Inference (When CSS Not Provided)
 

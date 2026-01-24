@@ -144,6 +144,11 @@ generateblocks/media    → Images
 generateblocks/shape    → SVG icons
 ```
 
+**IMPORTANT V2 Naming:**
+- Use `generateblocks/element` (NOT `/container`)
+- Use `generateblocks/text` (NOT `/headline` or `/button`)
+- Classes MUST be: `gb-element gb-element-{id}` and `gb-text gb-text-{id}`
+
 Block format:
 
 ```html
@@ -152,6 +157,10 @@ Block format:
     <!-- content -->
 </section>
 <!-- /wp:generateblocks/element -->
+
+<!-- wp:generateblocks/text {"uniqueId":"hero002","tagName":"h1","styles":{...},"css":"..."} -->
+<h1 class="gb-text gb-text-hero002">Heading</h1>
+<!-- /wp:generateblocks/text -->
 ```
 
 Key attributes:

@@ -1,15 +1,20 @@
 # Stats Section
 
-A 4-column statistics section with large numbers on a dark background.
+Multiple statistics section variations for showcasing metrics.
 
-## Screenshot
+## Variations
 
-![Stats Section](screenshot.png)
+| File | Style | Best For |
+|------|-------|----------|
+| `output-1-default.html` | Dark 4-column grid | Homepage impact sections |
+| `output-2-split-content.html` | Text + 2x2 stat cards | About pages, features |
+| `output-3-gradient-banner.html` | Horizontal gradient bar | Footers, compact displays |
 
-*Screenshot placeholder - paste your rendered output here*
+## 1. Default Dark Grid
 
-## Features
+4-column statistics on dark background with cards.
 
+**Features:**
 - Dark background for impact
 - 4-column grid (2x2 on mobile)
 - Large, bold numbers with accent color
@@ -17,19 +22,43 @@ A 4-column statistics section with large numbers on a dark background.
 - Cards with subtle glass effect
 - Hover lift animation
 
+## 2. Split Content Layout
+
+Text content on left with 2x2 stat card grid on right.
+
+**Features:**
+- Two-column layout
+- Descriptive text with badge and CTA
+- 4 stat cards in grid
+- One highlighted card (accent color)
+- White card shadows
+- Light background theme
+
+## 3. Gradient Banner
+
+Horizontal stats bar with gradient background.
+
+**Features:**
+- Vibrant gradient background
+- Subtle pattern overlay
+- Inline horizontal layout
+- Vertical dividers between stats
+- Compact single-row design
+- Mobile: centered, wrapping
+
 ## Usage
 
-1. Copy `output.html`
+1. Copy the desired `output-*.html` file
 2. Paste into WordPress block editor (Code Editor mode)
 3. Update numbers and labels
 4. Switch to Visual Editor
 
 ## Customization
 
-- Light version: Change `#0a0a0a` to `#f5f5f3` and adjust text colors
-- Remove cards: Delete `backgroundColor` and `border` from stat containers
-- Add dividers: Use `border-right` instead of card backgrounds
-- Animate numbers: Requires JavaScript (not included)
+- **Light version:** Change `#0a0a0a` to `#f5f5f3` and adjust text colors
+- **Remove cards:** Delete `backgroundColor` and `border` from stat containers
+- **Add dividers:** Use `border-right` instead of card backgrounds
+- **Animate numbers:** Requires JavaScript (not included)
 
 ## Number Formatting
 

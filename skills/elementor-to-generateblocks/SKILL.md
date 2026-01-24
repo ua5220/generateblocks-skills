@@ -137,6 +137,7 @@ Some Elementor widgets should convert to Core Blocks instead of GenerateBlocks:
 | `elementor-widget-tabs` | `core/details` or custom | Accordion/tabs functionality |
 | `elementor-widget-accordion` | `core/details` | Native disclosure widget |
 | `elementor-widget-toggle` | `core/details` | Native disclosure widget |
+| **Text with emojis** | `core/paragraph` | GenerateBlocks doesn't render emojis properly |
 
 **Rule:** Use GenerateBlocks for layout and styling. Use Core Blocks for specialized functionality (media players, embeds, tables, interactive elements).
 
@@ -253,22 +254,41 @@ When the target site is known, extract design tokens from:
 }
 ```
 
-## Critical Rules
+## CRITICAL: No Extra HTML Comments
 
-### 1. No HTML Comments (Except Block Editor)
+**⛔ NEVER add HTML comments other than WordPress block markers.**
 
-**WRONG:**
+The ONLY allowed comments are WordPress block delimiters:
+- `<!-- wp:generateblocks/element {...} -->` and `<!-- /wp:generateblocks/element -->`
+- `<!-- wp:generateblocks/text {...} -->` and `<!-- /wp:generateblocks/text -->`
+- `<!-- wp:generateblocks/media {...} -->` and `<!-- /wp:generateblocks/media -->`
+- `<!-- wp:generateblocks/shape {...} -->` and `<!-- /wp:generateblocks/shape -->`
+- `<!-- wp:image {...} -->` and `<!-- /wp:image -->`
+- `<!-- wp:video {...} -->` and `<!-- /wp:video -->`
+- `<!-- wp:gallery {...} -->` and `<!-- /wp:gallery -->`
+- Any other `<!-- wp:{namespace}/{block} -->` format
+
+**WRONG - These will break the block editor:**
 ```html
 <!-- This is a card -->
-<!-- wp:generateblocks/element ... -->
+<!-- Hero section -->
+<!-- Converted from Elementor -->
 ```
 
-**CORRECT:**
+**CORRECT - Only block delimiters:**
 ```html
-<!-- wp:generateblocks/element ... -->
+<!-- wp:generateblocks/element {"uniqueId":"sect001",...} -->
+<section class="gb-element gb-element-sect001">
+    <!-- wp:generateblocks/text {"uniqueId":"sect001a",...} -->
+    <h2 class="gb-text gb-text-sect001a">Hello World</h2>
+    <!-- /wp:generateblocks/text -->
+</section>
+<!-- /wp:generateblocks/element -->
 ```
 
-Only WordPress block comments (`<!-- wp:... -->` and `<!-- /wp:... -->`) are allowed. All other HTML comments break the block editor.
+Any extra HTML comments will **break the WordPress block editor** and cause parsing errors. This is non-negotiable.
+
+## Critical Rules
 
 ### 2. Always Include Both styles and css
 

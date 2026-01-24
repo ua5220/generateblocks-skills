@@ -1,176 +1,179 @@
 # AGENTS.md
 
-Universal agent instructions for working with GenerateBlocks skills. Compatible with Claude, GPT, Gemini, and other LLM assistants.
+Universal instructions for all LLM assistants working with GenerateBlocks skills.
 
-## Overview
+## GenerateBlocks V2 Block Types
 
-This repository contains skills for generating WordPress block markup using GenerateBlocks V2. These skills teach you how to create layouts, convert designs, and migrate from other builders.
+GenerateBlocks V2 uses generic element-based blocks. **CRITICAL: Use the correct block names.**
 
-## Available Skills
+| Block Type | Correct Name | NOT These |
+|------------|--------------|-----------|
+| Containers | `generateblocks/element` | ❌ `/container`, `/grid` |
+| Text/Buttons | `generateblocks/text` | ❌ `/headline`, `/button` |
+| Images | `generateblocks/media` | ❌ `/image` |
+| SVG Icons | `generateblocks/shape` | - |
 
-| Skill | Location | Purpose |
-|-------|----------|---------|
-| GenerateBlocks Layouts | `skills/generateblocks-layouts/SKILL.md` | Build layouts with V2 blocks |
-| HTML to GenerateBlocks | `skills/html-to-generateblocks/SKILL.md` | Convert HTML/CSS to GB format |
-| Elementor to GenerateBlocks | `skills/elementor-to-generateblocks/SKILL.md` | Migrate Elementor layouts |
-| Figma to GenerateBlocks | `skills/figma-to-generateblocks/SKILL.md` | Convert Figma designs |
+## Required Class Naming
 
-## How to Use
+Classes MUST follow this pattern:
 
-1. **Read the relevant SKILL.md file** based on the task
-2. **Follow the patterns and rules** defined in the skill
-3. **Reference the examples** in `skills/generateblocks-layouts/examples/`
-4. **Use the reference docs** in `skills/generateblocks-layouts/references/`
+| Block | Class Pattern | Example |
+|-------|---------------|---------|
+| Element | `gb-element gb-element-{uniqueId}` | `gb-element gb-element-hero001` |
+| Text | `gb-text gb-text-{uniqueId}` | `gb-text gb-text-hero002` |
+| Media | `gb-media gb-media-{uniqueId}` | `gb-media gb-media-hero003` |
+| Shape | `gb-shape gb-shape-{uniqueId}` | `gb-shape gb-shape-hero004` |
 
-## GenerateBlocks V2 Quick Reference
+## Block Structure Examples
 
-### Four Block Types
-
-```
-generateblocks/element  - Containers (div, section, header, footer, nav)
-generateblocks/text     - Text content (p, h1-h6, span, a, button)
-generateblocks/media    - Images
-generateblocks/shape    - SVG icons and shapes
-```
-
-### Block Structure
+### Element Block (Container)
 
 ```html
-<!-- wp:generateblocks/{type} {"uniqueId":"id","tagName":"tag","styles":{...},"css":"..."} -->
-<tag class="gb-{type} gb-{type}-id">
-    content
-</tag>
-<!-- /wp:generateblocks/{type} -->
+<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"paddingTop":"4rem","paddingBottom":"4rem"},"css":".gb-element-hero001{padding:4rem 0}"} -->
+<section class="gb-element gb-element-hero001">
+    <!-- Inner blocks -->
+</section>
+<!-- /wp:generateblocks/element -->
 ```
 
-### Required Attributes
+### Text Block
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `uniqueId` | string | Unique identifier (e.g., `hero001`, `card023a`) |
-| `tagName` | string | HTML element type |
-| `styles` | object | CSS properties in camelCase |
-| `css` | string | Minified CSS string with selector |
-
-### Styling Pattern
-
-Always include BOTH `styles` and `css`:
-
-```json
-{
-  "uniqueId": "card001",
-  "tagName": "div",
-  "styles": {
-    "display": "flex",
-    "padding": "2rem",
-    "backgroundColor": "#ffffff"
-  },
-  "css": ".gb-element-card001{display:flex;padding:2rem;background-color:#ffffff}"
-}
+```html
+<!-- wp:generateblocks/text {"uniqueId":"hero002","tagName":"h1","styles":{"fontSize":"3rem","fontWeight":"800","color":"#0a0a0a"},"css":".gb-text-hero002{font-size:3rem;font-weight:800;color:#0a0a0a}"} -->
+<h1 class="gb-text gb-text-hero002">Welcome to Our Site</h1>
+<!-- /wp:generateblocks/text -->
 ```
 
-### Complex CSS (hover, media queries)
+### Link/Button (also uses Text block)
 
-Put in `css` attribute only:
-
-```css
-.gb-element-card001{...base...}.gb-element-card001:hover{transform:translateY(-6px)}@media(max-width:768px){.gb-element-card001{padding:1rem}}
+```html
+<!-- wp:generateblocks/text {"uniqueId":"hero003","tagName":"a","htmlAttributes":{"href":"/signup/"},"styles":{"display":"inline-block","padding":"1rem 2rem","backgroundColor":"#c0392b","color":"#ffffff","borderRadius":"8px"},"css":".gb-text-hero003{display:inline-block;padding:1rem 2rem;background-color:#c0392b;color:#fff;border-radius:8px;text-decoration:none;transition:all 0.3s}.gb-text-hero003:hover{background-color:#e74c3c}"} -->
+<a class="gb-text gb-text-hero003" href="/signup/">Get Started</a>
+<!-- /wp:generateblocks/text -->
 ```
 
-## Critical Rules
+### Media Block (Image)
 
-1. **No HTML comments** - Only `<!-- wp:... -->` block comments allowed
-2. **Minify CSS** - No line breaks in `css` attribute
-3. **Duplicate styles** - Put properties in both `styles` and `css`
-4. **Add transitions** - `transition:all 0.3s` for interactive elements
-5. **Responsive media queries** - Always add tablet (1024px) and mobile (768px)
+```html
+<!-- wp:generateblocks/media {"uniqueId":"hero004","mediaType":"image","htmlAttributes":{"src":"https://example.com/image.jpg","alt":"Description","loading":"lazy","width":"800","height":"600"},"styles":{"width":"100%","borderRadius":"1rem"},"css":".gb-media-hero004{width:100%;border-radius:1rem}"} -->
+<img class="gb-media gb-media-hero004" src="https://example.com/image.jpg" alt="Description" loading="lazy" width="800" height="600" />
+<!-- /wp:generateblocks/media -->
+```
+
+### Shape Block (SVG Icon)
+
+```html
+<!-- wp:generateblocks/shape {"uniqueId":"hero005","styles":{"width":"24px","height":"24px","fill":"currentColor"},"css":".gb-shape-hero005{width:24px;height:24px;fill:currentColor}"} -->
+<svg class="gb-shape gb-shape-hero005" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+</svg>
+<!-- /wp:generateblocks/shape -->
+```
+
+## Key Attributes
+
+| Attribute | Type | Purpose |
+|-----------|------|---------|
+| `uniqueId` | string | Required. Used for CSS class targeting. Format: `section###` or `section###letter` |
+| `tagName` | string | HTML element type (div, section, h1, p, a, button, span, etc.) |
+| `styles` | object | Basic CSS properties as JSON (camelCase keys) |
+| `css` | string | Complex CSS: hovers, media queries, pseudo-elements (minified) |
+| `htmlAttributes` | object | Additional HTML attrs: href, target, data-*, aria-*, etc. |
 
 ## Unique ID Convention
 
 Format: `{section}{number}{letter}`
 
-- Section: 3-4 chars (`hero`, `serv`, `card`, `feat`, `blog`)
-- Number: 001-999
-- Letter: Optional for nested elements (a, b, c)
+- **Section**: 3-4 characters describing the section (hero, serv, card, blog, faq)
+- **Number**: 001-999, sequential within the section
+- **Letter**: Optional a-z for nested elements
 
-Examples: `hero001`, `hero001a`, `card023`, `feat007b`
+Examples:
+- `hero001` - Main hero container
+- `hero001a` - Nested element within hero
+- `card012b` - Second nested element in card 12
 
-## Class Patterns
+## CSS Rules
 
-| Block Type | Class Pattern |
-|------------|---------------|
-| element | `.gb-element-{uniqueId}` |
-| text | `.gb-text-{uniqueId}` |
-| media | `.gb-media-{uniqueId}` |
-| shape | `.gb-shape-{uniqueId}` |
+1. **`styles` attribute**: Use for basic properties (padding, margin, flex, grid, colors, typography)
+2. **`css` attribute**: Use for complex CSS (hovers, pseudo-elements, media queries, transitions)
+3. **Always minify CSS** in the `css` attribute (no line breaks)
+4. **Target classes** use the uniqueId: `.gb-element-hero001`, `.gb-text-hero002`
 
-## Default Design System
+## No Extra HTML Comments
 
-When no specific styles provided, use:
+**CRITICAL: Only WordPress block delimiters are allowed as comments.**
 
-**Colors:**
-- Primary: `#c0392b`
-- Text: `#0a0a0a`
-- Muted: `#5c5c5c`
-- Background: `#ffffff`
-- Light BG: `#f5f5f3`
-- Border: `#e5e5e5`
+✅ Allowed:
+```html
+<!-- wp:generateblocks/element {...} -->
+<!-- /wp:generateblocks/element -->
+<!-- wp:image {...} -->
+```
 
-**Typography:**
-- H1: `clamp(2rem, 5vw, 3.5rem)`, weight `900`
-- H2: `clamp(1.5rem, 3vw, 2.5rem)`, weight `700`
-- Body: `1rem`, line-height `1.7`
-- Letter-spacing headings: `-0.03em`
+❌ NOT allowed:
+```html
+<!-- Hero Section -->
+<!-- Card container -->
+<!-- This is the header -->
+```
 
-**Spacing:**
-- Section padding: `4rem` (desktop), `2rem` (mobile)
-- Container max-width: `1200px`
-- Gap: `1rem` to `2rem`
+## Available Skills
 
-**Effects:**
-- Card radius: `1rem`
-- Button radius: `2rem`
-- Hover lift: `translateY(-6px)`
-- Shadow: `0 20px 60px rgba(0,0,0,0.15)`
-- Transition: `all 0.3s`
+| Skill | Purpose | File |
+|-------|---------|------|
+| GenerateBlocks Layouts | Build new layouts from scratch | `skills/generateblocks-layouts/SKILL.md` |
+| HTML to GenerateBlocks | Convert existing HTML/CSS | `skills/html-to-generateblocks/SKILL.md` |
+| Elementor to GenerateBlocks | Migrate Elementor layouts | `skills/elementor-to-generateblocks/SKILL.md` |
+| Figma to GenerateBlocks | Convert Figma designs | `skills/figma-to-generateblocks/SKILL.md` |
 
-## Task Selection
+## When to Use Core Blocks
 
-| User Request | Skill to Use |
-|--------------|--------------|
-| "Create a hero section" | generateblocks-layouts |
-| "Build a card grid" | generateblocks-layouts |
-| "Convert this HTML" | html-to-generateblocks |
-| "Convert this Elementor page" | elementor-to-generateblocks |
-| "Implement this Figma design" | figma-to-generateblocks |
-| "Make this responsive" | generateblocks-layouts + references/responsive.md |
-| "Add hover effects" | references/css-patterns.md |
-| "Create a blog loop" | references/query-loops.md |
+For content that GenerateBlocks doesn't handle well, use WordPress Core Blocks:
 
-## Detailed References
+| Content Type | Use Core Block | Reason |
+|--------------|----------------|--------|
+| Videos | `core/video` | Native player controls |
+| Embedded media | `core/embed` | YouTube, Vimeo, Twitter |
+| Tables | `core/table` | Semantic table structure |
+| Lists | `core/list` | Semantic ul/ol |
+| Images with captions | `core/image` | Built-in caption support |
+| Galleries | `core/gallery` | Lightbox, columns |
+| Code blocks | `core/code` | Preformatted code |
+| Quotes | `core/quote` | Blockquote with citation |
+| **Emojis** | `core/paragraph` | GenerateBlocks doesn't render emojis properly |
 
-For comprehensive documentation, read these files:
+## Responsive Breakpoints
 
-- `skills/generateblocks-layouts/references/block-types.md` - All block specs
-- `skills/generateblocks-layouts/references/css-patterns.md` - Hover, gradients, animations
-- `skills/generateblocks-layouts/references/responsive.md` - Media queries
-- `skills/generateblocks-layouts/references/svg-icons.md` - Shape block usage
-- `skills/generateblocks-layouts/references/query-loops.md` - Dynamic content
-- `skills/generateblocks-layouts/references/troubleshooting.md` - Common issues
+Standard breakpoints for media queries:
 
-## Examples
+| Breakpoint | Max Width | Target |
+|------------|-----------|--------|
+| Tablet | 1024px | `@media(max-width:1024px)` |
+| Mobile | 768px | `@media(max-width:768px)` |
+| Small mobile | 640px | `@media(max-width:640px)` |
+| Extra small | 480px | `@media(max-width:480px)` |
 
-Copy-paste ready examples in:
+## Example Output Structure
 
-- `skills/generateblocks-layouts/examples/basic/` - Single blocks
-- `skills/generateblocks-layouts/examples/compound/` - Cards, features
-- `skills/generateblocks-layouts/examples/layouts/` - Full sections
-- `skills/generateblocks-layouts/examples/svg/` - Icons
+```html
+<!-- wp:generateblocks/element {"uniqueId":"sect001","tagName":"section","styles":{"paddingTop":"4rem","paddingBottom":"4rem","backgroundColor":"#ffffff"},"css":".gb-element-sect001{padding:4rem 0;background-color:#fff}"} -->
+<section class="gb-element gb-element-sect001">
 
-## Limitations
+    <!-- wp:generateblocks/element {"uniqueId":"sect002","tagName":"div","styles":{"maxWidth":"1200px","marginLeft":"auto","marginRight":"auto","paddingLeft":"1rem","paddingRight":"1rem"},"css":".gb-element-sect002{max-width:1200px;margin:0 auto;padding:0 1rem}"} -->
+    <div class="gb-element gb-element-sect002">
 
-- **Cannot access external URLs** - User must provide content/screenshots
-- **Cannot execute CSS** - Output is static markup
-- **Image placeholders** - Use placeholder URLs, user replaces with real images
-- **Font availability** - Assume common web fonts or Google Fonts
-- **No JavaScript** - GenerateBlocks is CSS-only (no JS interactions)
+        <!-- wp:generateblocks/text {"uniqueId":"sect003","tagName":"h2","styles":{"fontSize":"2.5rem","fontWeight":"800","color":"#0a0a0a","marginBottom":"1rem"},"css":".gb-text-sect003{font-size:2.5rem;font-weight:800;color:#0a0a0a;margin-bottom:1rem}"} -->
+        <h2 class="gb-text gb-text-sect003">Section Heading</h2>
+        <!-- /wp:generateblocks/text -->
+
+        <!-- wp:generateblocks/text {"uniqueId":"sect004","tagName":"p","styles":{"fontSize":"1.125rem","color":"#5c5c5c","lineHeight":"1.7"},"css":".gb-text-sect004{font-size:1.125rem;color:#5c5c5c;line-height:1.7}"} -->
+        <p class="gb-text gb-text-sect004">Section description paragraph with supporting text.</p>
+        <!-- /wp:generateblocks/text -->
+
+    </div>
+    <!-- /wp:generateblocks/element -->
+
+</section>
+<!-- /wp:generateblocks/element -->
+```

@@ -1,32 +1,59 @@
 # Feature List
 
-A 6-feature grid with icons, titles, and descriptions.
+Multiple feature section variations for showcasing product capabilities.
 
-## Screenshot
+## Variations
 
-![Feature List](screenshot.png)
+| File | Style | Best For |
+|------|-------|----------|
+| `output-1-default.html` | 6-feature icon grid | Software features, services |
+| `output-2-alternating.html` | Image + text alternating | Product tours, detailed features |
+| `output-3-bento-grid.html` | Bento box dark layout | SaaS, tech products |
 
-*Screenshot placeholder - paste your rendered output here*
+## 1. Default Icon Grid
 
-## Features
+6-feature grid with icons, titles, and descriptions.
 
+**Features:**
 - 3x2 grid layout (2 on tablet, 1 on mobile)
 - Icon in tinted background circle
 - Icon animation on hover (scale + rotate)
-- Background color change on icon hover
 - Card lift effect with shadow
-- Inline SVG icons (Feather Icons style)
+- Inline SVG icons
+
+## 2. Alternating Layout
+
+Image and text alternating sides for each feature.
+
+**Features:**
+- Two-column layout with images
+- Alternates image left/right
+- Color-coded icon backgrounds
+- "Learn more" links with arrow animation
+- Mobile: Image always on top
+
+## 3. Bento Grid
+
+Modern bento box layout on dark background.
+
+**Features:**
+- Mixed-size grid cells
+- Featured cell spans 2 columns
+- Gradient accent on CTA card
+- Subtle hover state changes
+- Color-coded icons by feature type
 
 ## Usage
 
-1. Copy `output.html`
+1. Copy the desired `output-*.html` file
 2. Paste into WordPress block editor (Code Editor mode)
-3. Replace icons, titles, and descriptions
+3. Replace icons, images, and content
 4. Switch to Visual Editor
 
 ## Customization
 
-- Change icons: Replace SVG code in icon containers
-- Adjust colors: Edit `rgba(192, 57, 43, 0.1)` for icon background
-- Different layout: Change `grid-template-columns` for 2x3 or 4x2
-- Remove hover animation: Remove `:hover` rules from CSS
+- **Icons:** Replace SVG code with your icons
+- **Colors:** Update icon background colors per feature
+- **Images:** Replace Unsplash URLs with your screenshots
+- **Grid:** Adjust `grid-column` spans for different layouts
+- **Order:** Use CSS `order` for mobile reordering

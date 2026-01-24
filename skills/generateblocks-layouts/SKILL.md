@@ -80,6 +80,7 @@ For elements not available in GenerateBlocks or requiring advanced media feature
 | Cover images | `core/cover` | Background images with overlays |
 | Dynamic post content | `core/post-*` | Post title, excerpt, featured image, etc. |
 | Query loops | `core/query` | Dynamic content from posts |
+| **Emojis** | `core/paragraph` | GenerateBlocks doesn't render emojis properly |
 
 **Rule of thumb:** Use GenerateBlocks for layout structure and custom styling. Use Core Blocks for specialized content types and media with built-in functionality.
 
@@ -153,14 +154,49 @@ See `/examples/` folder for copy-paste ready blocks:
 - **layouts/** - Full sections (hero, services, grid)
 - **svg/** - Icons and decorative shapes
 
+## CRITICAL: No Extra HTML Comments
+
+**⛔ NEVER add HTML comments other than WordPress block markers.**
+
+The ONLY allowed comments are WordPress block delimiters:
+- `<!-- wp:generateblocks/element {...} -->` and `<!-- /wp:generateblocks/element -->`
+- `<!-- wp:generateblocks/text {...} -->` and `<!-- /wp:generateblocks/text -->`
+- `<!-- wp:generateblocks/media {...} -->` and `<!-- /wp:generateblocks/media -->`
+- `<!-- wp:generateblocks/shape {...} -->` and `<!-- /wp:generateblocks/shape -->`
+- `<!-- wp:image {...} -->` and `<!-- /wp:image -->`
+- `<!-- wp:video {...} -->` and `<!-- /wp:video -->`
+- `<!-- wp:embed {...} -->` and `<!-- /wp:embed -->`
+- Any other `<!-- wp:{namespace}/{block} -->` format
+
+**WRONG - These will break the block editor:**
+```html
+<!-- Hero Section -->
+<!-- Card container -->
+<!-- Button wrapper -->
+<!-- This is a heading -->
+<!-- Content goes here -->
+```
+
+**CORRECT - Only block delimiters:**
+```html
+<!-- wp:generateblocks/element {"uniqueId":"hero001",...} -->
+<section class="gb-element gb-element-hero001">
+    <!-- wp:generateblocks/text {"uniqueId":"hero002",...} -->
+    <h1 class="gb-text gb-text-hero002">Heading</h1>
+    <!-- /wp:generateblocks/text -->
+</section>
+<!-- /wp:generateblocks/element -->
+```
+
+Any extra HTML comments will **break the WordPress block editor** and cause parsing errors. This is non-negotiable.
+
 ## Key Rules
 
-1. **No HTML comments** - Only WordPress block comments allowed (`<!-- wp:... -->` and `<!-- /wp:... -->`). All other HTML comments break the block editor.
-2. **No custom CSS classes** - All styling in block attributes
-3. **Minify CSS** - No line breaks in `css` attribute
-4. **Include transitions** - Always add `transition:all 0.3s` for interactive elements
-5. **Duplicate styles** - Put in both `styles` object AND `css` string
-6. **Test responsive** - Add media queries for tablet (1024px) and mobile (768px)
+1. **No custom CSS classes** - All styling in block attributes
+2. **Minify CSS** - No line breaks in `css` attribute
+3. **Include transitions** - Always add `transition:all 0.3s` for interactive elements
+4. **Duplicate styles** - Put in both `styles` object AND `css` string
+5. **Test responsive** - Add media queries for tablet (1024px) and mobile (768px)
 
 ## Design Inference (When CSS Not Provided)
 

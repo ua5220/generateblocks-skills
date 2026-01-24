@@ -121,6 +121,14 @@ npm run plugin-zip         # Create plugin zip
 - `generateblocks/media` - Images
 - `generateblocks/shape` - SVG shapes/icons
 
+**IMPORTANT V2 Naming:**
+- Use `generateblocks/element` (NOT `/container`)
+- Use `generateblocks/text` (NOT `/headline` or `/button`)
+- Classes MUST be: `gb-element gb-element-{uniqueId}` for element blocks
+- Classes MUST be: `gb-text gb-text-{uniqueId}` for text blocks
+- Classes MUST be: `gb-media gb-media-{uniqueId}` for media blocks
+- Classes MUST be: `gb-shape gb-shape-{uniqueId}` for shape blocks
+
 ### Plugin Structure
 
 **Frontend (`src/`):**
