@@ -71,7 +71,7 @@ For elements not available in GenerateBlocks or requiring advanced media feature
 | Audio files | `core/audio` | Native audio player |
 | File downloads | `core/file` | Download links with filename |
 | Tables | `core/table` | Structured data tables |
-| Lists | `core/list` | Semantic ul/ol with li items |
+| Lists | `core/list` | Semantic ul/ol with `.list` class |
 | Quotes | `core/quote` | Blockquote with citation |
 | Code blocks | `core/code` | Preformatted code display |
 | Separators | `core/separator` | Horizontal rules |
@@ -197,6 +197,9 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 3. **Include transitions** - Always add `transition:all 0.3s` for interactive elements
 4. **Duplicate styles** - Put in both `styles` object AND `css` string
 5. **Test responsive** - Add media queries for tablet (1024px) and mobile (768px)
+6. **Icon containers need `line-height: 1`** - Elements presenting icons must have `lineHeight: "1"` to prevent extra spacing
+7. **Lists use `core/list` with `.list` class** - Always use the native WordPress list block with `className: "list"` and customize styling as needed
+8. **Use `--gb-container-width` for inner containers** - Set inner container width using the CSS variable; add `align: "full"` to parent section for full-width layouts
 
 ## Design Inference (When CSS Not Provided)
 

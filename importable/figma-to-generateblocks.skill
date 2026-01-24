@@ -461,7 +461,7 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 
 ## Other Critical Rules
 
-### 2. Both styles AND css Required
+### 1. Both styles AND css Required
 
 Always include both attributes:
 ```json
@@ -471,31 +471,54 @@ Always include both attributes:
 }
 ```
 
-### 3. Minified CSS
+### 2. Minified CSS
 
 No line breaks in css attribute:
 ```css
 .gb-element-id{padding:2rem;background:#fff}.gb-element-id:hover{background:#f5f5f5}
 ```
 
-### 4. Unique IDs
+### 3. Unique IDs
 
 Format: `{section}{number}{letter}`
 - `hero001`, `hero001a`, `hero001b`
 - `card023`, `card023a`
 
-### 5. Always Add Transitions
+### 4. Always Add Transitions
 
 For interactive elements:
 ```css
 transition:all 0.3s
 ```
 
-### 6. Test Responsive
+### 5. Test Responsive
 
 Always add media queries for:
 - Tablet: `@media(max-width:1024px)`
 - Mobile: `@media(max-width:768px)`
+
+### 6. Icon Containers Need `line-height: 1`
+
+Elements presenting icons must have `lineHeight: "1"` to prevent extra spacing:
+```json
+{"styles": {"lineHeight": "1", "display": "flex", "alignItems": "center"}}
+```
+
+### 7. Lists Use `core/list` with `.list` Class
+
+Convert Figma list designs to native WordPress list block:
+```html
+<!-- wp:list {"className":"list"} -->
+<ul class="wp-block-list list">...</ul>
+<!-- /wp:list -->
+```
+
+### 8. Container Width with CSS Variable
+
+Use `--gb-container-width` for inner container width and `align: "full"` on parent section:
+```json
+{"align": "full", "styles": {"maxWidth": "var(--gb-container-width)"}}
+```
 
 ## Image Handling
 

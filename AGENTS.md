@@ -99,6 +99,9 @@ Examples:
 2. **`css` attribute**: Use for complex CSS (hovers, pseudo-elements, media queries, transitions)
 3. **Always minify CSS** in the `css` attribute (no line breaks)
 4. **Target classes** use the uniqueId: `.gb-element-hero001`, `.gb-text-hero002`
+5. **Icon containers need `line-height: 1`** - Elements presenting icons must have `lineHeight: "1"`
+6. **Lists use `core/list` with `.list` class** - Native WordPress list block with `className: "list"`
+7. **Use `--gb-container-width`** - For inner container width; add `align: "full"` to parent section
 
 ## No Extra HTML Comments
 
@@ -136,7 +139,7 @@ For content that GenerateBlocks doesn't handle well, use WordPress Core Blocks:
 | Videos | `core/video` | Native player controls |
 | Embedded media | `core/embed` | YouTube, Vimeo, Twitter |
 | Tables | `core/table` | Semantic table structure |
-| Lists | `core/list` | Semantic ul/ol |
+| Lists | `core/list` | Use with `.list` class |
 | Images with captions | `core/image` | Built-in caption support |
 | Galleries | `core/gallery` | Lightbox, columns |
 | Code blocks | `core/code` | Preformatted code |

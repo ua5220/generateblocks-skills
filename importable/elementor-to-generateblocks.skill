@@ -290,13 +290,36 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 
 ## Critical Rules
 
-### 2. Always Include Both styles and css
+### 1. Always Include Both styles and css
 
 Every block needs:
 - `styles` object with camelCase properties
 - `css` string with minified CSS (kebab-case)
 
-### 3. Use Semantic HTML
+### 2. Icon Containers Need `line-height: 1`
+
+Elements presenting icons must have `lineHeight: "1"` to prevent extra spacing:
+```json
+{"styles": {"lineHeight": "1", "display": "flex", "alignItems": "center"}}
+```
+
+### 3. Lists Use `core/list` with `.list` Class
+
+Convert Elementor list widgets to native WordPress list block:
+```html
+<!-- wp:list {"className":"list"} -->
+<ul class="wp-block-list list">...</ul>
+<!-- /wp:list -->
+```
+
+### 4. Container Width with CSS Variable
+
+Use `--gb-container-width` for inner container width and `align: "full"` on parent section:
+```json
+{"align": "full", "styles": {"maxWidth": "var(--gb-container-width)"}}
+```
+
+### 6. Use Semantic HTML
 
 Replace Elementor's generic divs with proper tags:
 
@@ -310,14 +333,14 @@ Replace Elementor's generic divs with proper tags:
 | Sidebar | `aside` |
 | Card wrapper | `div` or `a` (if clickable) |
 
-### 4. Remove Spacers
+### 7. Remove Spacers
 
 Never convert `elementor-widget-spacer` to a block. Use:
 - `marginBottom` on preceding element
 - `marginTop` on following element
 - `gap` on parent container
 
-### 5. Flatten Icon Boxes
+### 8. Flatten Icon Boxes
 
 **Elementor icon box (simplified):**
 ```html

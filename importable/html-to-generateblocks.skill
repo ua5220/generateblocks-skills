@@ -55,7 +55,7 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 | `<figure>` with `<figcaption>` | `core/image` | Built-in caption support |
 | `<blockquote>` with cite | `core/quote` | Semantic quote with citation |
 | `<pre>` / `<code>` | `core/code` | Preformatted code display |
-| `<ul>` / `<ol>` (semantic lists) | `core/list` | Proper list semantics |
+| `<ul>` / `<ol>` (semantic lists) | `core/list` | Use with `.list` class |
 | `<hr>` | `core/separator` | Horizontal rule |
 | Gallery layouts | `core/gallery` | Lightbox, columns, captions |
 | Background image sections | `core/cover` | Parallax, overlay, focal point |
@@ -319,6 +319,9 @@ When converting HTML without explicit CSS values, infer styles based on context:
 7. **Gradients only in CSS** - Can't use in `styles` attribute
 8. **CSS variables work** - Use var(--custom-property) freely
 9. **Transitions on all** - `transition:all 0.3s` for smooth interactions
+10. **Icon containers need `line-height: 1`** - Elements presenting icons must have `lineHeight: "1"` to prevent extra spacing
+11. **Lists use `core/list` with `.list` class** - Convert `<ul>`/`<ol>` to native WordPress list block with `className: "list"`
+12. **Use `--gb-container-width` for inner containers** - Set inner container width using the CSS variable; add `align: "full"` to parent section
 
 ## Performance Notes
 
