@@ -22,6 +22,20 @@ tags:
 
 Convert bloated Elementor layouts to clean, semantic GenerateBlocks V2 blocks.
 
+## Output Requirements
+
+**ALWAYS output converted blocks to a file, never inline in the chat.**
+
+- Output filename: `{section-name}-converted.html` (e.g., `hero-converted.html`)
+- For full page conversions: Split into multiple files by section
+- Include a brief summary in chat describing what was converted
+
+**Why file output?**
+- Converted block code is often 100+ lines
+- Easier to copy/paste into WordPress
+- Prevents truncation and formatting issues
+- Allows comparison with original Elementor output
+
 ## The DIVception Problem
 
 Elementor wraps everything in excessive nested divs with utility classes:
@@ -97,12 +111,34 @@ Same content, cleaner structure:
 | `elementor-widget-heading` | `generateblocks/text` with h1-h6 |
 | `elementor-widget-text-editor` | `generateblocks/text` with p/div |
 | `elementor-widget-button` | `generateblocks/text` with tagName="a" |
-| `elementor-widget-image` | `generateblocks/media` |
+| `elementor-widget-image` | `generateblocks/media` (or `core/image` if caption needed) |
 | `elementor-widget-icon` | `generateblocks/shape` or inline SVG |
 | `elementor-widget-icon-box` | `generateblocks/element` container |
 | `elementor-widget-image-box` | `generateblocks/element` container |
 | `elementor-widget-spacer` | Remove (use margins/padding instead) |
-| `elementor-widget-divider` | `generateblocks/element` with border |
+| `elementor-widget-divider` | `generateblocks/element` with border (or `core/separator`) |
+
+### 4. Widgets Requiring Core Blocks
+
+Some Elementor widgets should convert to Core Blocks instead of GenerateBlocks:
+
+| Elementor Widget | Use Core Block | Reason |
+|------------------|----------------|--------|
+| `elementor-widget-video` | `core/video` or `core/embed` | Native player, embed support |
+| `elementor-widget-image-gallery` | `core/gallery` | Lightbox, columns, captions |
+| `elementor-widget-image-carousel` | `core/gallery` + CSS or third-party | Slider functionality |
+| `elementor-widget-audio` | `core/audio` | Native audio player |
+| `elementor-widget-table` | `core/table` | Semantic table structure |
+| `elementor-widget-blockquote` | `core/quote` | Semantic quote with citation |
+| `elementor-widget-code-highlight` | `core/code` | Preformatted code display |
+| `elementor-widget-text-path` | Keep as SVG | No Core equivalent |
+| `elementor-widget-lottie` | Keep as custom | No Core equivalent |
+| `elementor-widget-image` (with caption) | `core/image` | Built-in caption support |
+| `elementor-widget-tabs` | `core/details` or custom | Accordion/tabs functionality |
+| `elementor-widget-accordion` | `core/details` | Native disclosure widget |
+| `elementor-widget-toggle` | `core/details` | Native disclosure widget |
+
+**Rule:** Use GenerateBlocks for layout and styling. Use Core Blocks for specialized functionality (media players, embeds, tables, interactive elements).
 
 ### 4. Column Layouts
 

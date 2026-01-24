@@ -318,3 +318,84 @@ See [SVG Icons Reference](svg-icons.md) for more patterns.
   }
 }
 ```
+
+---
+
+## 5. When to Use Core Blocks
+
+GenerateBlocks covers layout and styling, but WordPress Core Blocks are better for specialized content types with built-in functionality.
+
+### Media Blocks
+
+| Content Type | Use Core Block | GenerateBlocks Alternative |
+|--------------|----------------|---------------------------|
+| Image with caption | `core/image` | None (no caption support) |
+| Image gallery | `core/gallery` | Manual grid with `generateblocks/media` |
+| Video (self-hosted) | `core/video` | None |
+| Video (YouTube/Vimeo) | `core/embed` | None |
+| Audio | `core/audio` | None |
+| Cover/background image | `core/cover` | `generateblocks/element` with background CSS |
+
+### Content Blocks
+
+| Content Type | Use Core Block | GenerateBlocks Alternative |
+|--------------|----------------|---------------------------|
+| Data table | `core/table` | None (use Core for semantics) |
+| Bulleted/numbered list | `core/list` | `generateblocks/element` with ul/ol tagName |
+| Blockquote with citation | `core/quote` | `generateblocks/element` with blockquote tagName |
+| Preformatted code | `core/code` | `generateblocks/text` with pre tagName |
+| Horizontal rule | `core/separator` | `generateblocks/element` with border |
+| File download | `core/file` | None |
+| Details/accordion | `core/details` | None |
+
+### Dynamic Blocks
+
+| Content Type | Use Core Block | GenerateBlocks Alternative |
+|--------------|----------------|---------------------------|
+| Post query loop | `core/query` | GenerateBlocks Pro query loop |
+| Post title | `core/post-title` | `generateblocks/text` with dynamic tag |
+| Post excerpt | `core/post-excerpt` | `generateblocks/text` with dynamic tag |
+| Post featured image | `core/post-featured-image` | `generateblocks/media` with dynamic tag |
+| Post date | `core/post-date` | `generateblocks/text` with dynamic tag |
+| Post terms | `core/post-terms` | `generateblocks/text` with dynamic tag |
+
+### Decision Guide
+
+**Use GenerateBlocks when:**
+- You need custom layouts (flex, grid)
+- You want inline styling with hover states
+- You need precise design control
+- Building reusable section patterns
+
+**Use Core Blocks when:**
+- Content has built-in functionality (video player, audio player)
+- Semantic HTML matters (tables, quotes, lists)
+- Using WordPress features (embeds, file downloads)
+- Dynamic content from posts/queries
+
+### Example: Mixing GenerateBlocks and Core Blocks
+
+```html
+<!-- wp:generateblocks/element {"uniqueId":"sect001","tagName":"section","styles":{"padding":"4rem 0"},"css":".gb-element-sect001{padding:4rem 0}"} -->
+<section class="gb-element gb-element-sect001">
+    <!-- wp:generateblocks/element {"uniqueId":"sect001a","tagName":"div","styles":{"maxWidth":"1200px","margin":"0 auto","padding":"0 1rem"},"css":".gb-element-sect001a{max-width:1200px;margin:0 auto;padding:0 1rem}"} -->
+    <div class="gb-element gb-element-sect001a">
+
+        <!-- wp:generateblocks/text {"uniqueId":"sect001b","tagName":"h2","styles":{"fontSize":"2rem","marginBottom":"2rem"},"css":".gb-text-sect001b{font-size:2rem;margin-bottom:2rem}"} -->
+        <h2 class="gb-text gb-text-sect001b">Watch Our Demo</h2>
+        <!-- /wp:generateblocks/text -->
+
+        <!-- Use Core embed for YouTube video -->
+        <!-- wp:embed {"url":"https://www.youtube.com/watch?v=xyz","type":"video","providerNameSlug":"youtube","responsive":true} -->
+        <figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube">
+            <div class="wp-block-embed__wrapper">
+                https://www.youtube.com/watch?v=xyz
+            </div>
+        </figure>
+        <!-- /wp:embed -->
+
+    </div>
+    <!-- /wp:generateblocks/element -->
+</section>
+<!-- /wp:generateblocks/element -->
+```

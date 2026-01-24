@@ -33,6 +33,20 @@ examples:
 
 Build professional WordPress layouts using GenerateBlocks V2's four core blocks.
 
+## Output Requirements
+
+**ALWAYS output generated blocks to a file, never inline in the chat.**
+
+- Output filename: `{section-name}.html` (e.g., `hero-section.html`, `services-grid.html`)
+- For multiple sections: Create separate files or one combined file
+- Include a brief summary in chat describing what was created
+
+**Why file output?**
+- Block code is often 100+ lines and breaks chat formatting
+- Easier to copy/paste into WordPress
+- Prevents truncation of long outputs
+- Allows incremental building of complex layouts
+
 ## Quick Start
 
 GenerateBlocks V2 uses four block types:
@@ -41,8 +55,33 @@ GenerateBlocks V2 uses four block types:
 |-------|--------------|---------|
 | `generateblocks/element` | `.gb-element-{id}` | Containers (div, section, article, header, nav, footer) |
 | `generateblocks/text` | `.gb-text-{id}` | Text content (h1-h6, p, span, a, button) |
-| `generateblocks/media` | `.gb-media-{id}` | Images |
+| `generateblocks/media` | `.gb-media-{id}` | Images (static only, no dynamic features) |
 | `generateblocks/shape` | `.gb-shape-{id}` | SVG icons and decorative shapes |
+
+## When to Use Core Blocks
+
+For elements not available in GenerateBlocks or requiring advanced media features, use WordPress Core Blocks:
+
+| Content Type | Use Core Block | Why |
+|--------------|----------------|-----|
+| Images with captions | `core/image` | Built-in caption support |
+| Image galleries | `core/gallery` | Lightbox, columns, captions |
+| Videos | `core/video` | Native video player, controls |
+| Embedded media | `core/embed` | YouTube, Vimeo, Twitter, etc. |
+| Audio files | `core/audio` | Native audio player |
+| File downloads | `core/file` | Download links with filename |
+| Tables | `core/table` | Structured data tables |
+| Lists | `core/list` | Semantic ul/ol with li items |
+| Quotes | `core/quote` | Blockquote with citation |
+| Code blocks | `core/code` | Preformatted code display |
+| Separators | `core/separator` | Horizontal rules |
+| Buttons (grouped) | `core/buttons` | Multiple button layouts |
+| Columns (simple) | `core/columns` | Quick equal-width layouts |
+| Cover images | `core/cover` | Background images with overlays |
+| Dynamic post content | `core/post-*` | Post title, excerpt, featured image, etc. |
+| Query loops | `core/query` | Dynamic content from posts |
+
+**Rule of thumb:** Use GenerateBlocks for layout structure and custom styling. Use Core Blocks for specialized content types and media with built-in functionality.
 
 ## Block Template
 

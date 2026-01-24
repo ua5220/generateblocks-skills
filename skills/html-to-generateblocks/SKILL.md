@@ -20,6 +20,20 @@ tags:
 
 Convert HTML/CSS layouts to GenerateBlocks V2 format using inline styles in block attributes.
 
+## Output Requirements
+
+**ALWAYS output converted blocks to a file, never inline in the chat.**
+
+- Output filename: `{original-name}-converted.html` (e.g., `hero-converted.html`)
+- For large conversions: Split into multiple files by section
+- Include a brief summary in chat describing what was converted
+
+**Why file output?**
+- Converted block code is often 100+ lines
+- Easier to copy/paste into WordPress
+- Prevents truncation and formatting issues
+- Allows side-by-side comparison with original
+
 ## Core Principle
 
 **Use both `styles` and `css` attributes:**
@@ -27,6 +41,26 @@ Convert HTML/CSS layouts to GenerateBlocks V2 format using inline styles in bloc
 - `css`: Complex features (hover states, pseudo-elements, media queries, transitions, animations)
 
 **Never use BEM or custom classes** - all styling goes in block attributes.
+
+## When to Use Core Blocks
+
+For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
+
+| HTML Element | Convert To | Reason |
+|--------------|------------|--------|
+| `<video>` | `core/video` | Native player controls, autoplay, loop |
+| `<audio>` | `core/audio` | Native audio player |
+| `<iframe>` (YouTube, Vimeo) | `core/embed` | oEmbed support, responsive sizing |
+| `<table>` | `core/table` | Semantic table structure |
+| `<figure>` with `<figcaption>` | `core/image` | Built-in caption support |
+| `<blockquote>` with cite | `core/quote` | Semantic quote with citation |
+| `<pre>` / `<code>` | `core/code` | Preformatted code display |
+| `<ul>` / `<ol>` (semantic lists) | `core/list` | Proper list semantics |
+| `<hr>` | `core/separator` | Horizontal rule |
+| Gallery layouts | `core/gallery` | Lightbox, columns, captions |
+| Background image sections | `core/cover` | Parallax, overlay, focal point |
+
+**Conversion rule:** Use GenerateBlocks for layout containers and styled text. Use Core Blocks for specialized content types that have built-in functionality (players, embeds, tables, etc.).
 
 ## Block Structure
 

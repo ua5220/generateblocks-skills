@@ -24,6 +24,20 @@ tags:
 
 Convert Figma designs to clean, semantic GenerateBlocks V2 blocks for WordPress.
 
+## Output Requirements
+
+**ALWAYS output converted blocks to a file, never inline in the chat.**
+
+- Output filename: `{design-name}.html` (e.g., `homepage-hero.html`, `pricing-section.html`)
+- For complex designs: Split into multiple files by section
+- Include a brief summary in chat describing what was created
+
+**Why file output?**
+- Block code is often 100+ lines
+- Easier to copy/paste into WordPress
+- Prevents truncation and formatting issues
+- Allows iterative refinement of design implementation
+
 ## Input Types
 
 This skill handles multiple Figma input formats:
@@ -84,11 +98,32 @@ Extract these elements from the Figma design:
 | Auto Layout (vertical) | `generateblocks/element` with `display: flex; flex-direction: column` |
 | Grid | `generateblocks/element` with `display: grid` |
 | Text | `generateblocks/text` with appropriate `tagName` |
-| Image | `generateblocks/media` |
+| Image (simple) | `generateblocks/media` |
 | Icon/Vector | `generateblocks/shape` with inline SVG |
 | Button | `generateblocks/text` with `tagName: "a"` or `"button"` |
 | Card | `generateblocks/element` or `generateblocks/text` (if clickable) |
 | Link | `generateblocks/text` with `tagName: "a"` |
+
+### Step 2b: When to Use Core Blocks
+
+Some Figma elements should convert to WordPress Core Blocks instead:
+
+| Figma Element | Use Core Block | Reason |
+|---------------|----------------|--------|
+| Image with caption | `core/image` | Built-in caption support |
+| Image gallery/grid | `core/gallery` | Lightbox, columns, captions |
+| Video player | `core/video` | Native video controls |
+| Embedded video (YouTube/Vimeo) | `core/embed` | oEmbed support |
+| Audio player | `core/audio` | Native audio controls |
+| Data table | `core/table` | Semantic table structure |
+| Quote with attribution | `core/quote` | Semantic blockquote |
+| Code snippet | `core/code` | Preformatted code display |
+| Bulleted/numbered list | `core/list` | Semantic list structure |
+| Hero with background image | `core/cover` | Background image, overlay, parallax |
+| Horizontal divider | `core/separator` | Semantic hr element |
+| Download link/file | `core/file` | Download button with filename |
+
+**Conversion rule:** Use GenerateBlocks for custom layouts and styled containers. Use Core Blocks for content types with built-in functionality (media players, embeds, tables, etc.).
 
 ### Step 3: Generate Block Code
 

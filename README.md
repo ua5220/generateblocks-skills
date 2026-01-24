@@ -27,9 +27,22 @@ Each example includes the prompt that generated it, so you can learn and modify.
 
 ### Full Skill: Teach Your AI
 
-For custom layouts, load the main skill file into your AI:
+For custom layouts, load the skill file into your AI.
 
-**Direct link:** [`skills/generateblocks-layouts/SKILL.md`](skills/generateblocks-layouts/SKILL.md)
+**⚠️ IMPORTANT: You must upload the skill file at the START of every new conversation/thread.**
+
+| Skill | Claude | ChatGPT / Gemini / Others |
+|-------|--------|---------------------------|
+| **GenerateBlocks Layouts** | [.skill](importable/generateblocks-layouts.skill) | [.zip](importable/generateblocks-layouts.zip) |
+| **HTML to GenerateBlocks** | [.skill](importable/html-to-generateblocks.skill) | [.zip](importable/html-to-generateblocks.zip) |
+| **Elementor to GenerateBlocks** | [.skill](importable/elementor-to-generateblocks.skill) | [.zip](importable/elementor-to-generateblocks.zip) |
+| **Figma to GenerateBlocks** | [.skill](importable/figma-to-generateblocks.skill) | [.zip](importable/figma-to-generateblocks.zip) |
+
+**Direct skill links (for manual copy-paste):**
+- [`skills/generateblocks-layouts/SKILL.md`](skills/generateblocks-layouts/SKILL.md)
+- [`skills/html-to-generateblocks/SKILL.md`](skills/html-to-generateblocks/SKILL.md)
+- [`skills/elementor-to-generateblocks/SKILL.md`](skills/elementor-to-generateblocks/SKILL.md)
+- [`skills/figma-to-generateblocks/SKILL.md`](skills/figma-to-generateblocks/SKILL.md)
 
 ---
 
@@ -51,9 +64,14 @@ For custom layouts, load the main skill file into your AI:
 Read skills/generateblocks-layouts/SKILL.md and create a testimonial slider with 3 cards
 ```
 
-**With Claude.ai / ChatGPT / Gemini:**
-1. Copy contents of [`SKILL.md`](skills/generateblocks-layouts/SKILL.md)
-2. Paste into chat
+**With Claude.ai:**
+1. Download the [.skill file](importable/generateblocks-layouts.skill)
+2. Upload it at the start of a new chat
+3. Ask: "Create a pricing table with 3 tiers"
+
+**With ChatGPT / Gemini / Others:**
+1. Download the [.zip file](importable/generateblocks-layouts.zip)
+2. Upload it at the start of a new chat
 3. Ask: "Create a pricing table with 3 tiers"
 
 ### Option 3: Clone This Repo
@@ -76,14 +94,14 @@ With Claude Code: Just run `claude` and it reads `CLAUDE.md` automatically.
 - **`output.html`** — Copy-paste ready GenerateBlocks markup
 - **`README.md`** — Usage notes and customization tips
 
-### Skills (`skills/`)
+### Skills (`skills/`) and Importable Files (`importable/`)
 
-| Skill | Folder | Description |
-|-------|--------|-------------|
-| **GenerateBlocks Layouts** | [`skills/generateblocks-layouts/`](skills/generateblocks-layouts/) | V2 blocks, attributes, layout patterns, styling |
-| **HTML to GenerateBlocks** | [`skills/html-to-generateblocks/`](skills/html-to-generateblocks/) | Convert HTML/CSS to GenerateBlocks format |
-| **Elementor to GenerateBlocks** | [`skills/elementor-to-generateblocks/`](skills/elementor-to-generateblocks/) | Migrate Elementor layouts to clean GB blocks |
-| **Figma to GenerateBlocks** | [`skills/figma-to-generateblocks/`](skills/figma-to-generateblocks/) | Convert Figma designs to GB blocks |
+| Skill | Folder | Claude | ChatGPT/Others |
+|-------|--------|--------|----------------|
+| **GenerateBlocks Layouts** | [`skills/generateblocks-layouts/`](skills/generateblocks-layouts/) | [.skill](importable/generateblocks-layouts.skill) | [.zip](importable/generateblocks-layouts.zip) |
+| **HTML to GenerateBlocks** | [`skills/html-to-generateblocks/`](skills/html-to-generateblocks/) | [.skill](importable/html-to-generateblocks.skill) | [.zip](importable/html-to-generateblocks.zip) |
+| **Elementor to GenerateBlocks** | [`skills/elementor-to-generateblocks/`](skills/elementor-to-generateblocks/) | [.skill](importable/elementor-to-generateblocks.skill) | [.zip](importable/elementor-to-generateblocks.zip) |
+| **Figma to GenerateBlocks** | [`skills/figma-to-generateblocks/`](skills/figma-to-generateblocks/) | [.skill](importable/figma-to-generateblocks.skill) | [.zip](importable/figma-to-generateblocks.zip) |
 
 #### GenerateBlocks Layouts Skill Structure
 
