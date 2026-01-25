@@ -20,7 +20,7 @@ Container block for layout structure. Can nest other blocks inside.
   "styles": {},
   "css": "",
   "globalClasses": [],
-  "htmlAttributes": {},
+  "htmlAttributes": [],
   "className": ""
 }
 ```
@@ -72,7 +72,7 @@ Container block for layout structure. Can nest other blocks inside.
 
 **Link Wrapper:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"link001","tagName":"a","htmlAttributes":{"href":"/page/","target":"_blank","rel":"noopener"},"styles":{"display":"block","textDecoration":"none"},"css":".gb-element-link001{display:block;text-decoration:none}"} -->
+<!-- wp:generateblocks/element {"uniqueId":"link001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/page/"},{"attribute":"target","value":"_blank"},{"attribute":"rel","value":"noopener"}],"styles":{"display":"block","textDecoration":"none"},"css":".gb-element-link001{display:block;text-decoration:none}"} -->
 <a class="gb-element gb-element-link001" href="/page/" target="_blank" rel="noopener">
     <!-- Clickable content -->
 </a>
@@ -94,7 +94,7 @@ Text content with any inline/block tag. Cannot nest other blocks.
   "styles": {},
   "css": "",
   "globalClasses": [],
-  "htmlAttributes": {},
+  "htmlAttributes": [],
   "className": "",
   "icon": "",
   "iconLocation": "before",
@@ -141,14 +141,14 @@ Text content with any inline/block tag. Cannot nest other blocks.
 
 **Button Link:**
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"btn001","tagName":"a","htmlAttributes":{"href":"/action/"},"styles":{"display":"inline-flex","alignItems":"center","gap":"0.5rem","padding":"0.875rem 1.75rem","backgroundColor":"#c0392b","color":"#ffffff","borderRadius":"2rem","fontSize":"1rem","fontWeight":"600","textDecoration":"none"},"css":".gb-text-btn001{display:inline-flex;align-items:center;gap:0.5rem;padding:0.875rem 1.75rem;background-color:#c0392b;color:#ffffff;border-radius:2rem;font-size:1rem;font-weight:600;text-decoration:none;transition:all 0.3s}.gb-text-btn001:hover{background-color:#a33024;transform:translateY(-2px)}"} -->
+<!-- wp:generateblocks/text {"uniqueId":"btn001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/action/"}],"styles":{"display":"inline-flex","alignItems":"center","gap":"0.5rem","padding":"0.875rem 1.75rem","backgroundColor":"#c0392b","color":"#ffffff","borderRadius":"2rem","fontSize":"1rem","fontWeight":"600","textDecoration":"none"},"css":".gb-text-btn001{display:inline-flex;align-items:center;gap:0.5rem;padding:0.875rem 1.75rem;background-color:#c0392b;color:#ffffff;border-radius:2rem;font-size:1rem;font-weight:600;text-decoration:none;transition:all 0.3s}.gb-text-btn001:hover{background-color:#a33024;transform:translateY(-2px)}"} -->
 <a class="gb-text gb-text-btn001" href="/action/">Get Started</a>
 <!-- /wp:generateblocks/text -->
 ```
 
 **Card as Link (Text Block):**
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"/services/"},"styles":{"display":"flex","flexDirection":"column","padding":"2rem","backgroundColor":"white","borderRadius":"1rem","textDecoration":"none","border":"1px solid transparent"},"css":".gb-text-card001{display:flex;flex-direction:column;padding:2rem;background-color:white;border-radius:1rem;text-decoration:none;border:1px solid transparent;transition:all 0.3s}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:#e5e5e5}"} -->
+<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/services/"}],"styles":{"display":"flex","flexDirection":"column","padding":"2rem","backgroundColor":"white","borderRadius":"1rem","textDecoration":"none","border":"1px solid transparent"},"css":".gb-text-card001{display:flex;flex-direction:column;padding:2rem;background-color:white;border-radius:1rem;text-decoration:none;border:1px solid transparent;transition:all 0.3s}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:#e5e5e5}"} -->
 <a class="gb-text gb-text-card001" href="/services/">
     <!-- Nested blocks go inside -->
 </a>
@@ -172,14 +172,14 @@ Images only. Self-closing tag.
   "styles": {},
   "css": "",
   "globalClasses": [],
-  "htmlAttributes": {
-    "src": "",
-    "alt": "",
-    "width": "",
-    "height": "",
-    "loading": "lazy"
-  },
-  "linkHtmlAttributes": {}
+  "htmlAttributes": [
+    {"attribute": "src", "value": ""},
+    {"attribute": "alt", "value": ""},
+    {"attribute": "width", "value": ""},
+    {"attribute": "height", "value": ""},
+    {"attribute": "loading", "value": "lazy"}
+  ],
+  "linkHtmlAttributes": []
 }
 ```
 
@@ -205,21 +205,21 @@ Images only. Self-closing tag.
 
 **Basic Image:**
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"img001","mediaType":"image","htmlAttributes":{"src":"https://example.com/photo.jpg","alt":"Description","width":"800","height":"600","loading":"lazy"}} -->
+<!-- wp:generateblocks/media {"uniqueId":"img001","mediaType":"image","htmlAttributes":[{"attribute":"src","value":"https://example.com/photo.jpg"},{"attribute":"alt","value":"Description"},{"attribute":"width","value":"800"},{"attribute":"height","value":"600"},{"attribute":"loading","value":"lazy"}]} -->
 <img src="https://example.com/photo.jpg" alt="Description" width="800" height="600" loading="lazy" />
 <!-- /wp:generateblocks/media -->
 ```
 
 **Styled Image:**
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"img002","mediaType":"image","htmlAttributes":{"src":"https://example.com/photo.jpg","alt":"Hero image","loading":"eager","width":"1200","height":"800"},"styles":{"width":"100%","height":"100%","objectFit":"cover","borderRadius":"1rem"},"css":".gb-media-img002{width:100%;height:100%;object-fit:cover;border-radius:1rem}"} -->
+<!-- wp:generateblocks/media {"uniqueId":"img002","mediaType":"image","htmlAttributes":[{"attribute":"src","value":"https://example.com/photo.jpg"},{"attribute":"alt","value":"Hero image"},{"attribute":"loading","value":"eager"},{"attribute":"width","value":"1200"},{"attribute":"height","value":"800"}],"styles":{"width":"100%","height":"100%","objectFit":"cover","borderRadius":"1rem"},"css":".gb-media-img002{width:100%;height:100%;object-fit:cover;border-radius:1rem}"} -->
 <img class="gb-media gb-media-img002" src="https://example.com/photo.jpg" alt="Hero image" loading="eager" width="1200" height="800" />
 <!-- /wp:generateblocks/media -->
 ```
 
 **Linked Image:**
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"img003","mediaType":"image","htmlAttributes":{"src":"https://example.com/product.jpg","alt":"Product"},"linkHtmlAttributes":{"href":"/product/","target":"_blank","rel":"noopener"},"styles":{"display":"block","borderRadius":"0.5rem"},"css":".gb-media-img003{display:block;border-radius:0.5rem;transition:transform 0.3s}.gb-media-img003:hover{transform:scale(1.02)}"} -->
+<!-- wp:generateblocks/media {"uniqueId":"img003","mediaType":"image","htmlAttributes":[{"attribute":"src","value":"https://example.com/product.jpg"},{"attribute":"alt","value":"Product"}],"linkHtmlAttributes":[{"attribute":"href","value":"/product/"},{"attribute":"target","value":"_blank"},{"attribute":"rel","value":"noopener"}],"styles":{"display":"block","borderRadius":"0.5rem"},"css":".gb-media-img003{display:block;border-radius:0.5rem;transition:transform 0.3s}.gb-media-img003:hover{transform:scale(1.02)}"} -->
 <a href="/product/" target="_blank" rel="noopener">
     <img class="gb-media gb-media-img003" src="https://example.com/product.jpg" alt="Product" />
 </a>
@@ -241,7 +241,7 @@ SVG icons and decorative shapes. Wrapped in `<span>`.
   "styles": {},
   "css": "",
   "globalClasses": [],
-  "htmlAttributes": {}
+  "htmlAttributes": []
 }
 ```
 
@@ -306,16 +306,16 @@ See [SVG Icons Reference](svg-icons.md) for more patterns.
 
 ```json
 {
-  "htmlAttributes": {
-    "id": "section-id",
-    "href": "/page/",
-    "target": "_blank",
-    "rel": "noopener noreferrer",
-    "aria-label": "Description",
-    "aria-hidden": "true",
-    "data-custom": "value",
-    "role": "button"
-  }
+  "htmlAttributes": [
+    {"attribute": "id", "value": "section-id"},
+    {"attribute": "href", "value": "/page/"},
+    {"attribute": "target", "value": "_blank"},
+    {"attribute": "rel", "value": "noopener noreferrer"},
+    {"attribute": "aria-label", "value": "Description"},
+    {"attribute": "aria-hidden", "value": "true"},
+    {"attribute": "data-custom", "value": "value"},
+    {"attribute": "role", "value": "button"}
+  ]
 }
 ```
 

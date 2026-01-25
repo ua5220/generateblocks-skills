@@ -63,6 +63,30 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 
 **Conversion rule:** Use GenerateBlocks for layout containers and styled text. Use Core Blocks for specialized content types that have built-in functionality (players, embeds, tables, etc.).
 
+## CRITICAL: htmlAttributes Format
+
+**htmlAttributes MUST be an array of objects, NOT a plain object:**
+
+```json
+// ✅ CORRECT - Array of objects
+"htmlAttributes": [
+  {"attribute": "href", "value": "/contact/"},
+  {"attribute": "target", "value": "_blank"},
+  {"attribute": "id", "value": "section-id"}
+]
+
+// ❌ WRONG - Plain object (causes block editor recovery errors)
+"htmlAttributes": {"href": "/contact/", "target": "_blank"}
+```
+
+**linkHtmlAttributes** (for media blocks) uses the same array format:
+```json
+"linkHtmlAttributes": [
+  {"attribute": "href", "value": "/product/"},
+  {"attribute": "target", "value": "_blank"}
+]
+```
+
 ## Block Structure
 
 ### Standard Element Block
@@ -86,7 +110,7 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 ### Link as Card Wrapper
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"/services/"},"styles":{"display":"flex","flexDirection":"column","padding":"2rem","backgroundColor":"white","borderRadius":"1rem","textDecoration":"none"},"css":".gb-text-card001{display:flex;flex-direction:column;padding:2rem;background-color:white;border-radius:1rem;text-decoration:none;transition:all 0.3s}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15)}"} -->
+<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/services/"}],"styles":{"display":"flex","flexDirection":"column","padding":"2rem","backgroundColor":"white","borderRadius":"1rem","textDecoration":"none"},"css":".gb-text-card001{display:flex;flex-direction:column;padding:2rem;background-color:white;border-radius:1rem;text-decoration:none;transition:all 0.3s}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15)}"} -->
 <a class="gb-text gb-text-card001" href="/services/">
     <!-- Card content -->
 </a>
@@ -96,7 +120,7 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 ### Media/Image Block
 
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"img001","mediaType":"image","htmlAttributes":{"src":"https://example.com/image.jpg","alt":"Description","loading":"lazy","width":"600","height":"400"},"styles":{"display":"block","width":"100%"},"css":".gb-media-img001{display:block;width:100%}"} -->
+<!-- wp:generateblocks/media {"uniqueId":"img001","mediaType":"image","htmlAttributes":[{"attribute":"src","value":"https://example.com/image.jpg"},{"attribute":"alt","value":"Description"},{"attribute":"loading","value":"lazy"},{"attribute":"width","value":"600"},{"attribute":"height","value":"400"}],"styles":{"display":"block","width":"100%"},"css":".gb-media-img001{display:block;width:100%}"} -->
 <img class="gb-media gb-media-img001" src="https://example.com/image.jpg" alt="Description" loading="lazy" width="600" height="400" />
 <!-- /wp:generateblocks/media -->
 ```
@@ -123,7 +147,7 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 ### Card with Hover Effect
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"/link/"},"styles":{"display":"flex","flexDirection":"column","backgroundColor":"white","borderRadius":"1rem","padding":"2rem","border":"1px solid transparent","textDecoration":"none"},"css":".gb-text-card001{display:flex;flex-direction:column;background-color:white;border-radius:1rem;padding:2rem;border:1px solid transparent;text-decoration:none;transition:all 0.3s}.gb-text-card001::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:#c0392b;transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:#e5e5e5}.gb-text-card001:hover::after{transform:scaleX(1)}"} -->
+<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/link/"}],"styles":{"display":"flex","flexDirection":"column","backgroundColor":"white","borderRadius":"1rem","padding":"2rem","border":"1px solid transparent","textDecoration":"none"},"css":".gb-text-card001{display:flex;flex-direction:column;background-color:white;border-radius:1rem;padding:2rem;border:1px solid transparent;text-decoration:none;transition:all 0.3s}.gb-text-card001::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:#c0392b;transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:#e5e5e5}.gb-text-card001:hover::after{transform:scaleX(1)}"} -->
 <a class="gb-text gb-text-card001" href="/link/">
     <!-- Card content -->
 </a>

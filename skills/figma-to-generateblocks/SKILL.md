@@ -321,9 +321,9 @@ Frame (Card)
 
 **GenerateBlocks (clickable card):**
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"/link/"},"styles":{"display":"flex","flexDirection":"column","backgroundColor":"white","borderRadius":"1rem","overflow":"hidden","textDecoration":"none","border":"1px solid #e5e5e5"},"css":".gb-text-card001{display:flex;flex-direction:column;background-color:white;border-radius:1rem;overflow:hidden;text-decoration:none;border:1px solid #e5e5e5;transition:all 0.3s}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:transparent}"} -->
+<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/link/"}],"styles":{"display":"flex","flexDirection":"column","backgroundColor":"white","borderRadius":"1rem","overflow":"hidden","textDecoration":"none","border":"1px solid #e5e5e5"},"css":".gb-text-card001{display:flex;flex-direction:column;background-color:white;border-radius:1rem;overflow:hidden;text-decoration:none;border:1px solid #e5e5e5;transition:all 0.3s}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:transparent}"} -->
 <a class="gb-text gb-text-card001" href="/link/">
-    <!-- wp:generateblocks/media {"uniqueId":"card002","mediaType":"image","htmlAttributes":{"src":"image.jpg","alt":"Card image"},"styles":{"width":"100%","aspectRatio":"16/9","objectFit":"cover"},"css":".gb-media-card002{width:100%;aspect-ratio:16/9;object-fit:cover}"} -->
+    <!-- wp:generateblocks/media {"uniqueId":"card002","mediaType":"image","htmlAttributes":[{"attribute":"src","value":"image.jpg"},{"attribute":"alt","value":"Card image"}],"styles":{"width":"100%","aspectRatio":"16/9","objectFit":"cover"},"css":".gb-media-card002{width:100%;aspect-ratio:16/9;object-fit:cover}"} -->
     <img class="gb-media gb-media-card002" src="image.jpg" alt="Card image" />
     <!-- /wp:generateblocks/media -->
     <!-- wp:generateblocks/element {"uniqueId":"card003","tagName":"div","styles":{"padding":"1.5rem","display":"flex","flexDirection":"column","gap":"0.75rem"},"css":".gb-element-card003{padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem}"} -->
@@ -461,7 +461,25 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 
 ## Other Critical Rules
 
-### 1. Both styles AND css Required
+### 1. htmlAttributes MUST Use Array Format
+
+**htmlAttributes MUST be an array of objects, NOT a plain object:**
+
+```json
+// ✅ CORRECT - Array of objects
+"htmlAttributes": [
+  {"attribute": "href", "value": "/contact/"},
+  {"attribute": "target", "value": "_blank"},
+  {"attribute": "id", "value": "section-id"}
+]
+
+// ❌ WRONG - Plain object (causes block editor recovery errors)
+"htmlAttributes": {"href": "/contact/", "target": "_blank"}
+```
+
+**linkHtmlAttributes** (for media blocks) uses the same array format.
+
+### 2. Both styles AND css Required
 
 Always include both attributes:
 ```json
@@ -527,13 +545,13 @@ Use `--gb-container-width` for inner container width and `align: "full"` on pare
 When Figma shows placeholder images, use:
 ```json
 {
-  "htmlAttributes": {
-    "src": "https://placehold.co/800x600/f5f5f3/5c5c5c?text=Image",
-    "alt": "Descriptive alt text",
-    "width": "800",
-    "height": "600",
-    "loading": "lazy"
-  }
+  "htmlAttributes": [
+    {"attribute": "src", "value": "https://placehold.co/800x600/f5f5f3/5c5c5c?text=Image"},
+    {"attribute": "alt", "value": "Descriptive alt text"},
+    {"attribute": "width", "value": "800"},
+    {"attribute": "height", "value": "600"},
+    {"attribute": "loading", "value": "lazy"}
+  ]
 }
 ```
 

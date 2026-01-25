@@ -73,7 +73,7 @@ generateblocks/shape        → SVG icons and shapes
 
 **V2:**
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"btn123","tagName":"a","htmlAttributes":{"href":"#"},"styles":{"display":"inline-flex","padding":"15px 30px","backgroundColor":"#0073aa","color":"#ffffff","textDecoration":"none"},"css":".gb-text-btn123{display:inline-flex;padding:15px 30px;background-color:#0073aa;color:#ffffff;text-decoration:none}"} -->
+<!-- wp:generateblocks/text {"uniqueId":"btn123","tagName":"a","htmlAttributes":[{"attribute":"href","value":"#"}],"styles":{"display":"inline-flex","padding":"15px 30px","backgroundColor":"#0073aa","color":"#ffffff","textDecoration":"none"},"css":".gb-text-btn123{display:inline-flex;padding:15px 30px;background-color:#0073aa;color:#ffffff;text-decoration:none}"} -->
 <a class="gb-text gb-text-btn123" href="#">Click Me</a>
 <!-- /wp:generateblocks/text -->
 ```
@@ -129,7 +129,7 @@ generateblocks/shape        → SVG icons and shapes
 
 **V2:**
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"img123","mediaId":456,"htmlAttributes":{"src":"image.jpg","alt":"Description","width":"600","height":"400"},"styles":{"width":"600px","height":"400px"},"css":".gb-media-img123{width:600px;height:400px}"} -->
+<!-- wp:generateblocks/media {"uniqueId":"img123","mediaId":456,"htmlAttributes":[{"attribute":"src","value":"image.jpg"},{"attribute":"alt","value":"Description"},{"attribute":"width","value":"600"},{"attribute":"height","value":"400"}],"styles":{"width":"600px","height":"400px"},"css":".gb-media-img123{width:600px;height:400px}"} -->
 <img class="gb-media gb-media-img123" src="image.jpg" alt="Description" width="600" height="400" />
 <!-- /wp:generateblocks/media -->
 ```

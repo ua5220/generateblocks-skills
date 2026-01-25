@@ -210,7 +210,7 @@ For repeater fields, use within query context:
 ### Dynamic Link
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"dyn002","tagName":"a","htmlAttributes":{"href":"{{post_url}}"},"useDynamicData":true} -->
+<!-- wp:generateblocks/text {"uniqueId":"dyn002","tagName":"a","htmlAttributes":[{"attribute":"href","value":"{{post_url}}"}],"useDynamicData":true} -->
 <a class="gb-text gb-text-dyn002" href="{{post_url}}">Read More</a>
 <!-- /wp:generateblocks/text -->
 ```
@@ -218,7 +218,7 @@ For repeater fields, use within query context:
 ### Dynamic Image
 
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"dyn003","useDynamicData":true,"htmlAttributes":{"src":"{{featured_image size=\"large\"}}","alt":"{{featured_image_alt}}"}} -->
+<!-- wp:generateblocks/media {"uniqueId":"dyn003","useDynamicData":true,"htmlAttributes":[{"attribute":"src","value":"{{featured_image size=\"large\"}}"},{"attribute":"alt","value":"{{featured_image_alt}}"}]} -->
 <img class="gb-media gb-media-dyn003" src="{{featured_image size='large'}}" alt="{{featured_image_alt}}" />
 <!-- /wp:generateblocks/media -->
 ```
@@ -260,7 +260,7 @@ For repeater fields, use within query context:
 <!-- wp:generateblocks/element {"uniqueId":"auth001","tagName":"div","styles":{"display":"flex","gap":"1.5rem","padding":"2rem","backgroundColor":"#f8f9fa","borderRadius":"1rem"},"css":".gb-element-auth001{display:flex;gap:1.5rem;padding:2rem;background-color:#f8f9fa;border-radius:1rem}@media(max-width:768px){.gb-element-auth001{flex-direction:column;text-align:center}}"} -->
 <div class="gb-element gb-element-auth001">
 
-    <!-- wp:generateblocks/media {"uniqueId":"auth002","useDynamicData":true,"htmlAttributes":{"src":"{{author_avatar size='96'}}","alt":"{{author_name}}"},"styles":{"width":"96px","height":"96px","borderRadius":"50%","objectFit":"cover"},"css":".gb-media-auth002{width:96px;height:96px;border-radius:50%;object-fit:cover}"} -->
+    <!-- wp:generateblocks/media {"uniqueId":"auth002","useDynamicData":true,"htmlAttributes":[{"attribute":"src","value":"{{author_avatar size='96'}}"},{"attribute":"alt","value":"{{author_name}}"}],"styles":{"width":"96px","height":"96px","borderRadius":"50%","objectFit":"cover"},"css":".gb-media-auth002{width:96px;height:96px;border-radius:50%;object-fit:cover}"} -->
     <img class="gb-media gb-media-auth002" src="{{author_avatar size='96'}}" alt="{{author_name}}" />
     <!-- /wp:generateblocks/media -->
 
@@ -341,7 +341,7 @@ For repeater fields, use within query context:
 ### Dynamic CTA with Custom Field Link
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"cta001","tagName":"a","useDynamicData":true,"htmlAttributes":{"href":"{{acf field='cta_link'}}","target":"_blank","rel":"noopener"},"styles":{"display":"inline-flex","padding":"1rem 2rem","backgroundColor":"#e94560","color":"#ffffff","borderRadius":"0.5rem","textDecoration":"none","fontWeight":"600"},"css":".gb-text-cta001{display:inline-flex;padding:1rem 2rem;background-color:#e94560;color:#ffffff;border-radius:0.5rem;text-decoration:none;font-weight:600;transition:all 0.3s}.gb-text-cta001:hover{background-color:#d63850;transform:translateY(-2px)}"} -->
+<!-- wp:generateblocks/text {"uniqueId":"cta001","tagName":"a","useDynamicData":true,"htmlAttributes":[{"attribute":"href","value":"{{acf field='cta_link'}}"},{"attribute":"target","value":"_blank"},{"attribute":"rel","value":"noopener"}],"styles":{"display":"inline-flex","padding":"1rem 2rem","backgroundColor":"#e94560","color":"#ffffff","borderRadius":"0.5rem","textDecoration":"none","fontWeight":"600"},"css":".gb-text-cta001{display:inline-flex;padding:1rem 2rem;background-color:#e94560;color:#ffffff;border-radius:0.5rem;text-decoration:none;font-weight:600;transition:all 0.3s}.gb-text-cta001:hover{background-color:#d63850;transform:translateY(-2px)}"} -->
 <a class="gb-text gb-text-cta001" href="{{acf field='cta_link'}}" target="_blank" rel="noopener">{{acf field="cta_text" default="Learn More"}}</a>
 <!-- /wp:generateblocks/text -->
 ```

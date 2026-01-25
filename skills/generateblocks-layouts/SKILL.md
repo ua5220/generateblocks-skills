@@ -101,6 +101,31 @@ Every block needs:
 - `tagName` - HTML element type
 - `styles` - CSS properties as JSON object (camelCase)
 - `css` - Generated CSS string (kebab-case, minified)
+- `htmlAttributes` - Array of attribute objects (for links, IDs, data attributes)
+
+## CRITICAL: htmlAttributes Format
+
+**htmlAttributes MUST be an array of objects, NOT a plain object:**
+
+```json
+// ✅ CORRECT - Array of objects
+"htmlAttributes": [
+  {"attribute": "href", "value": "/contact/"},
+  {"attribute": "target", "value": "_blank"},
+  {"attribute": "id", "value": "section-id"}
+]
+
+// ❌ WRONG - Plain object (causes block editor recovery errors)
+"htmlAttributes": {"href": "/contact/", "target": "_blank"}
+```
+
+**linkHtmlAttributes** (for media blocks) uses the same array format:
+```json
+"linkHtmlAttributes": [
+  {"attribute": "href", "value": "/product/"},
+  {"attribute": "target", "value": "_blank"}
+]
+```
 
 ## Styling Approach
 
@@ -124,6 +149,29 @@ Every block needs:
 ```css
 .gb-element-card001{...base styles...}.gb-element-card001:hover{transform:translateY(-6px)}@media(max-width:768px){.gb-element-card001{padding:1rem}}
 ```
+
+## Responsive Design
+
+**Desktop-first approach with standard breakpoints:**
+
+| Breakpoint | Width | Use For |
+|------------|-------|---------|
+| Desktop | 1025px+ | Default styles (no media query) |
+| Tablet | 768px - 1024px | `@media(max-width:1024px)` |
+| Mobile | < 768px | `@media(max-width:768px)` |
+
+**CSS format with responsive styles:**
+```css
+.gb-element-hero001{padding:6rem 0;display:grid;grid-template-columns:1fr 1fr;gap:4rem}@media(max-width:1024px){.gb-element-hero001{grid-template-columns:1fr;gap:3rem;padding:4rem 0}}@media(max-width:768px){.gb-element-hero001{padding:3rem 0;gap:2rem}}
+```
+
+**Common responsive patterns:**
+- Grid to single column: `grid-template-columns:1fr 1fr` → `grid-template-columns:1fr`
+- Reduce padding: `padding:6rem 0` → `padding:4rem 0` → `padding:3rem 0`
+- Reduce font sizes: Use `clamp()` for fluid typography
+- Stack flex items: `flex-direction:row` → `flex-direction:column`
+- Adjust gaps: `gap:4rem` → `gap:2rem`
+- Center text on mobile: `text-align:left` → `text-align:center`
 
 ## Unique ID Convention
 
@@ -200,6 +248,7 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 6. **Icon containers need `line-height: 1`** - Elements presenting icons must have `lineHeight: "1"` to prevent extra spacing
 7. **Lists use `core/list` with `.list` class** - Always use the native WordPress list block with `className: "list"` and customize styling as needed
 8. **Use `--gb-container-width` for inner containers** - Set inner container width using the CSS variable; add `align: "full"` to parent section for full-width layouts
+9. **htmlAttributes as array** - ALWAYS use array format: `[{"attribute":"href","value":"/link/"}]` NOT object format
 
 ## Design Inference (When CSS Not Provided)
 

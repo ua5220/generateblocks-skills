@@ -104,7 +104,7 @@ Best for: Icons inside buttons, links with arrow icons.
 ### Button with Arrow
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"btn001","tagName":"a","htmlAttributes":{"href":"/services/"},"styles":{"display":"inline-flex","alignItems":"center","gap":"0.75rem","padding":"0.75rem 1.25rem","fontSize":"0.9375rem","fontWeight":"600","color":"#0a0a0a","border":"2px solid #e5e5e5","borderRadius":"2rem","textDecoration":"none"},"css":".gb-text-btn001{display:inline-flex;align-items:center;gap:0.75rem;padding:0.75rem 1.25rem;font-size:0.9375rem;font-weight:600;color:#0a0a0a;border:2px solid #e5e5e5;border-radius:2rem;text-decoration:none;transition:all 0.3s}.gb-text-btn001:hover{border-color:#c0392b;color:#c0392b}.gb-text-btn001 svg{width:1rem;height:1rem;transition:transform 0.3s}.gb-text-btn001:hover svg{transform:translateX(4px)}"} -->
+<!-- wp:generateblocks/text {"uniqueId":"btn001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/services/"}],"styles":{"display":"inline-flex","alignItems":"center","gap":"0.75rem","padding":"0.75rem 1.25rem","fontSize":"0.9375rem","fontWeight":"600","color":"#0a0a0a","border":"2px solid #e5e5e5","borderRadius":"2rem","textDecoration":"none"},"css":".gb-text-btn001{display:inline-flex;align-items:center;gap:0.75rem;padding:0.75rem 1.25rem;font-size:0.9375rem;font-weight:600;color:#0a0a0a;border:2px solid #e5e5e5;border-radius:2rem;text-decoration:none;transition:all 0.3s}.gb-text-btn001:hover{border-color:#c0392b;color:#c0392b}.gb-text-btn001 svg{width:1rem;height:1rem;transition:transform 0.3s}.gb-text-btn001:hover svg{transform:translateX(4px)}"} -->
 <a class="gb-text gb-text-btn001" href="/services/">View all services<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
 <!-- /wp:generateblocks/text -->
 ```
@@ -120,7 +120,7 @@ Best for: Icons inside buttons, links with arrow icons.
 ### Link with External Icon
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"ext001","tagName":"a","htmlAttributes":{"href":"https://example.com","target":"_blank","rel":"noopener"},"styles":{"display":"inline-flex","alignItems":"center","gap":"0.25rem","color":"#c0392b","textDecoration":"none"},"css":".gb-text-ext001{display:inline-flex;align-items:center;gap:0.25rem;color:#c0392b;text-decoration:none;transition:all 0.3s}.gb-text-ext001:hover{text-decoration:underline}.gb-text-ext001 svg{width:0.875rem;height:0.875rem}"} -->
+<!-- wp:generateblocks/text {"uniqueId":"ext001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"https://example.com"},{"attribute":"target","value":"_blank"},{"attribute":"rel","value":"noopener"}],"styles":{"display":"inline-flex","alignItems":"center","gap":"0.25rem","color":"#c0392b","textDecoration":"none"},"css":".gb-text-ext001{display:inline-flex;align-items:center;gap:0.25rem;color:#c0392b;text-decoration:none;transition:all 0.3s}.gb-text-ext001:hover{text-decoration:underline}.gb-text-ext001 svg{width:0.875rem;height:0.875rem}"} -->
 <a class="gb-text gb-text-ext001" href="https://example.com" target="_blank" rel="noopener">Visit site<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>
 <!-- /wp:generateblocks/text -->
 ```
@@ -144,7 +144,7 @@ Best for: Quick icons using existing CSS icon font.
 ### Icon Font in Link
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"social001","tagName":"a","htmlAttributes":{"href":"https://twitter.com/handle","aria-label":"Follow on Twitter"},"styles":{"width":"2.5rem","height":"2.5rem","display":"flex","alignItems":"center","justifyContent":"center","backgroundColor":"rgba(255,255,255,0.1)","borderRadius":"50%","color":"#ffffff","fontSize":"1.25rem","textDecoration":"none"},"css":".gb-text-social001{width:2.5rem;height:2.5rem;display:flex;align-items:center;justify-content:center;background-color:rgba(255,255,255,0.1);border-radius:50%;color:#ffffff;font-size:1.25rem;text-decoration:none;transition:all 0.3s}.gb-text-social001:hover{background-color:rgba(255,255,255,0.2);transform:translateY(-2px)}"} -->
+<!-- wp:generateblocks/text {"uniqueId":"social001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"https://twitter.com/handle"},{"attribute":"aria-label","value":"Follow on Twitter"}],"styles":{"width":"2.5rem","height":"2.5rem","display":"flex","alignItems":"center","justifyContent":"center","backgroundColor":"rgba(255,255,255,0.1)","borderRadius":"50%","color":"#ffffff","fontSize":"1.25rem","textDecoration":"none"},"css":".gb-text-social001{width:2.5rem;height:2.5rem;display:flex;align-items:center;justify-content:center;background-color:rgba(255,255,255,0.1);border-radius:50%;color:#ffffff;font-size:1.25rem;text-decoration:none;transition:all 0.3s}.gb-text-social001:hover{background-color:rgba(255,255,255,0.2);transform:translateY(-2px)}"} -->
 <a class="gb-text gb-text-social001" href="https://twitter.com/handle" aria-label="Follow on Twitter"><i class="md-icon-twitter" aria-hidden="true"></i></a>
 <!-- /wp:generateblocks/text -->
 ```

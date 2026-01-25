@@ -249,7 +249,7 @@ In GenerateBlocks settings (GenerateBlocks > Settings > Global Classes):
 ### Using Global Classes in Blocks
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"gc001","tagName":"a","globalClasses":["button-primary"],"htmlAttributes":{"href":"#"}} -->
+<!-- wp:generateblocks/text {"uniqueId":"gc001","tagName":"a","globalClasses":["button-primary"],"htmlAttributes":[{"attribute":"href","value":"#"}]} -->
 <a class="gb-text button-primary" href="#">Get Started</a>
 <!-- /wp:generateblocks/text -->
 

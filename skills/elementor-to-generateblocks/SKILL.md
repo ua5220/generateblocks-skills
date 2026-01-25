@@ -290,7 +290,25 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 
 ## Critical Rules
 
-### 1. Always Include Both styles and css
+### 1. htmlAttributes MUST Use Array Format
+
+**htmlAttributes MUST be an array of objects, NOT a plain object:**
+
+```json
+// ✅ CORRECT - Array of objects
+"htmlAttributes": [
+  {"attribute": "href", "value": "/contact/"},
+  {"attribute": "target", "value": "_blank"},
+  {"attribute": "id", "value": "section-id"}
+]
+
+// ❌ WRONG - Plain object (causes block editor recovery errors)
+"htmlAttributes": {"href": "/contact/", "target": "_blank"}
+```
+
+**linkHtmlAttributes** (for media blocks) uses the same array format.
+
+### 2. Always Include Both styles and css
 
 Every block needs:
 - `styles` object with camelCase properties

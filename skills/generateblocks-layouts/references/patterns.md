@@ -168,11 +168,11 @@ WordPress provides these built-in categories:
     <!-- wp:generateblocks/element {"uniqueId":"hero004","tagName":"div","styles":{"display":"flex","gap":"1rem","flexWrap":"wrap","justifyContent":"center"},"css":".gb-element-hero004{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}"} -->
     <div class="gb-element gb-element-hero004">
 
-        <!-- wp:generateblocks/text {"uniqueId":"hero005","tagName":"a","htmlAttributes":{"href":"#"},"styles":{"padding":"1rem 2rem","backgroundColor":"#e94560","color":"#ffffff","borderRadius":"0.5rem","textDecoration":"none","fontWeight":"600"},"css":".gb-text-hero005{padding:1rem 2rem;background-color:#e94560;color:#ffffff;border-radius:0.5rem;text-decoration:none;font-weight:600;transition:all 0.3s}.gb-text-hero005:hover{background-color:#d63850;transform:translateY(-2px)}"} -->
+        <!-- wp:generateblocks/text {"uniqueId":"hero005","tagName":"a","htmlAttributes":[{"attribute":"href","value":"#"}],"styles":{"padding":"1rem 2rem","backgroundColor":"#e94560","color":"#ffffff","borderRadius":"0.5rem","textDecoration":"none","fontWeight":"600"},"css":".gb-text-hero005{padding:1rem 2rem;background-color:#e94560;color:#ffffff;border-radius:0.5rem;text-decoration:none;font-weight:600;transition:all 0.3s}.gb-text-hero005:hover{background-color:#d63850;transform:translateY(-2px)}"} -->
         <a class="gb-text gb-text-hero005" href="#">Get Started</a>
         <!-- /wp:generateblocks/text -->
 
-        <!-- wp:generateblocks/text {"uniqueId":"hero006","tagName":"a","htmlAttributes":{"href":"#"},"styles":{"padding":"1rem 2rem","backgroundColor":"transparent","color":"#ffffff","border":"2px solid #ffffff","borderRadius":"0.5rem","textDecoration":"none","fontWeight":"600"},"css":".gb-text-hero006{padding:1rem 2rem;background-color:transparent;color:#ffffff;border:2px solid #ffffff;border-radius:0.5rem;text-decoration:none;font-weight:600;transition:all 0.3s}.gb-text-hero006:hover{background-color:#ffffff;color:#1a1a2e}"} -->
+        <!-- wp:generateblocks/text {"uniqueId":"hero006","tagName":"a","htmlAttributes":[{"attribute":"href","value":"#"}],"styles":{"padding":"1rem 2rem","backgroundColor":"transparent","color":"#ffffff","border":"2px solid #ffffff","borderRadius":"0.5rem","textDecoration":"none","fontWeight":"600"},"css":".gb-text-hero006{padding:1rem 2rem;background-color:transparent;color:#ffffff;border:2px solid #ffffff;border-radius:0.5rem;text-decoration:none;font-weight:600;transition:all 0.3s}.gb-text-hero006:hover{background-color:#ffffff;color:#1a1a2e}"} -->
         <a class="gb-text gb-text-hero006" href="#">Learn More</a>
         <!-- /wp:generateblocks/text -->
 
@@ -279,7 +279,7 @@ Use content lock and placeholder text for user customization:
     <!-- wp:generateblocks/element {"uniqueId":"test003","tagName":"footer","styles":{"display":"flex","alignItems":"center","gap":"1rem"},"css":".gb-element-test003{display:flex;align-items:center;gap:1rem}"} -->
     <footer class="gb-element gb-element-test003">
 
-        <!-- wp:generateblocks/media {"uniqueId":"test004","mediaType":"image","htmlAttributes":{"src":"https://via.placeholder.com/48","alt":"Customer photo"},"styles":{"width":"48px","height":"48px","borderRadius":"50%","objectFit":"cover"},"css":".gb-media-test004{width:48px;height:48px;border-radius:50%;object-fit:cover}"} -->
+        <!-- wp:generateblocks/media {"uniqueId":"test004","mediaType":"image","htmlAttributes":[{"attribute":"src","value":"https://via.placeholder.com/48"},{"attribute":"alt","value":"Customer photo"}],"styles":{"width":"48px","height":"48px","borderRadius":"50%","objectFit":"cover"},"css":".gb-media-test004{width:48px;height:48px;border-radius:50%;object-fit:cover}"} -->
         <img class="gb-media gb-media-test004" src="https://via.placeholder.com/48" alt="Customer photo" />
         <!-- /wp:generateblocks/media -->
 
