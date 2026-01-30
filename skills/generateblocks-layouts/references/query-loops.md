@@ -237,7 +237,7 @@ The WordPress Query block (`core/query`) provides the foundation for dynamic con
     <div class="wp-block-query">
         <!-- wp:post-template -->
 
-            <!-- wp:generateblocks/element {"uniqueId":"feat001","tagName":"article","styles":{"display":"grid","gridTemplateColumns":"1fr 1fr","gap":"2rem","marginBottom":"3rem"},"css":".gb-element-feat001{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem}@media(max-width:768px){.gb-element-feat001{grid-template-columns:1fr}}"} -->
+            <!-- wp:generateblocks/element {"uniqueId":"feat001","tagName":"article","styles":{"display":"grid","gridTemplateColumns":"minmax(0, 1fr) minmax(0, 1fr)","gap":"2rem","marginBottom":"3rem"},"css":".gb-element-feat001{display:grid;grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);gap:2rem;margin-bottom:3rem}@media(max-width:768px){.gb-element-feat001{grid-template-columns:1fr}}"} -->
             <article class="gb-element gb-element-feat001">
                 <!-- wp:post-featured-image {"aspectRatio":"16/10","style":{"border":{"radius":"1rem"}}} /-->
 
@@ -578,7 +578,7 @@ Always include `query-no-results`:
 Add CSS overrides:
 
 ```css
-@media(max-width:1024px){.wp-block-post-template{grid-template-columns:repeat(2, 1fr)!important}}
+@media(max-width:1024px){.wp-block-post-template{grid-template-columns:repeat(2, minmax(0, 1fr))!important}}
 @media(max-width:768px){.wp-block-post-template{grid-template-columns:1fr!important}}
 ```
 

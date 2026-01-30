@@ -186,7 +186,7 @@ Cards with inner blocks use `generateblocks/element`. Pseudo-elements (::after) 
 ### Grid Layout (Responsive)
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"grid001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(4, 1fr)","gap":"1rem"},"css":".gb-element-grid001{display:grid;grid-template-columns:repeat(4, 1fr);gap:1rem}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, 1fr)!important}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr!important}}"} -->
+<!-- wp:generateblocks/element {"uniqueId":"grid001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(4, minmax(0, 1fr))","gap":"1rem"},"css":".gb-element-grid001{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:1rem}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, minmax(0, 1fr))!important}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr!important}}"} -->
 <div class="gb-element gb-element-grid001">
     <!-- Grid items -->
 </div>
@@ -304,12 +304,12 @@ For sections with dynamic WordPress posts, use native query blocks with Generate
 
 ### Mobile-First Grid
 ```css
-.gb-element-grid{display:grid;grid-template-columns:1fr}@media(min-width:768px){.gb-element-grid{grid-template-columns:repeat(2, 1fr)}}@media(min-width:1024px){.gb-element-grid{grid-template-columns:repeat(4, 1fr)}}
+.gb-element-grid{display:grid;grid-template-columns:1fr}@media(min-width:768px){.gb-element-grid{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media(min-width:1024px){.gb-element-grid{grid-template-columns:repeat(4, minmax(0, 1fr))}}
 ```
 
 ### Desktop-First Grid (Match Original)
 ```css
-.gb-element-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:1rem}@media(max-width:1024px){.gb-element-grid{grid-template-columns:repeat(2, 1fr)!important}}@media(max-width:768px){.gb-element-grid{grid-template-columns:1fr!important}}
+.gb-element-grid{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:1rem}@media(max-width:1024px){.gb-element-grid{grid-template-columns:repeat(2, minmax(0, 1fr))!important}}@media(max-width:768px){.gb-element-grid{grid-template-columns:1fr!important}}
 ```
 
 ### Sticky Sidebar
@@ -362,7 +362,7 @@ When converting HTML without explicit CSS values, infer styles based on context:
 - Body: `17px`, line-height `1.7`
 - H1: `42px`, H2: `35px`, H3: `29px`
 - Section padding: `60px`
-- Container max-width: `1200px`
+- Container max-width: `var(--gb-container-width)`
 
 **gauravtiwari.org Design System:**
 - Primary: `#c0392b`

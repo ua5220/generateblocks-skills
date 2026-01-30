@@ -66,7 +66,7 @@ Same content, cleaner structure:
 ```html
 <!-- wp:generateblocks/element {"uniqueId":"sect001","tagName":"section","styles":{"paddingBottom":"4rem","paddingTop":"4rem"},"css":".gb-element-sect001{padding-bottom:4rem;padding-top:4rem}","className":"gb-element"} -->
 <section class="gb-element-sect001 gb-element">
-    <!-- wp:generateblocks/element {"uniqueId":"sect001a","tagName":"div","styles":{"marginLeft":"auto","marginRight":"auto","maxWidth":"1200px","paddingLeft":"1rem","paddingRight":"1rem"},"css":".gb-element-sect001a{margin-left:auto;margin-right:auto;max-width:1200px;padding-left:1rem;padding-right:1rem}","className":"gb-element"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"sect001a","tagName":"div","styles":{"marginLeft":"auto","marginRight":"auto","maxWidth":"var(--gb-container-width)","paddingLeft":"1rem","paddingRight":"1rem"},"css":".gb-element-sect001a{margin-left:auto;margin-right:auto;max-width:var(--gb-container-width);padding-left:1rem;padding-right:1rem}","className":"gb-element"} -->
     <div class="gb-element-sect001a gb-element">
         <!-- wp:generateblocks/text {"uniqueId":"sect001b","tagName":"h2","styles":{"color":"#0a0a0a","fontSize":"2rem","fontWeight":"700"},"css":".gb-text-sect001b{color:#0a0a0a;font-size:2rem;font-weight:700}"} -->
         <h2 class="gb-text gb-text-sect001b">Hello World</h2>
@@ -94,7 +94,7 @@ Same content, cleaner structure:
 
 | Elementor Class | CSS Property |
 |-----------------|--------------|
-| `elementor-section-boxed` | `max-width: 1200px; margin: auto` |
+| `elementor-section-boxed` | `max-width: var(--gb-container-width); margin: auto` |
 | `elementor-section-full_width` | `max-width: 100%` |
 | `elementor-column-gap-default` | `gap: 1rem` |
 | `elementor-column-gap-extended` | `gap: 2rem` |
@@ -155,7 +155,7 @@ Some Elementor widgets should convert to Core Blocks instead of GenerateBlocks:
 
 **GenerateBlocks equivalent:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"col001","tagName":"div","styles":{"display":"grid","gap":"2rem","gridTemplateColumns":"repeat(2, 1fr)","@media (max-width:768px)":{"gridTemplateColumns":"1fr"}},"css":".gb-element-col001{display:grid;gap:2rem;grid-template-columns:repeat(2, 1fr)}@media(max-width:768px){.gb-element-col001{grid-template-columns:1fr}}","className":"gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"col001","tagName":"div","styles":{"display":"grid","gap":"2rem","gridTemplateColumns":"repeat(2, minmax(0, 1fr))","@media (max-width:768px)":{"gridTemplateColumns":"1fr"}},"css":".gb-element-col001{display:grid;gap:2rem;grid-template-columns:repeat(2, minmax(0, 1fr))}@media(max-width:768px){.gb-element-col001{grid-template-columns:1fr}}","className":"gb-element"} -->
 <div class="gb-element-col001 gb-element">
     <!-- Column 1 content -->
     <!-- Column 2 content -->
@@ -176,7 +176,7 @@ Some Elementor widgets should convert to Core Blocks instead of GenerateBlocks:
 
 **Card grid:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"cards001","tagName":"div","styles":{"display":"grid","gap":"2rem","gridTemplateColumns":"repeat(3, 1fr)","@media (max-width:1024px)":{"gridTemplateColumns":"repeat(2, 1fr)"},"@media (max-width:768px)":{"gridTemplateColumns":"1fr"}},"css":".gb-element-cards001{display:grid;gap:2rem;grid-template-columns:repeat(3, 1fr)}@media(max-width:1024px){.gb-element-cards001{grid-template-columns:repeat(2, 1fr)}}@media(max-width:768px){.gb-element-cards001{grid-template-columns:1fr}}","className":"gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"cards001","tagName":"div","styles":{"display":"grid","gap":"2rem","gridTemplateColumns":"repeat(3, minmax(0, 1fr))","@media (max-width:1024px)":{"gridTemplateColumns":"repeat(2, minmax(0, 1fr))"},"@media (max-width:768px)":{"gridTemplateColumns":"1fr"}},"css":".gb-element-cards001{display:grid;gap:2rem;grid-template-columns:repeat(3, minmax(0, 1fr))}@media(max-width:1024px){.gb-element-cards001{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media(max-width:768px){.gb-element-cards001{grid-template-columns:1fr}}","className":"gb-element"} -->
 <div class="gb-element-cards001 gb-element">
     <!-- Card blocks -->
 </div>
@@ -208,7 +208,7 @@ Use these defaults when no specific styles are provided:
 
 **Spacing:**
 - Section padding: `60px` top/bottom
-- Container max-width: `1200px`
+- Container max-width: `var(--gb-container-width)`
 - Content padding: `20px`
 - Gap between elements: `20px`
 
@@ -245,7 +245,7 @@ When the target site is known, extract design tokens from:
   },
   "spacing": {
     "sectionPadding": "4rem",
-    "containerMax": "1200px",
+    "containerMax": "var(--gb-container-width)",
     "gap": "1rem to 2rem"
   },
   "effects": {

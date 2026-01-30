@@ -43,7 +43,7 @@ add_filter( 'generateblocks_breakpoints', function( $breakpoints ) {
 Define base styles for desktop, override for smaller screens:
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"resp001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(4, 1fr)","gap":"2rem","padding":"4rem 2rem"},"css":".gb-element-resp001{display:grid;grid-template-columns:repeat(4, 1fr);gap:2rem;padding:4rem 2rem}@media(max-width:1024px){.gb-element-resp001{grid-template-columns:repeat(2, 1fr);gap:1.5rem;padding:3rem 1.5rem}}@media(max-width:768px){.gb-element-resp001{grid-template-columns:1fr;gap:1rem;padding:2rem 1rem}}"} -->
+<!-- wp:generateblocks/element {"uniqueId":"resp001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(4, minmax(0, 1fr))","gap":"2rem","padding":"4rem 2rem"},"css":".gb-element-resp001{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:2rem;padding:4rem 2rem}@media(max-width:1024px){.gb-element-resp001{grid-template-columns:repeat(2, minmax(0, 1fr));gap:1.5rem;padding:3rem 1.5rem}}@media(max-width:768px){.gb-element-resp001{grid-template-columns:1fr;gap:1rem;padding:2rem 1rem}}"} -->
 <div class="gb-element gb-element-resp001">
     <!-- Content -->
 </div>
@@ -67,7 +67,7 @@ Define base styles for mobile, enhance for larger screens:
 ### Responsive Grid
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"grid001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(4, 1fr)","gap":"1.5rem"},"css":".gb-element-grid001{display:grid;grid-template-columns:repeat(4, 1fr);gap:1.5rem}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, 1fr)}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr}}"} -->
+<!-- wp:generateblocks/element {"uniqueId":"grid001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(4, minmax(0, 1fr))","gap":"1.5rem"},"css":".gb-element-grid001{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:1.5rem}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr}}"} -->
 <div class="gb-element gb-element-grid001">
     <!-- Grid items -->
 </div>
@@ -186,7 +186,7 @@ Define base styles for mobile, enhance for larger screens:
 ### Two-Column to Stacked
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"twocol001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"1fr 1fr","gap":"3rem","alignItems":"center"},"css":".gb-element-twocol001{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}@media(max-width:768px){.gb-element-twocol001{grid-template-columns:1fr;gap:2rem}}"} -->
+<!-- wp:generateblocks/element {"uniqueId":"twocol001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"minmax(0, 1fr) minmax(0, 1fr)","gap":"3rem","alignItems":"center"},"css":".gb-element-twocol001{display:grid;grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);gap:3rem;align-items:center}@media(max-width:768px){.gb-element-twocol001{grid-template-columns:1fr;gap:2rem}}"} -->
 <div class="gb-element gb-element-twocol001">
 
     <!-- wp:generateblocks/element {"uniqueId":"twocol002","tagName":"div"} -->
@@ -208,7 +208,7 @@ Define base styles for mobile, enhance for larger screens:
 ### Reverse Order on Mobile
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"rev001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"1fr 1fr","gap":"2rem"},"css":".gb-element-rev001{display:grid;grid-template-columns:1fr 1fr;gap:2rem}@media(max-width:768px){.gb-element-rev001{grid-template-columns:1fr}}.gb-element-rev001>:first-child{order:1}@media(max-width:768px){.gb-element-rev001>:first-child{order:2}}.gb-element-rev001>:last-child{order:2}@media(max-width:768px){.gb-element-rev001>:last-child{order:1}}"} -->
+<!-- wp:generateblocks/element {"uniqueId":"rev001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"minmax(0, 1fr) minmax(0, 1fr)","gap":"2rem"},"css":".gb-element-rev001{display:grid;grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);gap:2rem}@media(max-width:768px){.gb-element-rev001{grid-template-columns:1fr}}.gb-element-rev001>:first-child{order:1}@media(max-width:768px){.gb-element-rev001>:first-child{order:2}}.gb-element-rev001>:last-child{order:2}@media(max-width:768px){.gb-element-rev001>:last-child{order:1}}"} -->
 <div class="gb-element gb-element-rev001">
     <!-- First child: Image (appears second on mobile) -->
     <!-- Second child: Text (appears first on mobile) -->

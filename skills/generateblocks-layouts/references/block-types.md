@@ -449,7 +449,7 @@ GenerateBlocks covers layout and styling, but WordPress Core Blocks are better f
 ```html
 <!-- wp:generateblocks/element {"uniqueId":"sect001","tagName":"section","styles":{"padding":"4rem 0"},"css":".gb-element-sect001{padding:4rem 0}"} -->
 <section class="gb-element gb-element-sect001">
-    <!-- wp:generateblocks/element {"uniqueId":"sect001a","tagName":"div","styles":{"maxWidth":"1200px","margin":"0 auto","padding":"0 1rem"},"css":".gb-element-sect001a{max-width:1200px;margin:0 auto;padding:0 1rem}"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"sect001a","tagName":"div","styles":{"maxWidth":"var(--gb-container-width)","margin":"0 auto","padding":"0 1rem"},"css":".gb-element-sect001a{max-width:var(--gb-container-width);margin:0 auto;padding:0 1rem}"} -->
     <div class="gb-element gb-element-sect001a">
 
         <!-- wp:generateblocks/text {"uniqueId":"sect001b","tagName":"h2","styles":{"fontSize":"2rem","marginBottom":"2rem"},"css":".gb-text-sect001b{font-size:2rem;margin-bottom:2rem}"} -->

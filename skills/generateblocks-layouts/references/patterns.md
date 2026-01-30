@@ -231,14 +231,14 @@ WordPress provides these built-in categories:
 <!-- wp:generateblocks/element {"uniqueId":"feat001","tagName":"section","styles":{"padding":"5rem 2rem","backgroundColor":"#f8f9fa"},"css":".gb-element-feat001{padding:5rem 2rem;background-color:#f8f9fa}@media(max-width:768px){.gb-element-feat001{padding:3rem 1.5rem}}"} -->
 <section class="gb-element gb-element-feat001">
 
-    <!-- wp:generateblocks/element {"uniqueId":"feat002","tagName":"div","styles":{"maxWidth":"1200px","margin":"0 auto"},"css":".gb-element-feat002{max-width:1200px;margin:0 auto}"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"feat002","tagName":"div","styles":{"maxWidth":"var(--gb-container-width)","margin":"0 auto"},"css":".gb-element-feat002{max-width:var(--gb-container-width);margin:0 auto}"} -->
     <div class="gb-element gb-element-feat002">
 
         <!-- wp:generateblocks/text {"uniqueId":"feat003","tagName":"h2","styles":{"fontSize":"2.5rem","fontWeight":"800","textAlign":"center","marginBottom":"3rem"},"css":".gb-text-feat003{font-size:2.5rem;font-weight:800;text-align:center;margin-bottom:3rem}@media(max-width:768px){.gb-text-feat003{font-size:2rem}}"} -->
         <h2 class="gb-text gb-text-feat003">Why Choose Us</h2>
         <!-- /wp:generateblocks/text -->
 
-        <!-- wp:generateblocks/element {"uniqueId":"feat004","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(3, 1fr)","gap":"2rem"},"css":".gb-element-feat004{display:grid;grid-template-columns:repeat(3, 1fr);gap:2rem}@media(max-width:1024px){.gb-element-feat004{grid-template-columns:repeat(2, 1fr)}}@media(max-width:768px){.gb-element-feat004{grid-template-columns:1fr}}"} -->
+        <!-- wp:generateblocks/element {"uniqueId":"feat004","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(3, minmax(0, 1fr))","gap":"2rem"},"css":".gb-element-feat004{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:2rem}@media(max-width:1024px){.gb-element-feat004{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media(max-width:768px){.gb-element-feat004{grid-template-columns:1fr}}"} -->
         <div class="gb-element gb-element-feat004">
 
             <!-- Feature cards would be inserted here -->

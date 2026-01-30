@@ -35,29 +35,29 @@ Media queries go in the `css` attribute after base styles:
 {
   "styles": {
     "display": "grid",
-    "gridTemplateColumns": "repeat(4, 1fr)",
+    "gridTemplateColumns": "repeat(4, minmax(0, 1fr))",
     "gap": "1rem"
   },
-  "css": ".gb-element-grid001{display:grid;grid-template-columns:repeat(4, 1fr);gap:1rem}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, 1fr)}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr}}"
+  "css": ".gb-element-grid001{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:1rem}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr}}"
 }
 ```
 
 ### 3 → 2 → 1 Column Grid
 
 ```css
-.gb-element-grid002{display:grid;grid-template-columns:repeat(3, 1fr);gap:2rem}@media(max-width:1024px){.gb-element-grid002{grid-template-columns:repeat(2, 1fr);gap:1.5rem}}@media(max-width:768px){.gb-element-grid002{grid-template-columns:1fr;gap:1rem}}
+.gb-element-grid002{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:2rem}@media(max-width:1024px){.gb-element-grid002{grid-template-columns:repeat(2, minmax(0, 1fr));gap:1.5rem}}@media(max-width:768px){.gb-element-grid002{grid-template-columns:1fr;gap:1rem}}
 ```
 
 ### 2 → 1 Column Grid
 
 ```css
-.gb-element-grid003{display:grid;grid-template-columns:1fr 1fr;gap:2rem}@media(max-width:768px){.gb-element-grid003{grid-template-columns:1fr}}
+.gb-element-grid003{display:grid;grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);gap:2rem}@media(max-width:768px){.gb-element-grid003{grid-template-columns:1fr}}
 ```
 
 ### Complex Grid Areas
 
 ```css
-.gb-element-grid004{display:grid;grid-template-columns:repeat(3, 1fr);gap:1rem;grid-template-areas:'primary primary profile' 'newsletter services profile'}@media(max-width:1024px){.gb-element-grid004{grid-template-columns:1fr;grid-template-areas:'primary' 'profile' 'newsletter' 'services'}}
+.gb-element-grid004{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:1rem;grid-template-areas:'primary primary profile' 'newsletter services profile'}@media(max-width:1024px){.gb-element-grid004{grid-template-columns:1fr;grid-template-areas:'primary' 'profile' 'newsletter' 'services'}}
 ```
 
 ---
@@ -163,7 +163,7 @@ Using `clamp()` handles most responsive typography automatically.
 ### Max-Width Changes
 
 ```css
-.gb-element-cont001{max-width:1200px}@media(max-width:1024px){.gb-element-cont001{max-width:100%}}
+.gb-element-cont001{max-width:var(--gb-container-width)}@media(max-width:1024px){.gb-element-cont001{max-width:100%}}
 ```
 
 ### Min-Height Changes
@@ -223,10 +223,10 @@ Using `clamp()` handles most responsive typography automatically.
 <!-- wp:generateblocks/element {"uniqueId":"sect001","tagName":"section","styles":{"paddingTop":"4rem","paddingBottom":"4rem"},"css":".gb-element-sect001{padding-top:4rem;padding-bottom:4rem}@media(max-width:768px){.gb-element-sect001{padding-top:2rem;padding-bottom:2rem}}"} -->
 <section class="gb-element gb-element-sect001">
 
-    <!-- wp:generateblocks/element {"uniqueId":"inner001","tagName":"div","styles":{"maxWidth":"1200px","marginLeft":"auto","marginRight":"auto","paddingLeft":"1rem","paddingRight":"1rem"},"css":".gb-element-inner001{max-width:1200px;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem}"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"inner001","tagName":"div","styles":{"maxWidth":"var(--gb-container-width)","marginLeft":"auto","marginRight":"auto","paddingLeft":"1rem","paddingRight":"1rem"},"css":".gb-element-inner001{max-width:var(--gb-container-width);margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem}"} -->
     <div class="gb-element gb-element-inner001">
 
-        <!-- wp:generateblocks/element {"uniqueId":"grid001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(3, 1fr)","gap":"2rem"},"css":".gb-element-grid001{display:grid;grid-template-columns:repeat(3, 1fr);gap:2rem}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, 1fr)}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr;gap:1rem}}"} -->
+        <!-- wp:generateblocks/element {"uniqueId":"grid001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(3, minmax(0, 1fr))","gap":"2rem"},"css":".gb-element-grid001{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:2rem}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr;gap:1rem}}"} -->
         <div class="gb-element gb-element-grid001">
             <!-- Grid items -->
         </div>
@@ -258,7 +258,7 @@ This ensures the responsive style takes precedence over any inline or conflictin
 While desktop-first is standard, mobile-first can be used:
 
 ```css
-.gb-element-grid001{grid-template-columns:1fr}@media(min-width:768px){.gb-element-grid001{grid-template-columns:repeat(2, 1fr)}}@media(min-width:1024px){.gb-element-grid001{grid-template-columns:repeat(4, 1fr)}}
+.gb-element-grid001{grid-template-columns:1fr}@media(min-width:768px){.gb-element-grid001{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media(min-width:1024px){.gb-element-grid001{grid-template-columns:repeat(4, minmax(0, 1fr))}}
 ```
 
 Use whichever approach matches your design workflow.

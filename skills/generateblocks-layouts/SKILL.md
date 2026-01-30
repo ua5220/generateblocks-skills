@@ -330,7 +330,7 @@ When no CSS values are specified, infer styles based on context:
 - Body font: `17px`, line-height `1.7`
 - H1: `42px`, H2: `35px`, H3: `29px`
 - Section padding: `60px`
-- Container max-width: `1200px`
+- Container max-width: `var(--gb-container-width)`
 - Button padding: `15px 30px`
 
 ### gauravtiwari.org Design System

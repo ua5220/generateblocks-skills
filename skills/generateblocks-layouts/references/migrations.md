@@ -109,7 +109,7 @@ generateblocks/shape        → SVG icons and shapes
 
 **V2:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"grid123","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(3, 1fr)","gap":"30px"},"css":".gb-element-grid123{display:grid;grid-template-columns:repeat(3, 1fr);gap:30px}"} -->
+<!-- wp:generateblocks/element {"uniqueId":"grid123","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(3, minmax(0, 1fr))","gap":"30px"},"css":".gb-element-grid123{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:30px}"} -->
 <div class="gb-element gb-element-grid123">
     <!-- Grid items -->
 </div>
