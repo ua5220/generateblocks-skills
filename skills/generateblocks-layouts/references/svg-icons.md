@@ -17,10 +17,14 @@ Three approaches for icons in GenerateBlocks V2:
 
 Best for: Standalone icons, decorative elements, complex SVGs.
 
-### Basic Structure
+### Two Approaches
+
+**Approach 1: `styles.svg` object** (for complex SVG styling)
+
+Shape blocks use `styles.svg` for SVG-specific properties (fill, stroke, width, height, color). The plugin generates `.gb-shape-{id} svg{...}` CSS from this object.
 
 ```html
-<!-- wp:generateblocks/shape {"uniqueId":"icon001","styles":{"width":"1.5rem","height":"1.5rem"},"css":".gb-shape-icon001{width:1.5rem;height:1.5rem}.gb-shape-icon001 svg{width:100%;height:100%;fill:currentColor}"} -->
+<!-- wp:generateblocks/shape {"uniqueId":"icon001","styles":{"display":"inline-flex","svg":{"fill":"currentColor","height":"1.5rem","width":"1.5rem"}},"css":".gb-shape-icon001{display:inline-flex}.gb-shape-icon001 svg{fill:currentColor;height:1.5rem;width:1.5rem}"} -->
 <span class="gb-shape gb-shape-icon001">
     <svg viewBox="0 0 24 24">
         <path d="..."/>
@@ -29,23 +33,45 @@ Best for: Standalone icons, decorative elements, complex SVGs.
 <!-- /wp:generateblocks/shape -->
 ```
 
+**Approach 2: Simple styles** (for small inline icons)
+
+Use width/height/color on the wrapper and put SVG attributes inline. No `styles.svg` needed.
+
+```html
+<!-- wp:generateblocks/shape {"uniqueId":"check001","styles":{"width":"20px","height":"20px","color":"#10b981"},"css":".gb-shape-check001{color:#10b981;height:20px;width:20px}"} -->
+<span class="gb-shape gb-shape-check001"><svg stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="currentColor" fill="none" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+<!-- /wp:generateblocks/shape -->
+```
+
+Both patterns are valid. Use `styles.svg` when you need the plugin to generate separate SVG CSS rules. Use simple styles for quick inline icons.
+
 ### CSS Targeting Pattern
 
 ```css
-/* Wrapper span - size and positioning */
+/* Wrapper span - layout (alphabetically sorted) */
 .gb-shape-icon001 {
-    width: 1.5rem;
-    height: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-flex;
 }
 
-/* SVG element - fill, stroke */
+/* SVG element - from styles.svg (alphabetically sorted) */
 .gb-shape-icon001 svg {
-    width: 100%;
-    height: 100%;
     fill: currentColor;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+```
+
+### CSS Variables in Styles
+
+Use unicode escapes for `--` in JSON: `\u002d\u002d`
+
+```json
+{
+  "styles": {
+    "svg": {
+      "color": "var(\u002d\u002dwp\u002d\u002dpreset\u002d\u002dcolor\u002d\u002drose, #F43F5E)"
+    }
+  }
 }
 ```
 
@@ -53,7 +79,7 @@ Best for: Standalone icons, decorative elements, complex SVGs.
 
 **Arrow Icon:**
 ```html
-<!-- wp:generateblocks/shape {"uniqueId":"arrow001","styles":{"width":"1rem","height":"1rem","display":"inline-flex"},"css":".gb-shape-arrow001{width:1rem;height:1rem;display:inline-flex}.gb-shape-arrow001 svg{width:100%;height:100%;stroke:currentColor;fill:none}"} -->
+<!-- wp:generateblocks/shape {"uniqueId":"arrow001","styles":{"display":"inline-flex","svg":{"fill":"none","height":"1rem","stroke":"currentColor","width":"1rem"}},"css":".gb-shape-arrow001{display:inline-flex}.gb-shape-arrow001 svg{fill:none;height:1rem;stroke:currentColor;width:1rem}"} -->
 <span class="gb-shape gb-shape-arrow001">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
         <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -64,7 +90,7 @@ Best for: Standalone icons, decorative elements, complex SVGs.
 
 **Filled Icon with Color:**
 ```html
-<!-- wp:generateblocks/shape {"uniqueId":"heart001","styles":{"width":"2rem","height":"2rem","color":"#c0392b"},"css":".gb-shape-heart001{width:2rem;height:2rem;color:#c0392b;transition:all 0.3s}.gb-shape-heart001 svg{width:100%;height:100%;fill:currentColor}.gb-shape-heart001:hover{transform:scale(1.1)}"} -->
+<!-- wp:generateblocks/shape {"uniqueId":"heart001","styles":{"display":"inline-flex","svg":{"fill":"currentColor","height":"2rem","width":"2rem","color":"#c0392b"}},"css":".gb-shape-heart001{display:inline-flex}.gb-shape-heart001 svg{color:#c0392b;fill:currentColor;height:2rem;width:2rem}"} -->
 <span class="gb-shape gb-shape-heart001">
     <svg viewBox="0 0 24 24">
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
@@ -75,7 +101,7 @@ Best for: Standalone icons, decorative elements, complex SVGs.
 
 **Stroke Icon (Lucide style):**
 ```html
-<!-- wp:generateblocks/shape {"uniqueId":"check001","styles":{"width":"1.25rem","height":"1.25rem","color":"#22c55e"},"css":".gb-shape-check001{width:1.25rem;height:1.25rem;color:#22c55e}.gb-shape-check001 svg{width:100%;height:100%;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}"} -->
+<!-- wp:generateblocks/shape {"uniqueId":"check001","styles":{"display":"inline-flex","svg":{"fill":"none","height":"1.25rem","stroke":"currentColor","strokeLinecap":"round","strokeLinejoin":"round","strokeWidth":"2.5","width":"1.25rem","color":"#22c55e"}},"css":".gb-shape-check001{display:inline-flex}.gb-shape-check001 svg{color:#22c55e;fill:none;height:1.25rem;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.5;width:1.25rem}"} -->
 <span class="gb-shape gb-shape-check001">
     <svg viewBox="0 0 24 24" fill="none">
         <polyline points="20 6 9 17 4 12"/>
@@ -86,7 +112,7 @@ Best for: Standalone icons, decorative elements, complex SVGs.
 
 **Icon with Background:**
 ```html
-<!-- wp:generateblocks/shape {"uniqueId":"star001","styles":{"width":"3rem","height":"3rem","display":"flex","alignItems":"center","justifyContent":"center","backgroundColor":"#f5f5f3","borderRadius":"0.75rem","color":"#c0392b"},"css":".gb-shape-star001{width:3rem;height:3rem;display:flex;align-items:center;justify-content:center;background-color:#f5f5f3;border-radius:0.75rem;color:#c0392b;transition:all 0.3s}.gb-shape-star001 svg{width:1.5rem;height:1.5rem;fill:currentColor}.gb-shape-star001:hover{background-color:#c0392b;color:white}"} -->
+<!-- wp:generateblocks/shape {"uniqueId":"star001","styles":{"alignItems":"center","backgroundColor":"#f5f5f3","borderRadius":"0.75rem","color":"#c0392b","display":"flex","height":"3rem","justifyContent":"center","width":"3rem","svg":{"fill":"currentColor","height":"1.5rem","width":"1.5rem"}},"css":".gb-shape-star001{align-items:center;background-color:#f5f5f3;border-radius:0.75rem;color:#c0392b;display:flex;height:3rem;justify-content:center;width:3rem}.gb-shape-star001 svg{fill:currentColor;height:1.5rem;width:1.5rem}"} -->
 <span class="gb-shape gb-shape-star001">
     <svg viewBox="0 0 24 24">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="currentColor"/>
@@ -99,31 +125,29 @@ Best for: Standalone icons, decorative elements, complex SVGs.
 
 ## 2. Inline SVG in Text Blocks
 
-Best for: Icons inside buttons, links with arrow icons.
-
-### Button with Arrow
-
-```html
-<!-- wp:generateblocks/text {"uniqueId":"btn001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/services/"}],"styles":{"display":"inline-flex","alignItems":"center","gap":"0.75rem","padding":"0.75rem 1.25rem","fontSize":"0.9375rem","fontWeight":"600","color":"#0a0a0a","border":"2px solid #e5e5e5","borderRadius":"2rem","textDecoration":"none"},"css":".gb-text-btn001{display:inline-flex;align-items:center;gap:0.75rem;padding:0.75rem 1.25rem;font-size:0.9375rem;font-weight:600;color:#0a0a0a;border:2px solid #e5e5e5;border-radius:2rem;text-decoration:none;transition:all 0.3s}.gb-text-btn001:hover{border-color:#c0392b;color:#c0392b}.gb-text-btn001 svg{width:1rem;height:1rem;transition:transform 0.3s}.gb-text-btn001:hover svg{transform:translateX(4px)}"} -->
-<a class="gb-text gb-text-btn001" href="/services/">View all services<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-<!-- /wp:generateblocks/text -->
-```
+Best for: Simple inline icons alongside text (badges, labels). For buttons with icons, use `generateblocks/element` wrapping text + shape blocks instead.
 
 ### Badge with Icon
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"badge001","tagName":"span","styles":{"display":"inline-flex","alignItems":"center","gap":"0.375rem","padding":"0.375rem 0.75rem","background":"#16a34a","borderRadius":"2rem","fontSize":"0.75rem","fontWeight":"700","textTransform":"uppercase","letterSpacing":"0.03em","color":"white"},"css":".gb-text-badge001{display:inline-flex;align-items:center;gap:0.375rem;padding:0.375rem 0.75rem;background:#16a34a;border-radius:2rem;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.03em;color:white}.gb-text-badge001 svg{width:0.75rem;height:0.75rem}"} -->
+<!-- wp:generateblocks/text {"uniqueId":"badge001","tagName":"span","styles":{"display":"inline-flex","alignItems":"center","gap":"0.375rem","padding":"0.375rem 0.75rem","background":"#16a34a","borderRadius":"2rem","fontSize":"0.75rem","fontWeight":"700","textTransform":"uppercase","letterSpacing":"0.03em","color":"white"},"css":".gb-text-badge001{align-items:center;background:#16a34a;border-radius:2rem;color:white;display:inline-flex;font-size:0.75rem;font-weight:700;gap:0.375rem;letter-spacing:0.03em;padding:0.375rem 0.75rem;text-transform:uppercase}.gb-text-badge001 svg{height:0.75rem;width:0.75rem}"} -->
 <span class="gb-text gb-text-badge001"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Most Popular</span>
 <!-- /wp:generateblocks/text -->
 ```
 
-### Link with External Icon
+### "Learn More" with Arrow (inside a card)
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"ext001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"https://example.com"},{"attribute":"target","value":"_blank"},{"attribute":"rel","value":"noopener"}],"styles":{"display":"inline-flex","alignItems":"center","gap":"0.25rem","color":"#c0392b","textDecoration":"none"},"css":".gb-text-ext001{display:inline-flex;align-items:center;gap:0.25rem;color:#c0392b;text-decoration:none;transition:all 0.3s}.gb-text-ext001:hover{text-decoration:underline}.gb-text-ext001 svg{width:0.875rem;height:0.875rem}"} -->
-<a class="gb-text gb-text-ext001" href="https://example.com" target="_blank" rel="noopener">Visit site<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+<!-- wp:generateblocks/text {"uniqueId":"arrow001","tagName":"span","styles":{"display":"flex","alignItems":"center","gap":"0.5rem","fontSize":"0.875rem","fontWeight":"600","color":"#c0392b"},"css":".gb-text-arrow001{align-items:center;color:#c0392b;display:flex;font-size:0.875rem;font-weight:600;gap:0.5rem}.gb-text-arrow001 svg{height:1rem;width:1rem}.gb-element-card001:hover .gb-text-arrow001 svg{transform:translateX(4px)}"} -->
+<span class="gb-text gb-text-arrow001">Learn more<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
 <!-- /wp:generateblocks/text -->
 ```
+
+**Note:** Parent hover targeting the SVG is written in the text block's `css`. The parent card is a `generateblocks/element` with `tagName: "a"`.
+
+### Button with Icon (use Element block)
+
+For buttons with icons, use `generateblocks/element` with inner text + shape blocks. See [CSS Patterns > Button with Icon](css-patterns.md#button-with-icon-uses-generateblockselement--inner-blocks) for the full pattern.
 
 ---
 

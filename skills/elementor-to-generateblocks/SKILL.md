@@ -64,11 +64,11 @@ Elementor wraps everything in excessive nested divs with utility classes:
 Same content, cleaner structure:
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"sect001","tagName":"section","styles":{"paddingTop":"4rem","paddingBottom":"4rem"},"css":".gb-element-sect001{padding-top:4rem;padding-bottom:4rem}"} -->
-<section class="gb-element gb-element-sect001">
-    <!-- wp:generateblocks/element {"uniqueId":"sect001a","tagName":"div","styles":{"maxWidth":"1200px","marginLeft":"auto","marginRight":"auto","paddingLeft":"1rem","paddingRight":"1rem"},"css":".gb-element-sect001a{max-width:1200px;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem}"} -->
-    <div class="gb-element gb-element-sect001a">
-        <!-- wp:generateblocks/text {"uniqueId":"sect001b","tagName":"h2","styles":{"fontSize":"2rem","fontWeight":"700","color":"#0a0a0a"},"css":".gb-text-sect001b{font-size:2rem;font-weight:700;color:#0a0a0a}"} -->
+<!-- wp:generateblocks/element {"uniqueId":"sect001","tagName":"section","styles":{"paddingBottom":"4rem","paddingTop":"4rem"},"css":".gb-element-sect001{padding-bottom:4rem;padding-top:4rem}","className":"gb-element"} -->
+<section class="gb-element-sect001 gb-element">
+    <!-- wp:generateblocks/element {"uniqueId":"sect001a","tagName":"div","styles":{"marginLeft":"auto","marginRight":"auto","maxWidth":"1200px","paddingLeft":"1rem","paddingRight":"1rem"},"css":".gb-element-sect001a{margin-left:auto;margin-right:auto;max-width:1200px;padding-left:1rem;padding-right:1rem}","className":"gb-element"} -->
+    <div class="gb-element-sect001a gb-element">
+        <!-- wp:generateblocks/text {"uniqueId":"sect001b","tagName":"h2","styles":{"color":"#0a0a0a","fontSize":"2rem","fontWeight":"700"},"css":".gb-text-sect001b{color:#0a0a0a;font-size:2rem;font-weight:700}"} -->
         <h2 class="gb-text gb-text-sect001b">Hello World</h2>
         <!-- /wp:generateblocks/text -->
     </div>
@@ -110,13 +110,15 @@ Same content, cleaner structure:
 |------------------|---------------------|
 | `elementor-widget-heading` | `generateblocks/text` with h1-h6 |
 | `elementor-widget-text-editor` | `generateblocks/text` with p/div |
-| `elementor-widget-button` | `generateblocks/text` with tagName="a" |
+| `elementor-widget-button` (text only) | `generateblocks/text` with tagName="a" (no `htmlAttributes` for href) |
+| `elementor-widget-button` (with icon) | `generateblocks/element` with tagName="a" wrapping `text` + `shape` blocks |
 | `elementor-widget-image` | `generateblocks/media` (or `core/image` if caption needed) |
-| `elementor-widget-icon` | `generateblocks/shape` or inline SVG |
-| `elementor-widget-icon-box` | `generateblocks/element` container |
+| `elementor-widget-icon` | `generateblocks/shape` with inline SVG |
+| `elementor-widget-icon-box` | `generateblocks/element` container with `shape` + `text` blocks |
 | `elementor-widget-image-box` | `generateblocks/element` container |
 | `elementor-widget-spacer` | Remove (use margins/padding instead) |
 | `elementor-widget-divider` | `generateblocks/element` with border (or `core/separator`) |
+| Clickable card (with inner blocks) | `generateblocks/element` with tagName="a" + `htmlAttributes` for href |
 
 ### 4. Widgets Requiring Core Blocks
 
@@ -153,8 +155,8 @@ Some Elementor widgets should convert to Core Blocks instead of GenerateBlocks:
 
 **GenerateBlocks equivalent:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"col001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(2, 1fr)","gap":"2rem"},"css":".gb-element-col001{display:grid;grid-template-columns:repeat(2, 1fr);gap:2rem}@media(max-width:768px){.gb-element-col001{grid-template-columns:1fr}}"} -->
-<div class="gb-element gb-element-col001">
+<!-- wp:generateblocks/element {"uniqueId":"col001","tagName":"div","styles":{"display":"grid","gap":"2rem","gridTemplateColumns":"repeat(2, 1fr)","@media (max-width:768px)":{"gridTemplateColumns":"1fr"}},"css":".gb-element-col001{display:grid;gap:2rem;grid-template-columns:repeat(2, 1fr)}@media(max-width:768px){.gb-element-col001{grid-template-columns:1fr}}","className":"gb-element"} -->
+<div class="gb-element-col001 gb-element">
     <!-- Column 1 content -->
     <!-- Column 2 content -->
 </div>
@@ -165,8 +167,8 @@ Some Elementor widgets should convert to Core Blocks instead of GenerateBlocks:
 
 **Hero with background:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"minHeight":"80vh","display":"flex","alignItems":"center","justifyContent":"center","backgroundImage":"url(image.jpg)","backgroundSize":"cover","backgroundPosition":"center"},"css":".gb-element-hero001{min-height:80vh;display:flex;align-items:center;justify-content:center;background-image:url(image.jpg);background-size:cover;background-position:center}.gb-element-hero001::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.5)}"} -->
-<section class="gb-element gb-element-hero001">
+<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"alignItems":"center","backgroundImage":"url(image.jpg)","backgroundPosition":"center","backgroundSize":"cover","display":"flex","justifyContent":"center","minHeight":"80vh"},"css":".gb-element-hero001{align-items:center;background-image:url(image.jpg);background-position:center;background-size:cover;display:flex;justify-content:center;min-height:80vh}.gb-element-hero001::before{background:rgba(0,0,0,0.5);content:'';inset:0;position:absolute}","className":"gb-element"} -->
+<section class="gb-element-hero001 gb-element">
     <!-- Hero content -->
 </section>
 <!-- /wp:generateblocks/element -->
@@ -174,8 +176,8 @@ Some Elementor widgets should convert to Core Blocks instead of GenerateBlocks:
 
 **Card grid:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"cards001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(3, 1fr)","gap":"2rem"},"css":".gb-element-cards001{display:grid;grid-template-columns:repeat(3, 1fr);gap:2rem}@media(max-width:1024px){.gb-element-cards001{grid-template-columns:repeat(2, 1fr)}}@media(max-width:768px){.gb-element-cards001{grid-template-columns:1fr}}"} -->
-<div class="gb-element gb-element-cards001">
+<!-- wp:generateblocks/element {"uniqueId":"cards001","tagName":"div","styles":{"display":"grid","gap":"2rem","gridTemplateColumns":"repeat(3, 1fr)","@media (max-width:1024px)":{"gridTemplateColumns":"repeat(2, 1fr)"},"@media (max-width:768px)":{"gridTemplateColumns":"1fr"}},"css":".gb-element-cards001{display:grid;gap:2rem;grid-template-columns:repeat(3, 1fr)}@media(max-width:1024px){.gb-element-cards001{grid-template-columns:repeat(2, 1fr)}}@media(max-width:768px){.gb-element-cards001{grid-template-columns:1fr}}","className":"gb-element"} -->
+<div class="gb-element-cards001 gb-element">
     <!-- Card blocks -->
 </div>
 <!-- /wp:generateblocks/element -->
@@ -311,17 +313,37 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 ### 2. Always Include Both styles and css
 
 Every block needs:
-- `styles` object with camelCase properties
-- `css` string with minified CSS (kebab-case)
+- `styles` object with camelCase properties (supports responsive keys like `"@media (max-width:1024px)":{...}`)
+- `css` string with minified CSS (kebab-case, **alphabetically sorted**, base styles only)
+- The `css` attribute must **NOT** contain hover states or transitions (the plugin generates those from the `styles` object)
+- Exceptions that go in `css`: pseudo-elements (::before/::after), media queries, animations, parent hover targeting children
 
-### 2. Icon Containers Need `line-height: 1`
+### 3. Element Blocks Need className
 
-Elements presenting icons must have `lineHeight: "1"` to prevent extra spacing:
-```json
-{"styles": {"lineHeight": "1", "display": "flex", "alignItems": "center"}}
+Add `"className":"gb-element"` to all element block attributes. HTML class order: `gb-element-{id} gb-element`:
+```html
+<!-- wp:generateblocks/element {"uniqueId":"card001",...,"className":"gb-element"} -->
+<div class="gb-element-card001 gb-element">...</div>
+<!-- /wp:generateblocks/element -->
 ```
 
-### 3. Lists Use `core/list` with `.list` Class
+### 4. Text `<a>` vs Element `<a>` Links
+
+| Block Type | `htmlAttributes` for href | Use Case |
+|-----------|--------------------------|----------|
+| `generateblocks/text` with `tagName: "a"` | **No** - plugin manages link internally | Plain text buttons/links (no inner blocks) |
+| `generateblocks/element` with `tagName: "a"` | **Yes** - `[{"attribute":"href","value":"/url/"}]` | Containers wrapping inner blocks (cards, icon buttons) |
+
+### 5. SVG Icons Use Shape Blocks
+
+Convert Elementor icons to `generateblocks/shape` (not `generateblocks/element` with raw SVG):
+```html
+<!-- wp:generateblocks/shape {"uniqueId":"icon001","styles":{"alignItems":"center","backgroundColor":"#f5f5f3","borderRadius":"0.75rem","color":"#c0392b","display":"flex","height":"3rem","justifyContent":"center","width":"3rem","svg":{"fill":"currentColor","height":"1.5rem","width":"1.5rem"}},"css":".gb-shape-icon001{align-items:center;background-color:#f5f5f3;border-radius:0.75rem;color:#c0392b;display:flex;height:3rem;justify-content:center;width:3rem}.gb-shape-icon001 svg{fill:currentColor;height:1.5rem;width:1.5rem}"} -->
+<span class="gb-shape gb-shape-icon001"><svg viewBox="0 0 24 24" fill="currentColor"><path d="..."/></svg></span>
+<!-- /wp:generateblocks/shape -->
+```
+
+### 6. Lists Use `core/list` with `.list` Class
 
 Convert Elementor list widgets to native WordPress list block:
 ```html
@@ -330,14 +352,14 @@ Convert Elementor list widgets to native WordPress list block:
 <!-- /wp:list -->
 ```
 
-### 4. Container Width with CSS Variable
+### 7. Container Width with CSS Variable
 
 Use `--gb-container-width` for inner container width and `align: "full"` on parent section:
 ```json
-{"align": "full", "styles": {"maxWidth": "var(--gb-container-width)"}}
+{"align": "full", "styles": {"maxWidth": "var(\u002d\u002dgb-container-width)"}}
 ```
 
-### 6. Use Semantic HTML
+### 8. Use Semantic HTML
 
 Replace Elementor's generic divs with proper tags:
 
@@ -351,14 +373,14 @@ Replace Elementor's generic divs with proper tags:
 | Sidebar | `aside` |
 | Card wrapper | `div` or `a` (if clickable) |
 
-### 7. Remove Spacers
+### 9. Remove Spacers
 
 Never convert `elementor-widget-spacer` to a block. Use:
 - `marginBottom` on preceding element
 - `marginTop` on following element
 - `gap` on parent container
 
-### 8. Flatten Icon Boxes
+### 10. Flatten Icon Boxes
 
 **Elementor icon box (simplified):**
 ```html
@@ -375,15 +397,13 @@ Never convert `elementor-widget-spacer` to a block. Use:
 
 **GenerateBlocks:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"ibox001","tagName":"div","styles":{"display":"flex","gap":"1rem","alignItems":"flex-start"},"css":".gb-element-ibox001{display:flex;gap:1rem;align-items:flex-start}"} -->
-<div class="gb-element gb-element-ibox001">
-    <!-- wp:generateblocks/shape {"uniqueId":"ibox001a","styles":{"width":"3rem","height":"3rem","display":"flex","alignItems":"center","justifyContent":"center","backgroundColor":"#f5f5f3","borderRadius":"0.75rem","color":"#c0392b","flexShrink":"0"},"css":".gb-shape-ibox001a{width:3rem;height:3rem;display:flex;align-items:center;justify-content:center;background-color:#f5f5f3;border-radius:0.75rem;color:#c0392b;flex-shrink:0}"} -->
-    <span class="gb-shape gb-shape-ibox001a">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="..."/></svg>
-    </span>
+<!-- wp:generateblocks/element {"uniqueId":"ibox001","tagName":"div","styles":{"alignItems":"flex-start","display":"flex","gap":"1rem"},"css":".gb-element-ibox001{align-items:flex-start;display:flex;gap:1rem}","className":"gb-element"} -->
+<div class="gb-element-ibox001 gb-element">
+    <!-- wp:generateblocks/shape {"uniqueId":"ibox001a","styles":{"alignItems":"center","backgroundColor":"#f5f5f3","borderRadius":"0.75rem","color":"#c0392b","display":"flex","flexShrink":"0","height":"3rem","justifyContent":"center","width":"3rem","svg":{"fill":"currentColor","height":"1.5rem","width":"1.5rem"}},"css":".gb-shape-ibox001a{align-items:center;background-color:#f5f5f3;border-radius:0.75rem;color:#c0392b;display:flex;flex-shrink:0;height:3rem;justify-content:center;width:3rem}.gb-shape-ibox001a svg{fill:currentColor;height:1.5rem;width:1.5rem}"} -->
+    <span class="gb-shape gb-shape-ibox001a"><svg viewBox="0 0 24 24" fill="currentColor"><path d="..."/></svg></span>
     <!-- /wp:generateblocks/shape -->
-    <!-- wp:generateblocks/element {"uniqueId":"ibox001b","tagName":"div","styles":{"flex":"1"},"css":".gb-element-ibox001b{flex:1}"} -->
-    <div class="gb-element gb-element-ibox001b">
+    <!-- wp:generateblocks/element {"uniqueId":"ibox001b","tagName":"div","styles":{"flex":"1"},"css":".gb-element-ibox001b{flex:1}","className":"gb-element"} -->
+    <div class="gb-element-ibox001b gb-element">
         <!-- wp:generateblocks/text {"uniqueId":"ibox001c","tagName":"h3","styles":{"fontSize":"1.125rem","fontWeight":"700","marginBottom":"0.5rem"},"css":".gb-text-ibox001c{font-size:1.125rem;font-weight:700;margin-bottom:0.5rem}"} -->
         <h3 class="gb-text gb-text-ibox001c">Title</h3>
         <!-- /wp:generateblocks/text -->

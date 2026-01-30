@@ -37,8 +37,10 @@ Convert HTML/CSS layouts to GenerateBlocks V2 format using inline styles in bloc
 ## Core Principle
 
 **Use both `styles` and `css` attributes:**
-- `styles`: Basic properties (padding, margin, colors, display, flex, grid)
-- `css`: Complex features (hover states, pseudo-elements, media queries, transitions, animations)
+- `styles`: Basic properties (padding, margin, colors, display, flex, grid). Supports responsive keys like `"@media (max-width:1024px)":{...}`
+- `css`: Base styles only (alphabetically sorted). Exceptions that go in `css`: pseudo-elements (::before/::after), media queries, animations, parent hover targeting children
+
+**The `css` attribute must NOT contain hover states or transitions** - the plugin generates those from the `styles` object.
 
 **Never use BEM or custom classes** - all styling goes in block attributes.
 
@@ -91,9 +93,11 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 
 ### Standard Element Block
 
+Element blocks add `"className":"gb-element"` to attributes. HTML class order: `gb-element-{id} gb-element`:
+
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"elem001","tagName":"div","styles":{"display":"flex","gap":"1rem","padding":"2rem"},"css":".gb-element-elem001{display:flex;gap:1rem;padding:2rem}@media(max-width:768px){.gb-element-elem001{flex-direction:column}}"} -->
-<div class="gb-element gb-element-elem001">
+<!-- wp:generateblocks/element {"uniqueId":"elem001","tagName":"div","styles":{"display":"flex","gap":"1rem","padding":"2rem"},"css":".gb-element-elem001{display:flex;gap:1rem;padding:2rem}@media(max-width:768px){.gb-element-elem001{flex-direction:column}}","className":"gb-element"} -->
+<div class="gb-element-elem001 gb-element">
     <!-- Inner content -->
 </div>
 <!-- /wp:generateblocks/element -->
@@ -109,11 +113,21 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 
 ### Link as Card Wrapper
 
+Cards with inner blocks use `generateblocks/element` (not `text`) with `tagName: "a"`:
+
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/services/"}],"styles":{"display":"flex","flexDirection":"column","padding":"2rem","backgroundColor":"white","borderRadius":"1rem","textDecoration":"none"},"css":".gb-text-card001{display:flex;flex-direction:column;padding:2rem;background-color:white;border-radius:1rem;text-decoration:none;transition:all 0.3s}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15)}"} -->
-<a class="gb-text gb-text-card001" href="/services/">
-    <!-- Card content -->
+<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/services/"}],"styles":{"backgroundColor":"white","borderRadius":"1rem","display":"flex","flexDirection":"column","padding":"2rem","textDecoration":"none"},"css":".gb-element-card001{background-color:white;border-radius:1rem;display:flex;flex-direction:column;padding:2rem;text-decoration:none}","className":"gb-element"} -->
+<a class="gb-element-card001 gb-element" href="/services/">
+    <!-- Inner blocks (text, media, shape) -->
 </a>
+<!-- /wp:generateblocks/element -->
+```
+
+**Plain text links** (no inner blocks) use `generateblocks/text` with `tagName: "a"` — no `htmlAttributes` for href:
+
+```html
+<!-- wp:generateblocks/text {"uniqueId":"link001","tagName":"a","styles":{"color":"#c0392b","fontSize":"0.9375rem","fontWeight":"600","textDecoration":"none"},"css":".gb-text-link001{color:#c0392b;font-size:0.9375rem;font-weight:600;text-decoration:none}"} -->
+<a class="gb-text gb-text-link001">Learn more</a>
 <!-- /wp:generateblocks/text -->
 ```
 
@@ -125,33 +139,48 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 <!-- /wp:generateblocks/media -->
 ```
 
+## Text `<a>` vs Element `<a>` Links
+
+| Block Type | `htmlAttributes` for href | `href` in HTML | Use Case |
+|-----------|--------------------------|----------------|----------|
+| `generateblocks/text` with `tagName: "a"` | **No** - plugin manages link internally | **No** | Plain text buttons/links (no inner blocks) |
+| `generateblocks/element` with `tagName: "a"` | **Yes** - `[{"attribute":"href","value":"/url/"}]` | **Yes** | Containers wrapping inner blocks (cards, icon buttons) |
+
+**Rule:** Text `<a>` blocks are leaf blocks - the link URL is managed by the editor UI. Element `<a>` blocks are containers - they need explicit `htmlAttributes` for the href.
+
+**Buttons with icons** use `generateblocks/element` (tagName `a`) wrapping `generateblocks/text` + `generateblocks/shape` blocks. Plain text buttons use `generateblocks/text`.
+
 ## Styles vs CSS Decision Matrix
 
 | Feature | Use `styles` | Use `css` |
 |---------|-------------|-----------|
-| Layout (display, flex, grid) | ✅ | Also in CSS |
-| Spacing (padding, margin, gap) | ✅ | Also in CSS |
-| Colors (background, text) | ✅ | Also in CSS |
-| Typography (font-size, weight) | ✅ | Also in CSS |
-| Basic borders, border-radius | ✅ | Also in CSS |
-| Hover states | ❌ | ✅ Only CSS |
-| Pseudo-elements (::before, ::after) | ❌ | ✅ Only CSS |
-| Media queries | ❌ | ✅ Only CSS |
-| Transitions/animations | ❌ | ✅ Only CSS |
-| Complex selectors | ❌ | ✅ Only CSS |
+| Layout (display, flex, grid) | ✅ | Also in CSS (base styles) |
+| Spacing (padding, margin, gap) | ✅ | Also in CSS (base styles) |
+| Colors (background, text) | ✅ | Also in CSS (base styles) |
+| Typography (font-size, weight) | ✅ | Also in CSS (base styles) |
+| Basic borders, border-radius | ✅ | Also in CSS (base styles) |
+| Responsive overrides | ✅ `"@media (max-width:1024px)":{...}` | Also in CSS |
+| Hover states | ✅ via `styles` object | ❌ **Never in `css`** (plugin generates) |
+| Transitions | ✅ via `styles` object | ❌ **Never in `css`** (plugin generates) |
+| Pseudo-elements (::before/::after) | ❌ | ✅ Only CSS |
+| Media queries | ✅ (simple overrides) | ✅ (complex rules) |
+| Animations (@keyframes) | ❌ | ✅ Only CSS |
+| Parent hover targeting children | ❌ | ✅ Only CSS (in child's `css`) |
 
-**Pattern**: Always put properties in `styles`, then replicate with proper CSS syntax in `css` attribute, adding hover/pseudo/media queries.
+**Pattern**: Put base properties in both `styles` and `css` (alphabetically sorted). The `css` attribute contains base styles plus exceptions (pseudo-elements, media queries, animations, parent-hover-child selectors). **Never put hover states or transitions in `css`.**
 
 ## Common Patterns
 
-### Card with Hover Effect
+### Card with Animated Underline
+
+Cards with inner blocks use `generateblocks/element`. Pseudo-elements (::after) and parent-hover-pseudo go in `css`. Hover states and transitions do NOT go in `css`.
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/link/"}],"styles":{"display":"flex","flexDirection":"column","backgroundColor":"white","borderRadius":"1rem","padding":"2rem","border":"1px solid transparent","textDecoration":"none"},"css":".gb-text-card001{display:flex;flex-direction:column;background-color:white;border-radius:1rem;padding:2rem;border:1px solid transparent;text-decoration:none;transition:all 0.3s}.gb-text-card001::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:#c0392b;transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:#e5e5e5}.gb-text-card001:hover::after{transform:scaleX(1)}"} -->
-<a class="gb-text gb-text-card001" href="/link/">
-    <!-- Card content -->
+<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/link/"}],"styles":{"backgroundColor":"white","border":"1px solid transparent","borderRadius":"1rem","display":"flex","flexDirection":"column","padding":"2rem","position":"relative","textDecoration":"none"},"css":".gb-element-card001{background-color:white;border:1px solid transparent;border-radius:1rem;display:flex;flex-direction:column;padding:2rem;position:relative;text-decoration:none}.gb-element-card001::after{background:#c0392b;bottom:0;content:'';height:3px;left:0;position:absolute;transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);width:100%}.gb-element-card001:hover::after{transform:scaleX(1)}","className":"gb-element"} -->
+<a class="gb-element-card001 gb-element" href="/link/">
+    <!-- Inner blocks -->
 </a>
-<!-- /wp:generateblocks/text -->
+<!-- /wp:generateblocks/element -->
 ```
 
 ### Grid Layout (Responsive)
@@ -164,21 +193,31 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 <!-- /wp:generateblocks/element -->
 ```
 
-### Icon Container with Hover
+### Icon (Shape Block with SVG)
 
+SVG icons use `generateblocks/shape`. Two valid approaches:
+
+**Approach 1: `styles.svg` object** (plugin generates `.gb-shape-{id} svg{...}` CSS):
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"icon001","tagName":"div","styles":{"width":"3.5rem","height":"3.5rem","display":"flex","alignItems":"center","justifyContent":"center","backgroundColor":"#f5f5f3","borderRadius":"1rem","color":"#c0392b"},"css":".gb-element-icon001{width:3.5rem;height:3.5rem;display:flex;align-items:center;justify-content:center;background-color:#f5f5f3;border-radius:1rem;color:#c0392b;transition:all 0.3s}.gb-text-parentcard:hover .gb-element-icon001{background-color:#c0392b;color:white;transform:scale(1.05) rotate(-3deg)}"} -->
-<div class="gb-element gb-element-icon001">
-    <i class="md-icon-bolt" aria-hidden="true"></i>
-</div>
-<!-- /wp:generateblocks/element -->
+<!-- wp:generateblocks/shape {"uniqueId":"icon001","styles":{"alignItems":"center","backgroundColor":"#f5f5f3","borderRadius":"1rem","color":"#c0392b","display":"flex","height":"3.5rem","justifyContent":"center","width":"3.5rem","svg":{"fill":"none","height":"1.5rem","stroke":"currentColor","width":"1.5rem"}},"css":".gb-shape-icon001{align-items:center;background-color:#f5f5f3;border-radius:1rem;color:#c0392b;display:flex;height:3.5rem;justify-content:center;width:3.5rem}.gb-shape-icon001 svg{fill:none;height:1.5rem;stroke:currentColor;width:1.5rem}.gb-element-card001:hover .gb-shape-icon001{background-color:#c0392b;color:white;transform:scale(1.05) rotate(-3deg)}"} -->
+<span class="gb-shape gb-shape-icon001"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
+<!-- /wp:generateblocks/shape -->
 ```
+
+**Approach 2: Simple styles** (for quick inline icons):
+```html
+<!-- wp:generateblocks/shape {"uniqueId":"check001","styles":{"color":"#10b981","height":"20px","width":"20px"},"css":".gb-shape-check001{color:#10b981;height:20px;width:20px}"} -->
+<span class="gb-shape gb-shape-check001"><svg stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="currentColor" fill="none" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+<!-- /wp:generateblocks/shape -->
+```
+
+**Parent hover targeting icons** is written in the shape block's `css` (as shown in Approach 1).
 
 ### Featured Card (Dark, Span Multiple Columns)
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"feat001","tagName":"div","styles":{"gridColumn":"span 2","gridRow":"span 2","background":"linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)","minHeight":"26rem","position":"relative","display":"flex","flexDirection":"column","gap":"1rem","borderRadius":"1rem","padding":"2rem"},"css":".gb-element-feat001{grid-column:span 2;grid-row:span 2;background:linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);min-height:26rem;position:relative;display:flex;flex-direction:column;gap:1rem;border-radius:1rem;padding:2rem}.gb-element-feat001::before{content:'';position:absolute;top:0;right:0;width:60%;height:100%;background:radial-gradient(circle at 100% 0%, rgba(192, 57, 43, 0.2) 0%, transparent 60%);pointer-events:none}.gb-element-feat001>*{position:relative;z-index:1}@media(max-width:1024px){.gb-element-feat001{grid-column:span 2;grid-row:span 1;min-height:auto}}@media(max-width:768px){.gb-element-feat001{grid-column:span 1}}"} -->
-<div class="gb-element gb-element-feat001">
+<!-- wp:generateblocks/element {"uniqueId":"feat001","tagName":"div","styles":{"background":"linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)","borderRadius":"1rem","display":"flex","flexDirection":"column","gap":"1rem","gridColumn":"span 2","gridRow":"span 2","minHeight":"26rem","padding":"2rem","position":"relative"},"css":".gb-element-feat001{background:linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);border-radius:1rem;display:flex;flex-direction:column;gap:1rem;grid-column:span 2;grid-row:span 2;min-height:26rem;padding:2rem;position:relative}.gb-element-feat001::before{background:radial-gradient(circle at 100% 0%, rgba(192, 57, 43, 0.2) 0%, transparent 60%);content:'';height:100%;pointer-events:none;position:absolute;right:0;top:0;width:60%}.gb-element-feat001>*{position:relative;z-index:1}@media(max-width:1024px){.gb-element-feat001{grid-column:span 2;grid-row:span 1;min-height:auto}}@media(max-width:768px){.gb-element-feat001{grid-column:span 1}}","className":"gb-element"} -->
+<div class="gb-element-feat001 gb-element">
     <!-- Featured card content -->
 </div>
 <!-- /wp:generateblocks/element -->
@@ -187,7 +226,7 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 ### Badge (Absolute Position)
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"badge001","tagName":"span","styles":{"position":"absolute","top":"1rem","right":"1rem","padding":"0.25rem 0.625rem","fontSize":"0.75rem","fontWeight":"600","letterSpacing":"0.05em","textTransform":"uppercase","backgroundColor":"#c0392b","color":"white","borderRadius":"2rem"},"css":".gb-text-badge001{position:absolute;top:1rem;right:1rem;padding:0.25rem 0.625rem;font-size:0.75rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;background-color:#c0392b;color:white;border-radius:2rem}"} -->
+<!-- wp:generateblocks/text {"uniqueId":"badge001","tagName":"span","styles":{"backgroundColor":"#c0392b","borderRadius":"2rem","color":"white","fontSize":"0.75rem","fontWeight":"600","letterSpacing":"0.05em","padding":"0.25rem 0.625rem","position":"absolute","right":"1rem","textTransform":"uppercase","top":"1rem"},"css":".gb-text-badge001{background-color:#c0392b;border-radius:2rem;color:white;font-size:0.75rem;font-weight:600;letter-spacing:0.05em;padding:0.25rem 0.625rem;position:absolute;right:1rem;text-transform:uppercase;top:1rem}"} -->
 <span class="gb-text gb-text-badge001">Recommended</span>
 <!-- /wp:generateblocks/text -->
 ```
@@ -201,19 +240,18 @@ For sections with dynamic WordPress posts, use native query blocks with Generate
 <div class="wp-block-query">
     <!-- wp:post-template {"style":{"spacing":{"blockGap":"1rem"}}} -->
 
-        <!-- Post Card -->
-        <!-- wp:generateblocks/text {"uniqueId":"post001","tagName":"a","styles":{"display":"flex","flexDirection":"column","backgroundColor":"white","border":"1px solid #e5e5e5","borderRadius":"1rem","overflow":"hidden","textDecoration":"none"},"css":".gb-text-post001{display:flex;flex-direction:column;background-color:white;border:1px solid #e5e5e5;border-radius:1rem;overflow:hidden;text-decoration:none;transition:all 0.3s}.gb-text-post001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:#c0392b}"} -->
-        <a class="gb-text gb-text-post001">
+        <!-- wp:generateblocks/element {"uniqueId":"post001","tagName":"a","styles":{"backgroundColor":"white","border":"1px solid #e5e5e5","borderRadius":"1rem","display":"flex","flexDirection":"column","overflow":"hidden","textDecoration":"none"},"css":".gb-element-post001{background-color:white;border:1px solid #e5e5e5;border-radius:1rem;display:flex;flex-direction:column;overflow:hidden;text-decoration:none}","className":"gb-element"} -->
+        <a class="gb-element-post001 gb-element">
             <!-- wp:post-featured-image {"isLink":false,"aspectRatio":"12/5"} /-->
 
-            <!-- wp:generateblocks/element {"uniqueId":"post002","tagName":"div","styles":{"padding":"1rem","display":"flex","flexDirection":"column","flex":"1"},"css":".gb-element-post002{padding:1rem;display:flex;flex-direction:column;flex:1}"} -->
-            <div class="gb-element gb-element-post002">
+            <!-- wp:generateblocks/element {"uniqueId":"post002","tagName":"div","styles":{"display":"flex","flex":"1","flexDirection":"column","padding":"1rem"},"css":".gb-element-post002{display:flex;flex:1;flex-direction:column;padding:1rem}","className":"gb-element"} -->
+            <div class="gb-element-post002 gb-element">
                 <!-- wp:post-title {"isLink":false,"style":{"typography":{"fontSize":"1.125rem","fontWeight":"700"}}} /-->
                 <!-- wp:post-excerpt {"excerptLength":14} /-->
             </div>
             <!-- /wp:generateblocks/element -->
         </a>
-        <!-- /wp:generateblocks/text -->
+        <!-- /wp:generateblocks/element -->
 
     <!-- /wp:post-template -->
 </div>
@@ -233,7 +271,7 @@ For sections with dynamic WordPress posts, use native query blocks with Generate
 2. **Identify sections** - Break into logical components
 3. **Map BEM classes to blocks** - Each `.block__element` becomes a GenerateBlocks element
 4. **Extract base styles** - Put in `styles` attribute
-5. **Extract complex styles** - Put in `css` attribute (hovers, pseudo, media queries)
+5. **Extract complex styles** - Put in `css` attribute (pseudo-elements, media queries, parent-hover-child). Never put hover states or transitions in `css`
 6. **Create unique IDs** - Follow convention
 7. **Test responsive behavior** - Ensure media queries work
 8. **Handle dynamic content** - Use WordPress query blocks
@@ -253,10 +291,14 @@ For sections with dynamic WordPress posts, use native query blocks with Generate
 
 ### In `css` attribute (CSS string):
 ```css
-.gb-element-id{display:flex;flex-direction:column;background-color:#ffffff;border-radius:1rem;margin-bottom:2rem}.gb-element-id:hover{background-color:#f5f5f5}@media(max-width:768px){.gb-element-id{flex-direction:row}}
+.gb-element-id{background-color:#ffffff;border-radius:1rem;display:flex;flex-direction:column;margin-bottom:2rem}@media(max-width:768px){.gb-element-id{flex-direction:row}}
 ```
 
-**Note**: CSS should be minified (no line breaks, minimal spaces).
+**Rules:**
+- CSS must be minified (no line breaks, minimal spaces)
+- Properties must be **alphabetically sorted**
+- Contains **base styles only** — no hover states, no transitions
+- Exceptions: pseudo-elements (::before/::after), media queries, animations, parent hover targeting children
 
 ## Responsive Patterns
 
@@ -337,15 +379,20 @@ When converting HTML without explicit CSS values, infer styles based on context:
 1. **No HTML comments except block markers** - Breaks WordPress block editor
 2. **Always escape quotes in CSS strings** - Use single quotes for content, attr values
 3. **Duplicate properties** - Put in both `styles` and `css` for consistency
-4. **Use !important sparingly** - Only for overriding at breakpoints
-5. **Test hover states** - Parent hover affecting child (`.parent:hover .child`)
-6. **Pseudo-elements need content** - `content:''` for ::before/::after
-7. **Gradients only in CSS** - Can't use in `styles` attribute
-8. **CSS variables work** - Use var(--custom-property) freely
-9. **Transitions on all** - `transition:all 0.3s` for smooth interactions
-10. **Icon containers need `line-height: 1`** - Elements presenting icons must have `lineHeight: "1"` to prevent extra spacing
-11. **Lists use `core/list` with `.list` class** - Convert `<ul>`/`<ol>` to native WordPress list block with `className: "list"`
-12. **Use `--gb-container-width` for inner containers** - Set inner container width using the CSS variable; add `align: "full"` to parent section
+4. **CSS alphabetically sorted** - Properties in the `css` string must be sorted alphabetically
+5. **No hover/transitions in `css`** - The plugin generates hover states and transitions from the `styles` object. Never put these in the `css` attribute
+6. **Cards with inner blocks = element block** - Use `generateblocks/element` (not `text`) for cards containing other blocks. Text blocks are leaf blocks (no inner blocks)
+7. **Text `<a>` = no htmlAttributes for href** - Link URL managed by editor UI. Element `<a>` = use `htmlAttributes` for href
+8. **SVG icons = shape blocks** - Use `generateblocks/shape` for SVGs, not `generateblocks/element` with raw SVG inside
+9. **Pseudo-elements need content** - `content:''` for ::before/::after (these go in `css`)
+10. **Parent hover targeting children** - Written in the child's `css`: `.gb-element-card001:hover .gb-text-title001{color:#c0392b}`
+11. **Gradients only in CSS** - Can't use in `styles` attribute
+12. **CSS variables work** - Use `var(--custom-property)` freely. Use `\u002d\u002d` for `--` in JSON
+13. **Element blocks need className** - Add `"className":"gb-element"` to element block attributes
+14. **Use !important sparingly** - Only for overriding at breakpoints
+15. **Lists use `core/list` with `.list` class** - Convert `<ul>`/`<ol>` to native WordPress list block with `className: "list"`
+16. **Use `--gb-container-width` for inner containers** - Set inner container width using the CSS variable; add `align: "full"` to parent section
+17. **Buttons with icons** - Use `generateblocks/element` (tagName `a`) wrapping `generateblocks/text` + `generateblocks/shape` blocks. Plain text buttons use `generateblocks/text`
 
 ## Performance Notes
 

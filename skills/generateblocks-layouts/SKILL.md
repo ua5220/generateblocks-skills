@@ -94,14 +94,26 @@ For elements not available in GenerateBlocks or requiring advanced media feature
 <!-- /wp:generateblocks/{type} -->
 ```
 
+**Element blocks** add `"className":"gb-element"` to attributes. HTML class order: `gb-element-{id} gb-element`:
+```html
+<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"div","className":"gb-element",...} -->
+<div class="gb-element-card001 gb-element">...</div>
+<!-- /wp:generateblocks/element -->
+```
+
 ## Required Attributes
 
 Every block needs:
 - `uniqueId` - Unique identifier (format: `{section}{number}` like `hero001`, `card023`)
 - `tagName` - HTML element type
-- `styles` - CSS properties as JSON object (camelCase)
-- `css` - Generated CSS string (kebab-case, minified)
+- `styles` - CSS properties as JSON object (camelCase). Supports responsive keys like `"@media (max-width:1024px)":{...}`
+- `css` - Generated CSS string (kebab-case, minified, alphabetically sorted)
 - `htmlAttributes` - Array of attribute objects (for links, IDs, data attributes)
+
+Optional:
+- `className` - Additional CSS classes (e.g., `"gb-element"` for element blocks, `"gb-element alignfull"` for full-width sections)
+- `globalClasses` - Array of global CSS class slugs (e.g., `["lede"]`)
+- `align` - Block alignment (`"full"` for full-width)
 
 ## CRITICAL: htmlAttributes Format
 
@@ -127,6 +139,15 @@ Every block needs:
 ]
 ```
 
+### Text `<a>` vs Element `<a>` Links
+
+| Block Type | `htmlAttributes` for href | `href` in HTML | Use Case |
+|-----------|--------------------------|----------------|----------|
+| `generateblocks/text` with `tagName: "a"` | **No** - plugin manages link internally | **No** | Plain text buttons/links (no inner blocks) |
+| `generateblocks/element` with `tagName: "a"` | **Yes** - `[{"attribute":"href","value":"/url/"}]` | **Yes** | Containers wrapping inner blocks (cards, icon buttons) |
+
+**Rule:** Text `<a>` blocks are leaf blocks - the link URL is managed by the editor UI. Element `<a>` blocks are containers - they need explicit `htmlAttributes` for the href.
+
 ## Styling Approach
 
 **Always use both `styles` AND `css` attributes:**
@@ -136,18 +157,27 @@ Every block needs:
   "uniqueId": "card001",
   "tagName": "div",
   "styles": {
+    "backgroundColor": "#ffffff",
     "display": "flex",
-    "padding": "2rem",
-    "backgroundColor": "#ffffff"
+    "padding": "2rem"
   },
-  "css": ".gb-element-card001{display:flex;padding:2rem;background-color:#ffffff}"
+  "css": ".gb-element-card001{background-color:#ffffff;display:flex;padding:2rem}"
 }
 ```
 
-**Complex features (hover, media queries) go in `css` only:**
+**CSS rules:**
+- The `css` attribute contains **only base styles** - no hover states, no transitions (the plugin generates those from the `styles` object)
+- CSS properties must be **alphabetically sorted**
+- Exceptions that go in `css`: pseudo-elements (::before/::after), media queries, animations, parent hover targeting children
 
 ```css
-.gb-element-card001{...base styles...}.gb-element-card001:hover{transform:translateY(-6px)}@media(max-width:768px){.gb-element-card001{padding:1rem}}
+/* Base styles only (alphabetically sorted) + pseudo-elements + media queries */
+.gb-element-card001{background-color:#ffffff;border-radius:1rem;display:flex;padding:2rem;position:relative}.gb-element-card001::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:#c0392b;transform:scaleX(0)}@media(max-width:768px){.gb-element-card001{padding:1rem}}
+```
+
+**Parent hover targeting children** is written in the child's `css`:
+```css
+.gb-element-card001:hover .gb-text-title001{color:#c0392b}
 ```
 
 ## Responsive Design
@@ -160,18 +190,54 @@ Every block needs:
 | Tablet | 768px - 1024px | `@media(max-width:1024px)` |
 | Mobile | < 768px | `@media(max-width:768px)` |
 
-**CSS format with responsive styles:**
+**Two approaches for responsive styles:**
+
+1. **In `styles` object** (preferred for simple overrides):
+```json
+{
+  "styles": {
+    "display": "grid",
+    "gridTemplateColumns": "minmax(0, 1fr) minmax(0, 1fr)",
+    "gap": "4rem",
+    "@media (max-width:1024px)": {
+      "gridTemplateColumns": "minmax(0, 1fr)"
+    }
+  }
+}
+```
+
+2. **In `css` string** (for complex responsive rules):
 ```css
-.gb-element-hero001{padding:6rem 0;display:grid;grid-template-columns:1fr 1fr;gap:4rem}@media(max-width:1024px){.gb-element-hero001{grid-template-columns:1fr;gap:3rem;padding:4rem 0}}@media(max-width:768px){.gb-element-hero001{padding:3rem 0;gap:2rem}}
+.gb-element-hero001{display:grid;gap:4rem;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}@media (max-width:1024px){.gb-element-hero001{grid-template-columns:minmax(0,1fr)}}
 ```
 
 **Common responsive patterns:**
-- Grid to single column: `grid-template-columns:1fr 1fr` → `grid-template-columns:1fr`
+- Grid to single column: `grid-template-columns:minmax(0,1fr) minmax(0,1fr)` → `grid-template-columns:minmax(0,1fr)`
 - Reduce padding: `padding:6rem 0` → `padding:4rem 0` → `padding:3rem 0`
 - Reduce font sizes: Use `clamp()` for fluid typography
 - Stack flex items: `flex-direction:row` → `flex-direction:column`
 - Adjust gaps: `gap:4rem` → `gap:2rem`
 - Center text on mobile: `text-align:left` → `text-align:center`
+
+## Full-Width Section Pattern
+
+For full-width sections with contained inner content:
+
+```html
+<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{...},"css":"...","align":"full","className":"gb-element alignfull"} -->
+<section class="gb-element-hero001 gb-element alignfull">
+    <!-- wp:generateblocks/element {"uniqueId":"hero002","tagName":"div","styles":{"maxWidth":"var(\u002d\u002dgb-container-width)","marginLeft":"auto","marginRight":"auto"},"css":".gb-element-hero002{margin-left:auto;margin-right:auto;max-width:var(\u002d\u002dgb-container-width)}","className":"gb-element"} -->
+    <div class="gb-element-hero002 gb-element">
+        <!-- Inner content -->
+    </div>
+    <!-- /wp:generateblocks/element -->
+</section>
+<!-- /wp:generateblocks/element -->
+```
+
+**Key:**
+- Outer section: `"align":"full"` + `"className":"gb-element alignfull"`
+- Inner container: `maxWidth: "var(\u002d\u002dgb-container-width)"` (unicode-escaped `--gb-container-width`)
 
 ## Unique ID Convention
 
@@ -227,8 +293,8 @@ The ONLY allowed comments are WordPress block delimiters:
 
 **CORRECT - Only block delimiters:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"hero001",...} -->
-<section class="gb-element gb-element-hero001">
+<!-- wp:generateblocks/element {"uniqueId":"hero001",...,"className":"gb-element"} -->
+<section class="gb-element-hero001 gb-element">
     <!-- wp:generateblocks/text {"uniqueId":"hero002",...} -->
     <h1 class="gb-text gb-text-hero002">Heading</h1>
     <!-- /wp:generateblocks/text -->
@@ -242,13 +308,17 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 
 1. **No custom CSS classes** - All styling in block attributes
 2. **Minify CSS** - No line breaks in `css` attribute
-3. **Include transitions** - Always add `transition:all 0.3s` for interactive elements
-4. **Duplicate styles** - Put in both `styles` object AND `css` string
-5. **Test responsive** - Add media queries for tablet (1024px) and mobile (768px)
-6. **Icon containers need `line-height: 1`** - Elements presenting icons must have `lineHeight: "1"` to prevent extra spacing
-7. **Lists use `core/list` with `.list` class** - Always use the native WordPress list block with `className: "list"` and customize styling as needed
-8. **Use `--gb-container-width` for inner containers** - Set inner container width using the CSS variable; add `align: "full"` to parent section for full-width layouts
-9. **htmlAttributes as array** - ALWAYS use array format: `[{"attribute":"href","value":"/link/"}]` NOT object format
+3. **CSS = base styles only** - No hover states or transitions in `css` (the plugin generates those from the `styles` object). Exceptions: pseudo-elements, media queries, animations, parent hover targeting children
+4. **Alphabetically sort CSS** - Properties in the `css` string must be alphabetically sorted
+5. **Duplicate styles** - Put in both `styles` object AND `css` string
+6. **Test responsive** - Add media queries for tablet (1024px) and mobile (768px)
+7. **Text `<a>` = no htmlAttributes for href** - The link URL is managed by the editor UI internally
+8. **Element `<a>` = use htmlAttributes for href** - Container links need explicit `[{"attribute":"href","value":"/url/"}]`
+9. **Buttons with icons** - Use `generateblocks/element` (tagName `a`) wrapping `generateblocks/text` + `generateblocks/shape` blocks. Plain text buttons use `generateblocks/text`
+10. **Shape blocks** - Use `styles.svg` for SVG-specific properties (fill, stroke, width, height) OR simple `styles` with width/height/color and inline SVG attributes. Both patterns work
+11. **Lists use `core/list` with `.list` class** - Always use the native WordPress list block with `className: "list"` and customize styling as needed
+12. **Use `--gb-container-width` for inner containers** - Set inner container width using the CSS variable; add `align: "full"` to parent section for full-width layouts
+13. **htmlAttributes as array** - ALWAYS use array format: `[{"attribute":"href","value":"/link/"}]` NOT object format
 
 ## Design Inference (When CSS Not Provided)
 

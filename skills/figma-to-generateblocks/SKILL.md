@@ -100,9 +100,11 @@ Extract these elements from the Figma design:
 | Text | `generateblocks/text` with appropriate `tagName` |
 | Image (simple) | `generateblocks/media` |
 | Icon/Vector | `generateblocks/shape` with inline SVG |
-| Button | `generateblocks/text` with `tagName: "a"` or `"button"` |
-| Card | `generateblocks/element` or `generateblocks/text` (if clickable) |
-| Link | `generateblocks/text` with `tagName: "a"` |
+| Button (text only) | `generateblocks/text` with `tagName: "a"` (no `htmlAttributes` for href) |
+| Button (with icon) | `generateblocks/element` with `tagName: "a"` wrapping `text` + `shape` blocks |
+| Card (clickable, has inner blocks) | `generateblocks/element` with `tagName: "a"` + `htmlAttributes` for href |
+| Card (non-clickable) | `generateblocks/element` with `tagName: "div"` |
+| Link (plain text) | `generateblocks/text` with `tagName: "a"` (no `htmlAttributes` for href) |
 
 ### Step 2b: When to Use Core Blocks
 
@@ -161,7 +163,7 @@ letter-spacing: -0.02em;
     "lineHeight": "1.2",
     "letterSpacing": "-0.02em"
   },
-  "css": ".gb-text-head001{font-family:'Inter', sans-serif;font-size:clamp(2rem, 5vw, 3rem);font-weight:700;line-height:1.2;letter-spacing:-0.02em}"
+  "css": ".gb-text-head001{font-family:'Inter', sans-serif;font-size:clamp(2rem, 5vw, 3rem);font-weight:700;letter-spacing:-0.02em;line-height:1.2}"
 }
 ```
 
@@ -183,7 +185,7 @@ letter-spacing: -0.02em;
     "padding": "2rem",
     "alignItems": "center"
   },
-  "css": ".gb-element-row001{display:flex;flex-direction:row;gap:1.5rem;padding:2rem;align-items:center}"
+  "css": ".gb-element-row001{align-items:center;display:flex;flex-direction:row;gap:1.5rem;padding:2rem}"
 }
 ```
 
@@ -199,7 +201,7 @@ letter-spacing: -0.02em;
     "gridTemplateColumns": "repeat(3, 1fr)",
     "gap": "1.5rem"
   },
-  "css": ".gb-element-grid001{display:grid;grid-template-columns:repeat(3, 1fr);gap:1.5rem}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, 1fr)}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr}}"
+  "css": ".gb-element-grid001{display:grid;gap:1.5rem;grid-template-columns:repeat(3, 1fr)}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, 1fr)}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr}}"
 }
 ```
 
@@ -291,12 +293,12 @@ Frame (Hero)
 
 **GenerateBlocks:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"paddingTop":"4rem","paddingBottom":"4rem"},"css":".gb-element-hero001{padding-top:4rem;padding-bottom:4rem}@media(max-width:768px){.gb-element-hero001{padding-top:2rem;padding-bottom:2rem}}"} -->
-<section class="gb-element gb-element-hero001">
-    <!-- wp:generateblocks/element {"uniqueId":"hero002","tagName":"div","styles":{"maxWidth":"1200px","marginLeft":"auto","marginRight":"auto","paddingLeft":"1rem","paddingRight":"1rem","display":"grid","gridTemplateColumns":"1fr 1fr","gap":"3rem","alignItems":"center"},"css":".gb-element-hero002{max-width:1200px;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}@media(max-width:768px){.gb-element-hero002{grid-template-columns:1fr;text-align:center}}"} -->
-    <div class="gb-element gb-element-hero002">
-        <!-- wp:generateblocks/element {"uniqueId":"hero003","tagName":"div","styles":{"display":"flex","flexDirection":"column","gap":"1.5rem"},"css":".gb-element-hero003{display:flex;flex-direction:column;gap:1.5rem}"} -->
-        <div class="gb-element gb-element-hero003">
+<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"paddingBottom":"4rem","paddingTop":"4rem","@media (max-width:768px)":{"paddingBottom":"2rem","paddingTop":"2rem"}},"css":".gb-element-hero001{padding-bottom:4rem;padding-top:4rem}@media(max-width:768px){.gb-element-hero001{padding-bottom:2rem;padding-top:2rem}}","className":"gb-element"} -->
+<section class="gb-element-hero001 gb-element">
+    <!-- wp:generateblocks/element {"uniqueId":"hero002","tagName":"div","styles":{"alignItems":"center","display":"grid","gap":"3rem","gridTemplateColumns":"1fr 1fr","marginLeft":"auto","marginRight":"auto","maxWidth":"1200px","paddingLeft":"1rem","paddingRight":"1rem","@media (max-width:768px)":{"gridTemplateColumns":"1fr","textAlign":"center"}},"css":".gb-element-hero002{align-items:center;display:grid;gap:3rem;grid-template-columns:1fr 1fr;margin-left:auto;margin-right:auto;max-width:1200px;padding-left:1rem;padding-right:1rem}@media(max-width:768px){.gb-element-hero002{grid-template-columns:1fr;text-align:center}}","className":"gb-element"} -->
+    <div class="gb-element-hero002 gb-element">
+        <!-- wp:generateblocks/element {"uniqueId":"hero003","tagName":"div","styles":{"display":"flex","flexDirection":"column","gap":"1.5rem"},"css":".gb-element-hero003{display:flex;flex-direction:column;gap:1.5rem}","className":"gb-element"} -->
+        <div class="gb-element-hero003 gb-element">
             <!-- Tagline, Headline, Description, Buttons -->
         </div>
         <!-- /wp:generateblocks/element -->
@@ -320,19 +322,22 @@ Frame (Card)
 ```
 
 **GenerateBlocks (clickable card):**
+
+Cards with inner blocks use `generateblocks/element` (not `text`) with `tagName: "a"`. Hover states and transitions are managed by the `styles` object — never put them in `css`.
+
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/link/"}],"styles":{"display":"flex","flexDirection":"column","backgroundColor":"white","borderRadius":"1rem","overflow":"hidden","textDecoration":"none","border":"1px solid #e5e5e5"},"css":".gb-text-card001{display:flex;flex-direction:column;background-color:white;border-radius:1rem;overflow:hidden;text-decoration:none;border:1px solid #e5e5e5;transition:all 0.3s}.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:transparent}"} -->
-<a class="gb-text gb-text-card001" href="/link/">
-    <!-- wp:generateblocks/media {"uniqueId":"card002","mediaType":"image","htmlAttributes":[{"attribute":"src","value":"image.jpg"},{"attribute":"alt","value":"Card image"}],"styles":{"width":"100%","aspectRatio":"16/9","objectFit":"cover"},"css":".gb-media-card002{width:100%;aspect-ratio:16/9;object-fit:cover}"} -->
+<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/link/"}],"styles":{"backgroundColor":"white","border":"1px solid #e5e5e5","borderRadius":"1rem","display":"flex","flexDirection":"column","overflow":"hidden","textDecoration":"none"},"css":".gb-element-card001{background-color:white;border:1px solid #e5e5e5;border-radius:1rem;display:flex;flex-direction:column;overflow:hidden;text-decoration:none}","className":"gb-element"} -->
+<a class="gb-element-card001 gb-element" href="/link/">
+    <!-- wp:generateblocks/media {"uniqueId":"card002","mediaType":"image","htmlAttributes":[{"attribute":"src","value":"image.jpg"},{"attribute":"alt","value":"Card image"}],"styles":{"aspectRatio":"16/9","objectFit":"cover","width":"100%"},"css":".gb-media-card002{aspect-ratio:16/9;object-fit:cover;width:100%}"} -->
     <img class="gb-media gb-media-card002" src="image.jpg" alt="Card image" />
     <!-- /wp:generateblocks/media -->
-    <!-- wp:generateblocks/element {"uniqueId":"card003","tagName":"div","styles":{"padding":"1.5rem","display":"flex","flexDirection":"column","gap":"0.75rem"},"css":".gb-element-card003{padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem}"} -->
-    <div class="gb-element gb-element-card003">
+    <!-- wp:generateblocks/element {"uniqueId":"card003","tagName":"div","styles":{"display":"flex","flexDirection":"column","gap":"0.75rem","padding":"1.5rem"},"css":".gb-element-card003{display:flex;flex-direction:column;gap:0.75rem;padding:1.5rem}","className":"gb-element"} -->
+    <div class="gb-element-card003 gb-element">
         <!-- Title, Description -->
     </div>
     <!-- /wp:generateblocks/element -->
 </a>
-<!-- /wp:generateblocks/text -->
+<!-- /wp:generateblocks/element -->
 ```
 
 ### Navigation Bar
@@ -350,11 +355,11 @@ Frame (Nav)
 
 **GenerateBlocks:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"nav001","tagName":"header","styles":{"display":"flex","justifyContent":"space-between","alignItems":"center","padding":"1rem 0"},"css":".gb-element-nav001{display:flex;justify-content:space-between;align-items:center;padding:1rem 0}"} -->
-<header class="gb-element gb-element-nav001">
+<!-- wp:generateblocks/element {"uniqueId":"nav001","tagName":"header","styles":{"alignItems":"center","display":"flex","justifyContent":"space-between","padding":"1rem 0"},"css":".gb-element-nav001{align-items:center;display:flex;justify-content:space-between;padding:1rem 0}","className":"gb-element"} -->
+<header class="gb-element-nav001 gb-element">
     <!-- Logo -->
-    <!-- wp:generateblocks/element {"uniqueId":"nav002","tagName":"nav","styles":{"display":"flex","gap":"2rem"},"css":".gb-element-nav002{display:flex;gap:2rem}@media(max-width:768px){.gb-element-nav002{display:none}}"} -->
-    <nav class="gb-element gb-element-nav002">
+    <!-- wp:generateblocks/element {"uniqueId":"nav002","tagName":"nav","styles":{"display":"flex","gap":"2rem","@media (max-width:768px)":{"display":"none"}},"css":".gb-element-nav002{display:flex;gap:2rem}@media(max-width:768px){.gb-element-nav002{display:none}}","className":"gb-element"} -->
+    <nav class="gb-element-nav002 gb-element">
         <!-- Navigation links -->
     </nav>
     <!-- /wp:generateblocks/element -->
@@ -402,26 +407,20 @@ When colors aren't clear, use these sensible defaults:
 
 ## Hover States
 
-Figma designs often show only the default state. Add these hover effects:
+Figma designs often show only the default state. The plugin generates hover CSS from the `styles` object — **never put hover states or transitions in the `css` attribute**.
 
-### Buttons
+The only exception is **parent hover targeting children**, which is written in the child block's `css`:
+
+### Parent Hover Affecting Child (in child's `css`)
 ```css
-.gb-text-btn001:hover{background-color:#a33024;transform:translateY(-2px);box-shadow:0 4px 12px rgba(192,57,43,0.3)}
+.gb-element-card001:hover .gb-shape-icon001{background-color:#c0392b;color:white;transform:scale(1.05) rotate(-3deg)}
+.gb-element-card001:hover .gb-text-title001{color:#c0392b}
+.gb-element-card001:hover .gb-text-arrow001 svg{transform:translateX(4px)}
 ```
 
-### Cards
+### Pseudo-Element Hover (in the block's `css`)
 ```css
-.gb-text-card001:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.15);border-color:transparent}
-```
-
-### Links
-```css
-.gb-text-link001:hover{color:#c0392b;text-decoration:underline}
-```
-
-### Icons
-```css
-.parent:hover .gb-element-icon001{background-color:#c0392b;color:white;transform:scale(1.05)}
+.gb-element-card001::after{background:#c0392b;bottom:0;content:'';height:3px;left:0;position:absolute;transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);width:100%}.gb-element-card001:hover::after{transform:scaleX(1)}
 ```
 
 ## CRITICAL: No Extra HTML Comments
@@ -489,40 +488,55 @@ Always include both attributes:
 }
 ```
 
-### 2. Minified CSS
+- `styles`: camelCase properties. Supports responsive keys like `"@media (max-width:1024px)":{...}`
+- `css`: minified, **alphabetically sorted**, base styles only
+- The `css` attribute must **NOT** contain hover states or transitions (plugin generates those from `styles`)
+- Exceptions that go in `css`: pseudo-elements, media queries, animations, parent hover targeting children
 
-No line breaks in css attribute:
+### 3. Minified CSS (Alphabetically Sorted)
+
 ```css
-.gb-element-id{padding:2rem;background:#fff}.gb-element-id:hover{background:#f5f5f5}
+.gb-element-id{background:#fff;padding:2rem}
 ```
 
-### 3. Unique IDs
+### 4. Unique IDs
 
 Format: `{section}{number}{letter}`
 - `hero001`, `hero001a`, `hero001b`
 - `card023`, `card023a`
 
-### 4. Always Add Transitions
+### 5. Element Blocks Need className
 
-For interactive elements:
-```css
-transition:all 0.3s
+Add `"className":"gb-element"` to all element block attributes. HTML class order: `gb-element-{id} gb-element`:
+```html
+<!-- wp:generateblocks/element {"uniqueId":"card001",...,"className":"gb-element"} -->
+<div class="gb-element-card001 gb-element">...</div>
+<!-- /wp:generateblocks/element -->
 ```
 
-### 5. Test Responsive
+### 6. Text `<a>` vs Element `<a>` Links
+
+| Block Type | `htmlAttributes` for href | Use Case |
+|-----------|--------------------------|----------|
+| `generateblocks/text` with `tagName: "a"` | **No** - plugin manages link internally | Plain text buttons/links (no inner blocks) |
+| `generateblocks/element` with `tagName: "a"` | **Yes** - `[{"attribute":"href","value":"/url/"}]` | Containers wrapping inner blocks (cards, icon buttons) |
+
+### 7. SVG Icons Use Shape Blocks
+
+Convert Figma icon/vector layers to `generateblocks/shape` (not `generateblocks/element` with raw SVG):
+```html
+<!-- wp:generateblocks/shape {"uniqueId":"icon001","styles":{"alignItems":"center","backgroundColor":"#f5f5f3","borderRadius":"0.75rem","color":"#c0392b","display":"flex","height":"3rem","justifyContent":"center","width":"3rem","svg":{"fill":"currentColor","height":"1.5rem","width":"1.5rem"}},"css":".gb-shape-icon001{align-items:center;background-color:#f5f5f3;border-radius:0.75rem;color:#c0392b;display:flex;height:3rem;justify-content:center;width:3rem}.gb-shape-icon001 svg{fill:currentColor;height:1.5rem;width:1.5rem}"} -->
+<span class="gb-shape gb-shape-icon001"><svg viewBox="0 0 24 24" fill="currentColor"><path d="..."/></svg></span>
+<!-- /wp:generateblocks/shape -->
+```
+
+### 8. Test Responsive
 
 Always add media queries for:
 - Tablet: `@media(max-width:1024px)`
 - Mobile: `@media(max-width:768px)`
 
-### 6. Icon Containers Need `line-height: 1`
-
-Elements presenting icons must have `lineHeight: "1"` to prevent extra spacing:
-```json
-{"styles": {"lineHeight": "1", "display": "flex", "alignItems": "center"}}
-```
-
-### 7. Lists Use `core/list` with `.list` Class
+### 9. Lists Use `core/list` with `.list` Class
 
 Convert Figma list designs to native WordPress list block:
 ```html
@@ -531,11 +545,11 @@ Convert Figma list designs to native WordPress list block:
 <!-- /wp:list -->
 ```
 
-### 8. Container Width with CSS Variable
+### 10. Container Width with CSS Variable
 
 Use `--gb-container-width` for inner container width and `align: "full"` on parent section:
 ```json
-{"align": "full", "styles": {"maxWidth": "var(--gb-container-width)"}}
+{"align": "full", "styles": {"maxWidth": "var(\u002d\u002dgb-container-width)"}}
 ```
 
 ## Image Handling
