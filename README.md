@@ -2,49 +2,68 @@
 
 LLM-optimized skill documentation and development resources for [GenerateBlocks](https://generateblocks.com/) WordPress plugin.
 
-## Start Here
+## Quick Install
 
-**Want to build GenerateBlocks layouts with AI?** Pick your path:
+Install skills for your AI coding assistant with one command:
 
-### Quick Start: Copy-Paste Examples
+```bash
+git clone https://github.com/wpgaurav/generateblocks-skills.git
+cd generateblocks-skills
+chmod +x install.sh
+./install.sh
+```
 
-Browse the [`examples/`](examples/) folder for **38 ready-to-use templates** across 14 section types:
+This launches an interactive installer that sets up skills for your preferred tools.
 
-| Section                                           | Description                         |
-| ------------------------------------------------- | ----------------------------------- |
-| [Hero Section](examples/01-hero/)                 | Stats bar, dual CTAs (5 variations) |
-| [Pricing Table](examples/02-pricing/)             | 3-tier with "Popular" badge         |
-| [Card Grid](examples/03-card-grid/)               | Blog posts, portfolio               |
-| [Feature List](examples/04-feature-list/)         | 6 features with icons               |
-| [FAQ Section](examples/05-faq/)                   | Numbered Q&A, two columns           |
-| [Testimonials](examples/06-testimonials/)         | Quotes, avatars, stars              |
-| [Sticky CTA](examples/07-sticky-cta/)             | Dark banner, dual buttons           |
-| [Post Grid](examples/08-post-grid/)               | Featured + small posts              |
-| [Stats Section](examples/09-stats/)               | 4 metrics on dark bg                |
-| [Services Grid](examples/10-services/)            | Bento layout                        |
-| [Logo Carousel](examples/11-logo-carousel/)       | Client/partner logos                |
-| [Team Grid](examples/12-team-grid/)               | Team member cards                   |
-| [Timeline](examples/13-timeline/)                 | Vertical timeline                   |
-| [Comparison Table](examples/14-comparison-table/) | Feature comparison                  |
+### Supported Tools
 
-Each folder contains multiple variations (e.g., `output-1-stats-bar.html`, `output-2-split-image.html`) plus the prompt that generated them.
+| Tool | Install Location | Format |
+|------|-----------------|--------|
+| **Claude Code** | `~/.claude/skills/` | Skill directories |
+| **Cursor** | `~/.cursor/skills/` | Skill directories |
+| **Windsurf** | `~/.windsurf/rules/` | Combined markdown |
+| **OpenAI Codex CLI** | `~/.codex/instructions.md` | Combined markdown |
+| **Gemini CLI** | `GEMINI.md` (project root) | Combined markdown |
+| **GitHub Copilot** | `.github/copilot-instructions.md` | Combined markdown |
+| **Cline / Roo Code** | `.clinerules` (project root) | Combined markdown |
+| **Aider** | `CONVENTIONS.md` (project root) | Combined markdown |
 
-**Bonus:** Check out [`examples/from-gauravtiwari-org/`](examples/from-gauravtiwari-org/) for real-world sections extracted from production sites.
+### Install Options
 
-### Full Skill: Teach Your AI
+```bash
+./install.sh              # Interactive mode (choose tools)
+./install.sh --all        # Install for all tools
+./install.sh claude       # Claude Code only
+./install.sh cursor codex # Multiple tools at once
+./install.sh --help       # Show help
+```
 
-For custom layouts, load the skill file into your AI.
+---
 
-**⚠️ IMPORTANT: You must upload the skill file at the START of every new conversation/thread.**
+## Alternative: Manual Setup
 
-| Skill                           | Download                                               |
-| ------------------------------- | ------------------------------------------------------ |
-| **GenerateBlocks Layouts**      | [.skill](importable/generateblocks-layouts.skill)      |
-| **HTML to GenerateBlocks**      | [.skill](importable/html-to-generateblocks.skill)      |
+If you prefer not to use the installer, you have two options:
+
+### Option A: Upload a Skill File
+
+Download a `.skill` file and upload it at the start of a new chat in Claude.ai, ChatGPT, Gemini, or any AI assistant.
+
+| Skill | Download |
+|-------|----------|
+| **GenerateBlocks Layouts** | [.skill](importable/generateblocks-layouts.skill) |
+| **HTML to GenerateBlocks** | [.skill](importable/html-to-generateblocks.skill) |
 | **Elementor to GenerateBlocks** | [.skill](importable/elementor-to-generateblocks.skill) |
-| **Figma to GenerateBlocks**     | [.skill](importable/figma-to-generateblocks.skill)     |
+| **Figma to GenerateBlocks** | [.skill](importable/figma-to-generateblocks.skill) |
 
-**Direct skill links (for manual copy-paste):**
+### Option B: Point Your AI to the Skill File
+
+With Claude Code, Cursor, or Windsurf, just reference the skill directly:
+
+```
+Read skills/generateblocks-layouts/SKILL.md and create a testimonial slider with 3 cards
+```
+
+Direct links to skill files:
 - [`skills/generateblocks-layouts/SKILL.md`](skills/generateblocks-layouts/SKILL.md)
 - [`skills/html-to-generateblocks/SKILL.md`](skills/html-to-generateblocks/SKILL.md)
 - [`skills/elementor-to-generateblocks/SKILL.md`](skills/elementor-to-generateblocks/SKILL.md)
@@ -52,9 +71,32 @@ For custom layouts, load the skill file into your AI.
 
 ---
 
-## How to Use
+## Copy-Paste Examples
 
-### Option 1: Copy an Example
+Browse the [`examples/`](examples/) folder for **38 ready-to-use templates** across 14 section types:
+
+| Section | Description |
+|---------|-------------|
+| [Hero Section](examples/01-hero/) | Stats bar, dual CTAs (5 variations) |
+| [Pricing Table](examples/02-pricing/) | 3-tier with "Popular" badge |
+| [Card Grid](examples/03-card-grid/) | Blog posts, portfolio |
+| [Feature List](examples/04-feature-list/) | 6 features with icons |
+| [FAQ Section](examples/05-faq/) | Numbered Q&A, two columns |
+| [Testimonials](examples/06-testimonials/) | Quotes, avatars, stars |
+| [Sticky CTA](examples/07-sticky-cta/) | Dark banner, dual buttons |
+| [Post Grid](examples/08-post-grid/) | Featured + small posts |
+| [Stats Section](examples/09-stats/) | 4 metrics on dark bg |
+| [Services Grid](examples/10-services/) | Bento layout |
+| [Logo Carousel](examples/11-logo-carousel/) | Client/partner logos |
+| [Team Grid](examples/12-team-grid/) | Team member cards |
+| [Timeline](examples/13-timeline/) | Vertical timeline |
+| [Comparison Table](examples/14-comparison-table/) | Feature comparison |
+
+Each folder contains multiple variations plus the prompt that generated them.
+
+**Bonus:** Check out [`examples/from-gauravtiwari-org/`](examples/from-gauravtiwari-org/) for real-world sections from production sites.
+
+### Using Examples
 
 1. Open any [`examples/`](examples/) folder
 2. Copy any `output-*.html` file content
@@ -63,76 +105,42 @@ For custom layouts, load the skill file into your AI.
 5. Paste the blocks
 6. Switch back to Visual Editor
 
-### Option 2: Generate Custom Layouts
-
-**With Claude Code / Cursor / Windsurf:**
-```
-Read skills/generateblocks-layouts/SKILL.md and create a testimonial slider with 3 cards
-```
-
-**With Claude.ai / ChatGPT / Gemini:**
-1. Download the [.skill file](importable/generateblocks-layouts.skill)
-2. Upload it at the start of a new chat
-3. Ask: "Create a pricing table with 3 tiers"
-
-### Option 3: Clone This Repo
-
-```bash
-git clone https://github.com/wpgaurav/generateblocks-skills.git
-cd generateblocks-skills
-```
-
-With Claude Code: Just run `claude` and it reads `CLAUDE.md` automatically.
-
 ---
 
 ## What's Included
 
-### Golden Examples (`examples/`)
-
-14 canonical sections with:
-- **`prompt.md`** — The exact prompt that generated it
-- **`output-*.html`** — Copy-paste ready GenerateBlocks markup (multiple variations)
-- **`README.md`** — Usage notes and customization tips
-
-Plus real-world examples in `from-gauravtiwari-org/`.
-
-### Skills (`skills/`) and Importable Files (`importable/`)
-
-| Skill                           | Folder                                                                       | Importable                                             |
-| ------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
-| **GenerateBlocks Layouts**      | [`skills/generateblocks-layouts/`](skills/generateblocks-layouts/)           | [.skill](importable/generateblocks-layouts.skill)      |
-| **HTML to GenerateBlocks**      | [`skills/html-to-generateblocks/`](skills/html-to-generateblocks/)           | [.skill](importable/html-to-generateblocks.skill)      |
-| **Elementor to GenerateBlocks** | [`skills/elementor-to-generateblocks/`](skills/elementor-to-generateblocks/) | [.skill](importable/elementor-to-generateblocks.skill) |
-| **Figma to GenerateBlocks**     | [`skills/figma-to-generateblocks/`](skills/figma-to-generateblocks/)         | [.skill](importable/figma-to-generateblocks.skill)     |
-
-#### GenerateBlocks Layouts Skill Structure
-
 ```
-skills/generateblocks-layouts/
-├── SKILL.md              # Main entry point — START HERE
-├── references/           # Detailed documentation
-│   ├── block-types.md    # Element, Text, Media, Shape block specs
-│   ├── css-patterns.md   # Hover effects, transitions, gradients
-│   ├── responsive.md     # Media queries, breakpoints
-│   ├── svg-icons.md      # Shape block, inline SVG patterns
-│   ├── troubleshooting.md# Complex layouts, error recovery
-│   ├── query-loops.md    # Dynamic content loops, pagination
-│   ├── dynamic-content.md# Dynamic tags, ACF, Pro templates
-│   ├── global-styles.md  # Design tokens, theme.json integration
-│   ├── patterns.md       # Block pattern registration
-│   ├── performance.md    # CSS delivery optimization
-│   └── migrations.md     # V1 to V2 migration guide
-└── examples/             # Basic building blocks
-    ├── basic/            # Single blocks (buttons, containers)
-    ├── compound/         # Combined blocks (cards, features)
-    ├── layouts/          # Full sections (hero, services)
-    └── svg/              # Icons and decorative shapes
+generateblocks-skills/
+├── install.sh                 # Multi-tool skill installer
+├── CLAUDE.md                  # Claude Code project instructions
+├── AGENTS.md                  # Universal LLM instructions
+├── skills/                    # Skill source files
+│   ├── generateblocks-layouts/
+│   │   ├── SKILL.md           # Main entry point
+│   │   ├── references/        # Block types, CSS, responsive, queries, etc.
+│   │   └── examples/          # Basic, compound, layout, SVG examples
+│   ├── html-to-generateblocks/
+│   ├── elementor-to-generateblocks/
+│   └── figma-to-generateblocks/
+├── importable/                # .skill and .zip files for upload
+├── examples/                  # 38 golden examples across 14 sections
+└── generateblocks/            # Plugin source (V2.2.0) for reference
 ```
 
-### Plugin Source (`generateblocks/`)
+### Skills
 
-Full GenerateBlocks free plugin source (V2.2.0) for reference.
+| Skill | Purpose |
+|-------|---------|
+| **GenerateBlocks Layouts** | Build layouts using GB V2 blocks (element, text, media, shape) |
+| **HTML to GenerateBlocks** | Convert HTML/CSS to GenerateBlocks block markup |
+| **Elementor to GenerateBlocks** | Migrate Elementor layouts to clean GB blocks |
+| **Figma to GenerateBlocks** | Convert Figma designs to GB blocks |
+
+### Importable Formats
+
+The `importable/` folder contains two formats for each skill:
+- **`.skill`** — Upload to any AI chat (Claude.ai, ChatGPT, Gemini)
+- **`.zip`** — Compressed skill with references included
 
 ---
 
@@ -147,7 +155,7 @@ generateblocks/media    → Images
 generateblocks/shape    → SVG icons
 ```
 
-**IMPORTANT V2 Naming:**
+**V2 Naming Rules:**
 - Use `generateblocks/element` (NOT `/container`)
 - Use `generateblocks/text` (NOT `/headline` or `/button`)
 - Classes MUST be: `gb-element-{id} gb-element` and `gb-text gb-text-{id}`
@@ -213,7 +221,7 @@ npm run wp-env:start   # Local WordPress
 
 ## Other LLMs
 
-For non-Claude assistants (GPT, Gemini, etc.), see **`AGENTS.md`** for universal instructions.
+For non-Claude assistants (GPT, Gemini, etc.), see **`AGENTS.md`** for universal instructions — or just run `./install.sh` to set up your tool automatically.
 
 ## License
 
