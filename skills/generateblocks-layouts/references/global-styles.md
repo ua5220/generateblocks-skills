@@ -200,8 +200,8 @@ theme.json generates CSS custom properties:
 ### Using Variables in GenerateBlocks
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"var001","tagName":"section","styles":{"padding":"var(--wp--preset--spacing--lg)","backgroundColor":"var(--wp--preset--color--muted)"},"css":".gb-element-var001{padding:var(--wp--preset--spacing--lg);background-color:var(--wp--preset--color--muted)}"} -->
-<section class="gb-element gb-element-var001">
+<!-- wp:generateblocks/element {"uniqueId":"var001","tagName":"section","styles":{"padding":"var(--wp--preset--spacing--lg)","backgroundColor":"var(--wp--preset--color--muted)"},"css":".gb-element-var001{padding:var(--wp--preset--spacing--lg);background-color:var(--wp--preset--color--muted)}","className":"gb-element"} -->
+<section class="gb-element-var001 gb-element">
     <!-- Content -->
 </section>
 <!-- /wp:generateblocks/element -->
@@ -249,12 +249,12 @@ In GenerateBlocks settings (GenerateBlocks > Settings > Global Classes):
 ### Using Global Classes in Blocks
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"gc001","tagName":"a","globalClasses":["button-primary"],"htmlAttributes":[{"attribute":"href","value":"#"}]} -->
-<a class="gb-text button-primary" href="#">Get Started</a>
+<!-- wp:generateblocks/text {"uniqueId":"gc001","tagName":"a","globalClasses":["button-primary"],"className":"gb-text"} -->
+<a class="gb-text-gc001 gb-text button-primary" href="#">Get Started</a>
 <!-- /wp:generateblocks/text -->
 
-<!-- wp:generateblocks/element {"uniqueId":"gc002","tagName":"article","globalClasses":["card-shadow"]} -->
-<article class="gb-element card-shadow">
+<!-- wp:generateblocks/element {"uniqueId":"gc002","tagName":"article","globalClasses":["card-shadow"],"className":"gb-element"} -->
+<article class="gb-element-gc002 gb-element card-shadow">
     <!-- Card content -->
 </article>
 <!-- /wp:generateblocks/element -->

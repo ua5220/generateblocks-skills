@@ -19,7 +19,7 @@ Classes MUST follow this pattern:
 
 | Block | Class Pattern | Example |
 |-------|---------------|---------|
-| Element | `gb-element gb-element-{uniqueId}` | `gb-element gb-element-hero001` |
+| Element | `gb-element-{uniqueId} gb-element` | `gb-element-hero001 gb-element` |
 | Text | `gb-text gb-text-{uniqueId}` | `gb-text gb-text-hero002` |
 | Media | `gb-media gb-media-{uniqueId}` | `gb-media gb-media-hero003` |
 | Shape | `gb-shape gb-shape-{uniqueId}` | `gb-shape gb-shape-hero004` |
@@ -29,8 +29,8 @@ Classes MUST follow this pattern:
 ### Element Block (Container)
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"paddingTop":"4rem","paddingBottom":"4rem"},"css":".gb-element-hero001{padding:4rem 0}"} -->
-<section class="gb-element gb-element-hero001">
+<!-- wp:generateblocks/element {"uniqueId":"hero001","className":"gb-element-hero001 gb-element","tagName":"section","styles":{"paddingTop":"4rem","paddingBottom":"4rem"},"css":".gb-element-hero001{padding:4rem 0}"} -->
+<section class="gb-element-hero001 gb-element">
     <!-- Inner blocks -->
 </section>
 <!-- /wp:generateblocks/element -->
@@ -47,8 +47,8 @@ Classes MUST follow this pattern:
 ### Link/Button (also uses Text block)
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"hero003","tagName":"a","htmlAttributes":{"href":"/signup/"},"styles":{"display":"inline-block","padding":"1rem 2rem","backgroundColor":"#c0392b","color":"#ffffff","borderRadius":"8px"},"css":".gb-text-hero003{display:inline-block;padding:1rem 2rem;background-color:#c0392b;color:#fff;border-radius:8px;text-decoration:none;transition:all 0.3s}.gb-text-hero003:hover{background-color:#e74c3c}"} -->
-<a class="gb-text gb-text-hero003" href="/signup/">Get Started</a>
+<!-- wp:generateblocks/text {"uniqueId":"hero003","tagName":"a","styles":{"display":"inline-block","padding":"1rem 2rem","backgroundColor":"#c0392b","color":"#ffffff","borderRadius":"8px"},"css":".gb-text-hero003{background-color:#c0392b;border-radius:8px;color:#fff;display:inline-block;padding:1rem 2rem;text-decoration:none}"} -->
+<a class="gb-text gb-text-hero003">Get Started</a>
 <!-- /wp:generateblocks/text -->
 ```
 
@@ -77,8 +77,8 @@ Classes MUST follow this pattern:
 | `uniqueId` | string | Required. Used for CSS class targeting. Format: `section###` or `section###letter` |
 | `tagName` | string | HTML element type (div, section, h1, p, a, button, span, etc.) |
 | `styles` | object | Basic CSS properties as JSON (camelCase keys) |
-| `css` | string | Complex CSS: hovers, media queries, pseudo-elements (minified) |
-| `htmlAttributes` | object | Additional HTML attrs: href, target, data-*, aria-*, etc. |
+| `css` | string | Base styles (alphabetically sorted, minified). Exceptions: pseudo-elements, media queries, animations, parent hover targeting children |
+| `htmlAttributes` | object | Plain object of HTML attrs: `{"href":"url","target":"_blank"}`. NOT array format |
 
 ## Unique ID Convention
 
@@ -96,12 +96,19 @@ Examples:
 ## CSS Rules
 
 1. **`styles` attribute**: Use for basic properties (padding, margin, flex, grid, colors, typography)
-2. **`css` attribute**: Use for complex CSS (hovers, pseudo-elements, media queries, transitions)
+2. **`css` attribute**: Base styles (alphabetically sorted, minified). Exceptions: pseudo-elements, media queries, animations, parent hover targeting children. **No hover states or transitions** (plugin generates from `styles`)
 3. **Always minify CSS** in the `css` attribute (no line breaks)
 4. **Target classes** use the uniqueId: `.gb-element-hero001`, `.gb-text-hero002`
 5. **Icon containers need `line-height: 1`** - Elements presenting icons must have `lineHeight: "1"`
 6. **Lists use `core/list` with `.list` class** - Native WordPress list block with `className: "list"`
 7. **Use `--gb-container-width`** - For inner container width; add `align: "full"` to parent section
+
+## Additional Formatting Rules
+
+1. **Full absolute URLs required** - Never use relative paths (e.g., `https://example.com/image.jpg` not `/image.jpg`)
+2. **No spaces in CSS functions** - `clamp(3rem,8vw,5rem)` not `clamp(3rem, 8vw, 5rem)`
+3. **SVG attribute order** - stroke-linejoin, stroke-linecap, stroke-width, stroke, fill, viewBox, height, width
+4. **Compact nesting** - Closing tags on same line as parent
 
 ## No Extra HTML Comments
 
@@ -160,11 +167,11 @@ Standard breakpoints for media queries:
 ## Example Output Structure
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"sect001","tagName":"section","styles":{"paddingTop":"4rem","paddingBottom":"4rem","backgroundColor":"#ffffff"},"css":".gb-element-sect001{padding:4rem 0;background-color:#fff}"} -->
-<section class="gb-element gb-element-sect001">
+<!-- wp:generateblocks/element {"uniqueId":"sect001","className":"gb-element-sect001 gb-element","tagName":"section","styles":{"paddingTop":"4rem","paddingBottom":"4rem","backgroundColor":"#ffffff"},"css":".gb-element-sect001{background-color:#fff;padding:4rem 0}"} -->
+<section class="gb-element-sect001 gb-element">
 
-    <!-- wp:generateblocks/element {"uniqueId":"sect002","tagName":"div","styles":{"maxWidth":"1200px","marginLeft":"auto","marginRight":"auto","paddingLeft":"1rem","paddingRight":"1rem"},"css":".gb-element-sect002{max-width:1200px;margin:0 auto;padding:0 1rem}"} -->
-    <div class="gb-element gb-element-sect002">
+    <!-- wp:generateblocks/element {"uniqueId":"sect002","className":"gb-element-sect002 gb-element","tagName":"div","styles":{"maxWidth":"1200px","marginLeft":"auto","marginRight":"auto","paddingLeft":"1rem","paddingRight":"1rem"},"css":".gb-element-sect002{margin:0 auto;max-width:1200px;padding:0 1rem}"} -->
+    <div class="gb-element-sect002 gb-element">
 
         <!-- wp:generateblocks/text {"uniqueId":"sect003","tagName":"h2","styles":{"fontSize":"2.5rem","fontWeight":"800","color":"#0a0a0a","marginBottom":"1rem"},"css":".gb-text-sect003{font-size:2.5rem;font-weight:800;color:#0a0a0a;margin-bottom:1rem}"} -->
         <h2 class="gb-text gb-text-sect003">Section Heading</h2>

@@ -94,9 +94,9 @@ For elements not available in GenerateBlocks or requiring advanced media feature
 <!-- /wp:generateblocks/{type} -->
 ```
 
-**Element blocks** add `"className":"gb-element"` to attributes. HTML class order: `gb-element-{id} gb-element`:
+**Element blocks** add `"className":"gb-element-card001 gb-element"` to attributes. HTML class order: `gb-element-{id} gb-element`:
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"div","className":"gb-element",...} -->
+<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"div","className":"gb-element-card001 gb-element",...} -->
 <div class="gb-element-card001 gb-element">...</div>
 <!-- /wp:generateblocks/element -->
 ```
@@ -108,35 +108,36 @@ Every block needs:
 - `tagName` - HTML element type
 - `styles` - CSS properties as JSON object (camelCase). Supports responsive keys like `"@media (max-width:1024px)":{...}`
 - `css` - Generated CSS string (kebab-case, minified, alphabetically sorted)
-- `htmlAttributes` - Array of attribute objects (for links, IDs, data attributes)
+- `htmlAttributes` - Plain object of attribute key-value pairs (for links, IDs, data attributes)
 
 Optional:
-- `className` - Additional CSS classes (e.g., `"gb-element"` for element blocks, `"gb-element alignfull"` for full-width sections)
+- `className` - Additional CSS classes. **Must include the uniqueId class**: e.g., `"gb-element-card001 gb-element"` for element blocks, `"gb-element-hero001 gb-element alignfull"` for full-width sections
 - `globalClasses` - Array of global CSS class slugs (e.g., `["lede"]`)
 - `align` - Block alignment (`"full"` for full-width)
 
 ## CRITICAL: htmlAttributes Format
 
-**htmlAttributes MUST be an array of objects, NOT a plain object:**
+**htmlAttributes MUST be a plain object, NOT an array:**
 
 ```json
-// ✅ CORRECT - Array of objects
+// ✅ CORRECT - Plain object
+"htmlAttributes": {"href": "https://example.com/page/", "target": "_blank", "id": "section-id"}
+
+// ❌ WRONG - Array of objects (causes block editor recovery errors)
 "htmlAttributes": [
   {"attribute": "href", "value": "/contact/"},
-  {"attribute": "target", "value": "_blank"},
-  {"attribute": "id", "value": "section-id"}
-]
-
-// ❌ WRONG - Plain object (causes block editor recovery errors)
-"htmlAttributes": {"href": "/contact/", "target": "_blank"}
-```
-
-**linkHtmlAttributes** (for media blocks) uses the same array format:
-```json
-"linkHtmlAttributes": [
-  {"attribute": "href", "value": "/product/"},
   {"attribute": "target", "value": "_blank"}
 ]
+```
+
+**Use full absolute URLs**, not relative paths. The block editor saves links as absolute URLs; relative paths get converted on save, causing a mismatch that triggers block recovery.
+
+```json
+// ✅ CORRECT
+"htmlAttributes": {"href": "https://gauravtiwari.org/services/web-development/"}
+
+// ❌ WRONG
+"htmlAttributes": {"href": "/services/web-development/"}
 ```
 
 ### Text `<a>` vs Element `<a>` Links
@@ -144,7 +145,7 @@ Optional:
 | Block Type | `htmlAttributes` for href | `href` in HTML | Use Case |
 |-----------|--------------------------|----------------|----------|
 | `generateblocks/text` with `tagName: "a"` | **No** - plugin manages link internally | **No** | Plain text buttons/links (no inner blocks) |
-| `generateblocks/element` with `tagName: "a"` | **Yes** - `[{"attribute":"href","value":"/url/"}]` | **Yes** | Containers wrapping inner blocks (cards, icon buttons) |
+| `generateblocks/element` with `tagName: "a"` | **Yes** - `{"href":"https://example.com/"}` | **Yes** | Containers wrapping inner blocks (cards, icon buttons) |
 
 **Rule:** Text `<a>` blocks are leaf blocks - the link URL is managed by the editor UI. Element `<a>` blocks are containers - they need explicit `htmlAttributes` for the href.
 
@@ -224,9 +225,9 @@ Optional:
 For full-width sections with contained inner content:
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{...},"css":"...","align":"full","className":"gb-element alignfull"} -->
+<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{...},"css":"...","align":"full","className":"gb-element-hero001 gb-element alignfull"} -->
 <section class="gb-element-hero001 gb-element alignfull">
-    <!-- wp:generateblocks/element {"uniqueId":"hero002","tagName":"div","styles":{"maxWidth":"var(\u002d\u002dgb-container-width)","marginLeft":"auto","marginRight":"auto"},"css":".gb-element-hero002{margin-left:auto;margin-right:auto;max-width:var(\u002d\u002dgb-container-width)}","className":"gb-element"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"hero002","tagName":"div","styles":{"maxWidth":"var(\u002d\u002dgb-container-width)","marginLeft":"auto","marginRight":"auto"},"css":".gb-element-hero002{margin-left:auto;margin-right:auto;max-width:var(\u002d\u002dgb-container-width)}","className":"gb-element-hero002 gb-element"} -->
     <div class="gb-element-hero002 gb-element">
         <!-- Inner content -->
     </div>
@@ -236,7 +237,7 @@ For full-width sections with contained inner content:
 ```
 
 **Key:**
-- Outer section: `"align":"full"` + `"className":"gb-element alignfull"`
+- Outer section: `"align":"full"` + `"className":"gb-element-hero001 gb-element alignfull"`
 - Inner container: `maxWidth: "var(\u002d\u002dgb-container-width)"` (unicode-escaped `--gb-container-width`)
 
 ## Unique ID Convention
@@ -313,12 +314,17 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 5. **Duplicate styles** - Put in both `styles` object AND `css` string
 6. **Test responsive** - Add media queries for tablet (1024px) and mobile (768px)
 7. **Text `<a>` = no htmlAttributes for href** - The link URL is managed by the editor UI internally
-8. **Element `<a>` = use htmlAttributes for href** - Container links need explicit `[{"attribute":"href","value":"/url/"}]`
+8. **Element `<a>` = use htmlAttributes for href** - Container links need explicit `{"href":"https://full-url.com/"}`
 9. **Buttons with icons** - Use `generateblocks/element` (tagName `a`) wrapping `generateblocks/text` + `generateblocks/shape` blocks. Plain text buttons use `generateblocks/text`
 10. **Shape blocks** - Use `styles.svg` for SVG-specific properties (fill, stroke, width, height) OR simple `styles` with width/height/color and inline SVG attributes. Both patterns work
 11. **Lists use `core/list` with `.list` class** - Always use the native WordPress list block with `className: "list"` and customize styling as needed
 12. **Use `--gb-container-width` for inner containers** - Set inner container width using the CSS variable; add `align: "full"` to parent section for full-width layouts
-13. **htmlAttributes as array** - ALWAYS use array format: `[{"attribute":"href","value":"/link/"}]` NOT object format
+13. **htmlAttributes as plain object** - Use `{"href":"https://example.com/"}` NOT array format `[{"attribute":"href","value":"..."}]`
+14. **className must include uniqueId** - Always `"gb-element-{uniqueId} gb-element"`, never just `"gb-element"`
+15. **Full absolute URLs** - Use `https://gauravtiwari.org/services/...` not `/services/...` — relative paths trigger block recovery on save
+16. **No spaces in CSS functions** - `clamp(3rem,8vw,5rem)` not `clamp(3rem, 8vw, 5rem)` — the block editor minifies, mismatch triggers recovery
+17. **SVG attribute order** - Block editor reorders: `stroke-linejoin`, `stroke-linecap`, `stroke-width`, `stroke`, `fill`, `viewBox`, `height`, `width`
+18. **Compact nesting** - Closing tags on same line as parent: `<!-- /wp:generateblocks/shape --></div>` not separate lines
 
 ## Design Inference (When CSS Not Provided)
 

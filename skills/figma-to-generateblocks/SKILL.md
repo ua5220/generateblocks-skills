@@ -293,11 +293,11 @@ Frame (Hero)
 
 **GenerateBlocks:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"paddingBottom":"4rem","paddingTop":"4rem","@media (max-width:768px)":{"paddingBottom":"2rem","paddingTop":"2rem"}},"css":".gb-element-hero001{padding-bottom:4rem;padding-top:4rem}@media(max-width:768px){.gb-element-hero001{padding-bottom:2rem;padding-top:2rem}}","className":"gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"paddingBottom":"4rem","paddingTop":"4rem","@media (max-width:768px)":{"paddingBottom":"2rem","paddingTop":"2rem"}},"css":".gb-element-hero001{padding-bottom:4rem;padding-top:4rem}@media(max-width:768px){.gb-element-hero001{padding-bottom:2rem;padding-top:2rem}}","className":"gb-element-hero001 gb-element"} -->
 <section class="gb-element-hero001 gb-element">
-    <!-- wp:generateblocks/element {"uniqueId":"hero002","tagName":"div","styles":{"alignItems":"center","display":"grid","gap":"3rem","gridTemplateColumns":"minmax(0, 1fr) minmax(0, 1fr)","marginLeft":"auto","marginRight":"auto","maxWidth":"var(--gb-container-width)","paddingLeft":"1rem","paddingRight":"1rem","@media (max-width:768px)":{"gridTemplateColumns":"1fr","textAlign":"center"}},"css":".gb-element-hero002{align-items:center;display:grid;gap:3rem;grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);margin-left:auto;margin-right:auto;max-width:var(--gb-container-width);padding-left:1rem;padding-right:1rem}@media(max-width:768px){.gb-element-hero002{grid-template-columns:1fr;text-align:center}}","className":"gb-element"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"hero002","tagName":"div","styles":{"alignItems":"center","display":"grid","gap":"3rem","gridTemplateColumns":"minmax(0, 1fr) minmax(0, 1fr)","marginLeft":"auto","marginRight":"auto","maxWidth":"var(--gb-container-width)","paddingLeft":"1rem","paddingRight":"1rem","@media (max-width:768px)":{"gridTemplateColumns":"1fr","textAlign":"center"}},"css":".gb-element-hero002{align-items:center;display:grid;gap:3rem;grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);margin-left:auto;margin-right:auto;max-width:var(--gb-container-width);padding-left:1rem;padding-right:1rem}@media(max-width:768px){.gb-element-hero002{grid-template-columns:1fr;text-align:center}}","className":"gb-element-hero002 gb-element"} -->
     <div class="gb-element-hero002 gb-element">
-        <!-- wp:generateblocks/element {"uniqueId":"hero003","tagName":"div","styles":{"display":"flex","flexDirection":"column","gap":"1.5rem"},"css":".gb-element-hero003{display:flex;flex-direction:column;gap:1.5rem}","className":"gb-element"} -->
+        <!-- wp:generateblocks/element {"uniqueId":"hero003","tagName":"div","styles":{"display":"flex","flexDirection":"column","gap":"1.5rem"},"css":".gb-element-hero003{display:flex;flex-direction:column;gap:1.5rem}","className":"gb-element-hero003 gb-element"} -->
         <div class="gb-element-hero003 gb-element">
             <!-- Tagline, Headline, Description, Buttons -->
         </div>
@@ -326,12 +326,12 @@ Frame (Card)
 Cards with inner blocks use `generateblocks/element` (not `text`) with `tagName: "a"`. Hover states and transitions are managed by the `styles` object — never put them in `css`.
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/link/"}],"styles":{"backgroundColor":"white","border":"1px solid #e5e5e5","borderRadius":"1rem","display":"flex","flexDirection":"column","overflow":"hidden","textDecoration":"none"},"css":".gb-element-card001{background-color:white;border:1px solid #e5e5e5;border-radius:1rem;display:flex;flex-direction:column;overflow:hidden;text-decoration:none}","className":"gb-element"} -->
-<a class="gb-element-card001 gb-element" href="/link/">
+<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"https://example.com/link/"},"styles":{"backgroundColor":"white","border":"1px solid #e5e5e5","borderRadius":"1rem","display":"flex","flexDirection":"column","overflow":"hidden","textDecoration":"none"},"css":".gb-element-card001{background-color:white;border:1px solid #e5e5e5;border-radius:1rem;display:flex;flex-direction:column;overflow:hidden;text-decoration:none}","className":"gb-element-card001 gb-element"} -->
+<a class="gb-element-card001 gb-element" href="https://example.com/link/">
     <!-- wp:generateblocks/media {"uniqueId":"card002","mediaType":"image","htmlAttributes":[{"attribute":"src","value":"image.jpg"},{"attribute":"alt","value":"Card image"}],"styles":{"aspectRatio":"16/9","objectFit":"cover","width":"100%"},"css":".gb-media-card002{aspect-ratio:16/9;object-fit:cover;width:100%}"} -->
     <img class="gb-media gb-media-card002" src="image.jpg" alt="Card image" />
     <!-- /wp:generateblocks/media -->
-    <!-- wp:generateblocks/element {"uniqueId":"card003","tagName":"div","styles":{"display":"flex","flexDirection":"column","gap":"0.75rem","padding":"1.5rem"},"css":".gb-element-card003{display:flex;flex-direction:column;gap:0.75rem;padding:1.5rem}","className":"gb-element"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"card003","tagName":"div","styles":{"display":"flex","flexDirection":"column","gap":"0.75rem","padding":"1.5rem"},"css":".gb-element-card003{display:flex;flex-direction:column;gap:0.75rem;padding:1.5rem}","className":"gb-element-card003 gb-element"} -->
     <div class="gb-element-card003 gb-element">
         <!-- Title, Description -->
     </div>
@@ -355,10 +355,10 @@ Frame (Nav)
 
 **GenerateBlocks:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"nav001","tagName":"header","styles":{"alignItems":"center","display":"flex","justifyContent":"space-between","padding":"1rem 0"},"css":".gb-element-nav001{align-items:center;display:flex;justify-content:space-between;padding:1rem 0}","className":"gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"nav001","tagName":"header","styles":{"alignItems":"center","display":"flex","justifyContent":"space-between","padding":"1rem 0"},"css":".gb-element-nav001{align-items:center;display:flex;justify-content:space-between;padding:1rem 0}","className":"gb-element-nav001 gb-element"} -->
 <header class="gb-element-nav001 gb-element">
     <!-- Logo -->
-    <!-- wp:generateblocks/element {"uniqueId":"nav002","tagName":"nav","styles":{"display":"flex","gap":"2rem","@media (max-width:768px)":{"display":"none"}},"css":".gb-element-nav002{display:flex;gap:2rem}@media(max-width:768px){.gb-element-nav002{display:none}}","className":"gb-element"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"nav002","tagName":"nav","styles":{"display":"flex","gap":"2rem","@media (max-width:768px)":{"display":"none"}},"css":".gb-element-nav002{display:flex;gap:2rem}@media(max-width:768px){.gb-element-nav002{display:none}}","className":"gb-element-nav002 gb-element"} -->
     <nav class="gb-element-nav002 gb-element">
         <!-- Navigation links -->
     </nav>
@@ -448,9 +448,9 @@ The ONLY allowed comments are WordPress block delimiters:
 **CORRECT - Only block delimiters:**
 ```html
 <!-- wp:generateblocks/element {"uniqueId":"hero001",...} -->
-<section class="gb-element gb-element-hero001">
+<section class="gb-element-hero001 gb-element">
     <!-- wp:generateblocks/text {"uniqueId":"hero002",...} -->
-    <h1 class="gb-text gb-text-hero002">Heading</h1>
+    <h1 class="gb-text-hero002 gb-text">Heading</h1>
     <!-- /wp:generateblocks/text -->
 </section>
 <!-- /wp:generateblocks/element -->
@@ -460,23 +460,23 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 
 ## Other Critical Rules
 
-### 1. htmlAttributes MUST Use Array Format
+### 1. htmlAttributes MUST Use Object Format
 
-**htmlAttributes MUST be an array of objects, NOT a plain object:**
+**htmlAttributes MUST be a plain object, NOT an array of objects:**
 
 ```json
-// ✅ CORRECT - Array of objects
+// ✅ CORRECT - Plain object
+"htmlAttributes": {"href": "https://example.com/contact/", "target": "_blank", "id": "section-id"}
+
+// ❌ WRONG - Array of objects (causes block editor recovery errors)
 "htmlAttributes": [
   {"attribute": "href", "value": "/contact/"},
   {"attribute": "target", "value": "_blank"},
   {"attribute": "id", "value": "section-id"}
 ]
-
-// ❌ WRONG - Plain object (causes block editor recovery errors)
-"htmlAttributes": {"href": "/contact/", "target": "_blank"}
 ```
 
-**linkHtmlAttributes** (for media blocks) uses the same array format.
+**Note:** `linkHtmlAttributes` for media blocks may use a different format.
 
 ### 2. Both styles AND css Required
 
@@ -507,9 +507,9 @@ Format: `{section}{number}{letter}`
 
 ### 5. Element Blocks Need className
 
-Add `"className":"gb-element"` to all element block attributes. HTML class order: `gb-element-{id} gb-element`:
+Add `"className":"gb-element-{id} gb-element"` to all element block attributes (className MUST include the uniqueId). HTML class order: `gb-element-{id} gb-element`:
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"card001",...,"className":"gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"card001",...,"className":"gb-element-card001 gb-element"} -->
 <div class="gb-element-card001 gb-element">...</div>
 <!-- /wp:generateblocks/element -->
 ```
@@ -519,7 +519,7 @@ Add `"className":"gb-element"` to all element block attributes. HTML class order
 | Block Type | `htmlAttributes` for href | Use Case |
 |-----------|--------------------------|----------|
 | `generateblocks/text` with `tagName: "a"` | **No** - plugin manages link internally | Plain text buttons/links (no inner blocks) |
-| `generateblocks/element` with `tagName: "a"` | **Yes** - `[{"attribute":"href","value":"/url/"}]` | Containers wrapping inner blocks (cards, icon buttons) |
+| `generateblocks/element` with `tagName: "a"` | **Yes** - `{"href":"https://example.com/"}` | Containers wrapping inner blocks (cards, icon buttons) |
 
 ### 7. SVG Icons Use Shape Blocks
 
@@ -550,6 +550,59 @@ Convert Figma list designs to native WordPress list block:
 Use `--gb-container-width` for inner container width and `align: "full"` on parent section:
 ```json
 {"align": "full", "styles": {"maxWidth": "var(\u002d\u002dgb-container-width)"}}
+```
+
+### 11. Full Absolute URLs
+
+Always use full absolute URLs in `htmlAttributes`, never relative paths:
+```json
+// ✅ CORRECT
+"htmlAttributes": {"href": "https://example.com/contact/"}
+
+// ❌ WRONG
+"htmlAttributes": {"href": "/contact/"}
+```
+
+### 12. No Spaces in CSS Functions
+
+The block editor minifies CSS, so spaces in functions like `clamp()` cause mismatches:
+```css
+/* ✅ CORRECT */
+font-size:clamp(2rem,5vw,3rem)
+
+/* ❌ WRONG */
+font-size:clamp(2rem, 5vw, 3rem)
+```
+
+### 13. SVG Attribute Order in HTML
+
+SVG elements must follow this attribute order: `viewBox` first, then `fill`, then `aria-hidden`:
+```html
+<!-- ✅ CORRECT -->
+<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="..."/></svg>
+
+<!-- ❌ WRONG -->
+<svg fill="currentColor" viewBox="0 0 24 24"><path d="..."/></svg>
+```
+
+### 14. Compact Nesting
+
+Closing tags must be on the same line as their parent's closing comment. No blank lines between closing tags:
+```html
+<!-- ✅ CORRECT -->
+    </div>
+    <!-- /wp:generateblocks/element -->
+</section>
+<!-- /wp:generateblocks/element -->
+
+<!-- ❌ WRONG -->
+    </div>
+
+    <!-- /wp:generateblocks/element -->
+
+</section>
+
+<!-- /wp:generateblocks/element -->
 ```
 
 ## Image Handling

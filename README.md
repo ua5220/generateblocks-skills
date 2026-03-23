@@ -150,13 +150,14 @@ generateblocks/shape    → SVG icons
 **IMPORTANT V2 Naming:**
 - Use `generateblocks/element` (NOT `/container`)
 - Use `generateblocks/text` (NOT `/headline` or `/button`)
-- Classes MUST be: `gb-element gb-element-{id}` and `gb-text gb-text-{id}`
+- Classes MUST be: `gb-element-{id} gb-element` and `gb-text gb-text-{id}`
+- `htmlAttributes` must be a plain object (`{"href":"/about"}`) — never an array
 
 Block format:
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{...},"css":"..."} -->
-<section class="gb-element gb-element-hero001">
+<!-- wp:generateblocks/element {"uniqueId":"hero001","className":"gb-element-hero001 gb-element","tagName":"section","styles":{...},"css":"..."} -->
+<section class="gb-element-hero001 gb-element">
     <!-- content -->
 </section>
 <!-- /wp:generateblocks/element -->
@@ -170,7 +171,7 @@ Key attributes:
 - `uniqueId` — Required for CSS targeting (format: `hero001`, `card023`)
 - `tagName` — HTML element type
 - `styles` — CSS properties as JSON (camelCase)
-- `css` — Complex CSS string (hovers, media queries, pseudo-elements)
+- `css` — Base CSS string (minified, alphabetically sorted). Pseudo-elements, media queries in css. NO hover/transitions
 - `htmlAttributes` — Additional HTML attributes (href, target, aria-*)
 
 ---

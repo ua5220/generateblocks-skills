@@ -95,8 +95,8 @@ GenerateBlocks deduplicates identical styles. When creating blocks:
 
 ```html
 <!-- These will share CSS if styles are identical -->
-<!-- wp:generateblocks/element {"uniqueId":"card001","styles":{"padding":"2rem","backgroundColor":"#ffffff"}} -->
-<!-- wp:generateblocks/element {"uniqueId":"card002","styles":{"padding":"2rem","backgroundColor":"#ffffff"}} -->
+<!-- wp:generateblocks/element {"uniqueId":"card001","styles":{"padding":"2rem","backgroundColor":"#ffffff"},"className":"gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"card002","styles":{"padding":"2rem","backgroundColor":"#ffffff"},"className":"gb-element"} -->
 ```
 
 ### Remove Unused CSS
@@ -119,12 +119,12 @@ Use global classes for repeated patterns:
 
 ```html
 <!-- Instead of repeating styles -->
-<!-- wp:generateblocks/element {"uniqueId":"a1","styles":{"padding":"2rem","borderRadius":"1rem","backgroundColor":"#fff"}} -->
-<!-- wp:generateblocks/element {"uniqueId":"a2","styles":{"padding":"2rem","borderRadius":"1rem","backgroundColor":"#fff"}} -->
+<!-- wp:generateblocks/element {"uniqueId":"a1","styles":{"padding":"2rem","borderRadius":"1rem","backgroundColor":"#fff"},"className":"gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"a2","styles":{"padding":"2rem","borderRadius":"1rem","backgroundColor":"#fff"},"className":"gb-element"} -->
 
 <!-- Use global classes -->
-<!-- wp:generateblocks/element {"uniqueId":"a1","globalClasses":["card-base"]} -->
-<!-- wp:generateblocks/element {"uniqueId":"a2","globalClasses":["card-base"]} -->
+<!-- wp:generateblocks/element {"uniqueId":"a1","globalClasses":["card-base"],"className":"gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"a2","globalClasses":["card-base"],"className":"gb-element"} -->
 ```
 
 ## Asset Loading
@@ -444,7 +444,7 @@ Monitor these metrics:
 </style>
 
 <!-- Hero block -->
-<!-- wp:generateblocks/element {"uniqueId":"hero001"} -->
+<!-- wp:generateblocks/element {"uniqueId":"hero001","className":"gb-element"} -->
 ```
 
 ### CLS Prevention

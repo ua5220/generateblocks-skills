@@ -124,10 +124,10 @@ npm run plugin-zip         # Create plugin zip
 **IMPORTANT V2 Naming:**
 - Use `generateblocks/element` (NOT `/container`)
 - Use `generateblocks/text` (NOT `/headline` or `/button`)
-- Classes MUST be: `gb-element gb-element-{uniqueId}` for element blocks
-- Classes MUST be: `gb-text gb-text-{uniqueId}` for text blocks
-- Classes MUST be: `gb-media gb-media-{uniqueId}` for media blocks
-- Classes MUST be: `gb-shape gb-shape-{uniqueId}` for shape blocks
+- Classes MUST be: `gb-element-{uniqueId} gb-element` for element blocks
+- Classes MUST be: `gb-text-{uniqueId} gb-text` for text blocks
+- Classes MUST be: `gb-media-{uniqueId} gb-media` for media blocks
+- Classes MUST be: `gb-shape-{uniqueId} gb-shape` for shape blocks
 
 ### Plugin Structure
 
@@ -166,8 +166,8 @@ npm run plugin-zip         # Create plugin zip
 ## Block Structure (V2)
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"abc123","tagName":"div","styles":{...},"css":"..."} -->
-<div class="gb-element gb-element-abc123">
+<!-- wp:generateblocks/element {"uniqueId":"abc123","className":"gb-element-abc123 gb-element","tagName":"div","styles":{...},"css":"..."} -->
+<div class="gb-element-abc123 gb-element">
     <!-- Inner blocks -->
 </div>
 <!-- /wp:generateblocks/element -->
@@ -177,9 +177,9 @@ npm run plugin-zip         # Create plugin zip
 - `uniqueId` - Required for CSS targeting
 - `tagName` - HTML element type
 - `styles` - Object with basic CSS (padding, margin, colors, flex, grid)
-- `css` - String with complex CSS (hovers, pseudo-elements, media queries)
+- `css` - Base styles (alphabetically sorted, minified). Exceptions: pseudo-elements, media queries, animations, parent hover targeting children. No hover states or transitions
 - `globalClasses` - Array of global CSS classes
-- `htmlAttributes` - Additional HTML attrs (href, target, data-*, aria-*)
+- `htmlAttributes` - Plain object of HTML attrs: `{"href":"url","target":"_blank"}`. NOT array format
 
 ## CSS Approaches
 
@@ -188,7 +188,7 @@ npm run plugin-zip         # Create plugin zip
 **2. Inline Styles (V2 with `styles` + `css`):** Self-contained styling in block attributes
 
 Use `styles` for: layout, spacing, colors, typography, borders
-Use `css` for: hover states, pseudo-elements, media queries, transitions
+Use `css` for: base styles (minified, alphabetically sorted). Exceptions in css: pseudo-elements, media queries, animations, parent hover targeting children. **Never** hover states or transitions in css
 
 ## Unique ID Convention
 

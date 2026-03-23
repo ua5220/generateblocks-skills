@@ -55,8 +55,8 @@ generateblocks/shape        → SVG icons and shapes
 
 **V2:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"abc123","tagName":"div","styles":{"paddingTop":"40px","paddingBottom":"40px","backgroundColor":"#ffffff"},"css":".gb-element-abc123{padding-top:40px;padding-bottom:40px;background-color:#ffffff}"} -->
-<div class="gb-element gb-element-abc123">
+<!-- wp:generateblocks/element {"uniqueId":"abc123","tagName":"div","styles":{"paddingTop":"40px","paddingBottom":"40px","backgroundColor":"#ffffff"},"css":".gb-element-abc123{padding-top:40px;padding-bottom:40px;background-color:#ffffff}","className":"gb-element"} -->
+<div class="gb-element-abc123 gb-element">
     <!-- Content -->
 </div>
 <!-- /wp:generateblocks/element -->
@@ -73,8 +73,8 @@ generateblocks/shape        → SVG icons and shapes
 
 **V2:**
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"btn123","tagName":"a","htmlAttributes":[{"attribute":"href","value":"#"}],"styles":{"display":"inline-flex","padding":"15px 30px","backgroundColor":"#0073aa","color":"#ffffff","textDecoration":"none"},"css":".gb-text-btn123{display:inline-flex;padding:15px 30px;background-color:#0073aa;color:#ffffff;text-decoration:none}"} -->
-<a class="gb-text gb-text-btn123" href="#">Click Me</a>
+<!-- wp:generateblocks/text {"uniqueId":"btn123","tagName":"a","styles":{"display":"inline-flex","padding":"15px 30px","backgroundColor":"#0073aa","color":"#ffffff","textDecoration":"none"},"css":".gb-text-btn123{display:inline-flex;padding:15px 30px;background-color:#0073aa;color:#ffffff;text-decoration:none}","className":"gb-text"} -->
+<a class="gb-text-btn123 gb-text" href="#">Click Me</a>
 <!-- /wp:generateblocks/text -->
 ```
 
@@ -89,8 +89,8 @@ generateblocks/shape        → SVG icons and shapes
 
 **V2:**
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"head123","tagName":"h2","styles":{"fontSize":"32px","fontWeight":"700"},"css":".gb-text-head123{font-size:32px;font-weight:700}"} -->
-<h2 class="gb-text gb-text-head123">My Heading</h2>
+<!-- wp:generateblocks/text {"uniqueId":"head123","tagName":"h2","styles":{"fontSize":"32px","fontWeight":"700"},"css":".gb-text-head123{font-size:32px;font-weight:700}","className":"gb-text"} -->
+<h2 class="gb-text-head123 gb-text">My Heading</h2>
 <!-- /wp:generateblocks/text -->
 ```
 
@@ -109,8 +109,8 @@ generateblocks/shape        → SVG icons and shapes
 
 **V2:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"grid123","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(3, minmax(0, 1fr))","gap":"30px"},"css":".gb-element-grid123{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:30px}"} -->
-<div class="gb-element gb-element-grid123">
+<!-- wp:generateblocks/element {"uniqueId":"grid123","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(3, minmax(0, 1fr))","gap":"30px"},"css":".gb-element-grid123{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:30px}","className":"gb-element"} -->
+<div class="gb-element-grid123 gb-element">
     <!-- Grid items -->
 </div>
 <!-- /wp:generateblocks/element -->
@@ -129,8 +129,8 @@ generateblocks/shape        → SVG icons and shapes
 
 **V2:**
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"img123","mediaId":456,"htmlAttributes":[{"attribute":"src","value":"image.jpg"},{"attribute":"alt","value":"Description"},{"attribute":"width","value":"600"},{"attribute":"height","value":"400"}],"styles":{"width":"600px","height":"400px"},"css":".gb-media-img123{width:600px;height:400px}"} -->
-<img class="gb-media gb-media-img123" src="image.jpg" alt="Description" width="600" height="400" />
+<!-- wp:generateblocks/media {"uniqueId":"img123","mediaId":456,"htmlAttributes":[{"attribute":"src","value":"image.jpg"},{"attribute":"alt","value":"Description"},{"attribute":"width","value":"600"},{"attribute":"height","value":"400"}],"styles":{"width":"600px","height":"400px"},"css":".gb-media-img123{width:600px;height:400px}","className":"gb-media"} -->
+<img class="gb-media-img123 gb-media" src="image.jpg" alt="Description" width="600" height="400" />
 <!-- /wp:generateblocks/media -->
 ```
 

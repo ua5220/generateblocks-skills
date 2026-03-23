@@ -67,18 +67,18 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 
 ## CRITICAL: htmlAttributes Format
 
-**htmlAttributes MUST be an array of objects, NOT a plain object:**
+**htmlAttributes MUST be a plain object, NOT an array of objects:**
 
 ```json
-// ✅ CORRECT - Array of objects
+// ✅ CORRECT - Plain object
+"htmlAttributes": {"href": "https://example.com/", "target": "_blank", "id": "section-id"}
+
+// ❌ WRONG - Array of objects (causes block editor recovery errors)
 "htmlAttributes": [
   {"attribute": "href", "value": "/contact/"},
   {"attribute": "target", "value": "_blank"},
   {"attribute": "id", "value": "section-id"}
 ]
-
-// ❌ WRONG - Plain object (causes block editor recovery errors)
-"htmlAttributes": {"href": "/contact/", "target": "_blank"}
 ```
 
 **linkHtmlAttributes** (for media blocks) uses the same array format:
@@ -96,7 +96,7 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 Element blocks add `"className":"gb-element"` to attributes. HTML class order: `gb-element-{id} gb-element`:
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"elem001","tagName":"div","styles":{"display":"flex","gap":"1rem","padding":"2rem"},"css":".gb-element-elem001{display:flex;gap:1rem;padding:2rem}@media(max-width:768px){.gb-element-elem001{flex-direction:column}}","className":"gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"elem001","tagName":"div","styles":{"display":"flex","gap":"1rem","padding":"2rem"},"css":".gb-element-elem001{display:flex;gap:1rem;padding:2rem}@media(max-width:768px){.gb-element-elem001{flex-direction:column}}","className":"gb-element-elem001 gb-element"} -->
 <div class="gb-element-elem001 gb-element">
     <!-- Inner content -->
 </div>
@@ -116,8 +116,8 @@ Element blocks add `"className":"gb-element"` to attributes. HTML class order: `
 Cards with inner blocks use `generateblocks/element` (not `text`) with `tagName: "a"`:
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/services/"}],"styles":{"backgroundColor":"white","borderRadius":"1rem","display":"flex","flexDirection":"column","padding":"2rem","textDecoration":"none"},"css":".gb-element-card001{background-color:white;border-radius:1rem;display:flex;flex-direction:column;padding:2rem;text-decoration:none}","className":"gb-element"} -->
-<a class="gb-element-card001 gb-element" href="/services/">
+<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"https://example.com/services/"},"styles":{"backgroundColor":"white","borderRadius":"1rem","display":"flex","flexDirection":"column","padding":"2rem","textDecoration":"none"},"css":".gb-element-card001{background-color:white;border-radius:1rem;display:flex;flex-direction:column;padding:2rem;text-decoration:none}","className":"gb-element-card001 gb-element"} -->
+<a class="gb-element-card001 gb-element" href="https://example.com/services/">
     <!-- Inner blocks (text, media, shape) -->
 </a>
 <!-- /wp:generateblocks/element -->
@@ -144,7 +144,7 @@ Cards with inner blocks use `generateblocks/element` (not `text`) with `tagName:
 | Block Type | `htmlAttributes` for href | `href` in HTML | Use Case |
 |-----------|--------------------------|----------------|----------|
 | `generateblocks/text` with `tagName: "a"` | **No** - plugin manages link internally | **No** | Plain text buttons/links (no inner blocks) |
-| `generateblocks/element` with `tagName: "a"` | **Yes** - `[{"attribute":"href","value":"/url/"}]` | **Yes** | Containers wrapping inner blocks (cards, icon buttons) |
+| `generateblocks/element` with `tagName: "a"` | **Yes** - `{"href":"https://example.com/"}` | **Yes** | Containers wrapping inner blocks (cards, icon buttons) |
 
 **Rule:** Text `<a>` blocks are leaf blocks - the link URL is managed by the editor UI. Element `<a>` blocks are containers - they need explicit `htmlAttributes` for the href.
 
@@ -176,8 +176,8 @@ Cards with inner blocks use `generateblocks/element` (not `text`) with `tagName:
 Cards with inner blocks use `generateblocks/element`. Pseudo-elements (::after) and parent-hover-pseudo go in `css`. Hover states and transitions do NOT go in `css`.
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/link/"}],"styles":{"backgroundColor":"white","border":"1px solid transparent","borderRadius":"1rem","display":"flex","flexDirection":"column","padding":"2rem","position":"relative","textDecoration":"none"},"css":".gb-element-card001{background-color:white;border:1px solid transparent;border-radius:1rem;display:flex;flex-direction:column;padding:2rem;position:relative;text-decoration:none}.gb-element-card001::after{background:#c0392b;bottom:0;content:'';height:3px;left:0;position:absolute;transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);width:100%}.gb-element-card001:hover::after{transform:scaleX(1)}","className":"gb-element"} -->
-<a class="gb-element-card001 gb-element" href="/link/">
+<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"https://example.com/link/"},"styles":{"backgroundColor":"white","border":"1px solid transparent","borderRadius":"1rem","display":"flex","flexDirection":"column","padding":"2rem","position":"relative","textDecoration":"none"},"css":".gb-element-card001{background-color:white;border:1px solid transparent;border-radius:1rem;display:flex;flex-direction:column;padding:2rem;position:relative;text-decoration:none}.gb-element-card001::after{background:#c0392b;bottom:0;content:'';height:3px;left:0;position:absolute;transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);width:100%}.gb-element-card001:hover::after{transform:scaleX(1)}","className":"gb-element-card001 gb-element"} -->
+<a class="gb-element-card001 gb-element" href="https://example.com/link/">
     <!-- Inner blocks -->
 </a>
 <!-- /wp:generateblocks/element -->
@@ -186,8 +186,8 @@ Cards with inner blocks use `generateblocks/element`. Pseudo-elements (::after) 
 ### Grid Layout (Responsive)
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"grid001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(4, minmax(0, 1fr))","gap":"1rem"},"css":".gb-element-grid001{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:1rem}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, minmax(0, 1fr))!important}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr!important}}"} -->
-<div class="gb-element gb-element-grid001">
+<!-- wp:generateblocks/element {"uniqueId":"grid001","tagName":"div","styles":{"display":"grid","gridTemplateColumns":"repeat(4, minmax(0, 1fr))","gap":"1rem"},"css":".gb-element-grid001{display:grid;gap:1rem;grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2,minmax(0,1fr))!important}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr!important}}","className":"gb-element-grid001 gb-element"} -->
+<div class="gb-element-grid001 gb-element">
     <!-- Grid items -->
 </div>
 <!-- /wp:generateblocks/element -->
@@ -216,7 +216,7 @@ SVG icons use `generateblocks/shape`. Two valid approaches:
 ### Featured Card (Dark, Span Multiple Columns)
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"feat001","tagName":"div","styles":{"background":"linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)","borderRadius":"1rem","display":"flex","flexDirection":"column","gap":"1rem","gridColumn":"span 2","gridRow":"span 2","minHeight":"26rem","padding":"2rem","position":"relative"},"css":".gb-element-feat001{background:linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);border-radius:1rem;display:flex;flex-direction:column;gap:1rem;grid-column:span 2;grid-row:span 2;min-height:26rem;padding:2rem;position:relative}.gb-element-feat001::before{background:radial-gradient(circle at 100% 0%, rgba(192, 57, 43, 0.2) 0%, transparent 60%);content:'';height:100%;pointer-events:none;position:absolute;right:0;top:0;width:60%}.gb-element-feat001>*{position:relative;z-index:1}@media(max-width:1024px){.gb-element-feat001{grid-column:span 2;grid-row:span 1;min-height:auto}}@media(max-width:768px){.gb-element-feat001{grid-column:span 1}}","className":"gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"feat001","tagName":"div","styles":{"background":"linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)","borderRadius":"1rem","display":"flex","flexDirection":"column","gap":"1rem","gridColumn":"span 2","gridRow":"span 2","minHeight":"26rem","padding":"2rem","position":"relative"},"css":".gb-element-feat001{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%);border-radius:1rem;display:flex;flex-direction:column;gap:1rem;grid-column:span 2;grid-row:span 2;min-height:26rem;padding:2rem;position:relative}.gb-element-feat001::before{background:radial-gradient(circle at 100% 0%,rgba(192,57,43,0.2) 0%,transparent 60%);content:'';height:100%;pointer-events:none;position:absolute;right:0;top:0;width:60%}.gb-element-feat001>*{position:relative;z-index:1}@media(max-width:1024px){.gb-element-feat001{grid-column:span 2;grid-row:span 1;min-height:auto}}@media(max-width:768px){.gb-element-feat001{grid-column:span 1}}","className":"gb-element-feat001 gb-element"} -->
 <div class="gb-element-feat001 gb-element">
     <!-- Featured card content -->
 </div>
@@ -342,7 +342,7 @@ The ONLY allowed comments are WordPress block delimiters:
 **CORRECT - Only block delimiters:**
 ```html
 <!-- wp:generateblocks/element {"uniqueId":"card001",...} -->
-<div class="gb-element gb-element-card001">
+<div class="gb-element-card001 gb-element">
     <!-- wp:image {"id":123} -->
     <figure class="wp-block-image"><img src="image.jpg" alt=""/></figure>
     <!-- /wp:image -->
@@ -388,11 +388,16 @@ When converting HTML without explicit CSS values, infer styles based on context:
 10. **Parent hover targeting children** - Written in the child's `css`: `.gb-element-card001:hover .gb-text-title001{color:#c0392b}`
 11. **Gradients only in CSS** - Can't use in `styles` attribute
 12. **CSS variables work** - Use `var(--custom-property)` freely. Use `\u002d\u002d` for `--` in JSON
-13. **Element blocks need className** - Add `"className":"gb-element"` to element block attributes
+13. **Element blocks need className with uniqueId** - Add `"className":"gb-element-{id} gb-element"` to element block attributes (uniqueId first, then gb-element)
 14. **Use !important sparingly** - Only for overriding at breakpoints
 15. **Lists use `core/list` with `.list` class** - Convert `<ul>`/`<ol>` to native WordPress list block with `className: "list"`
 16. **Use `--gb-container-width` for inner containers** - Set inner container width using the CSS variable; add `align: "full"` to parent section
 17. **Buttons with icons** - Use `generateblocks/element` (tagName `a`) wrapping `generateblocks/text` + `generateblocks/shape` blocks. Plain text buttons use `generateblocks/text`
+18. **htmlAttributes as plain object** - Use `{"href":"https://example.com/"}` not `[{"attribute":"href","value":"https://example.com/"}]`
+19. **Full absolute URLs for links** - Always use `https://example.com/page/` not `/page/` in htmlAttributes href values
+20. **No spaces in CSS functions** - Write `clamp(3rem,8vw,5rem)` not `clamp(3rem, 8vw, 5rem)` in the `css` attribute
+21. **SVG attribute order in HTML** - Follow this order: `stroke-linejoin`, `stroke-linecap`, `stroke-width`, `stroke`, `fill`, `viewBox`, `height`, `width`
+22. **Compact nesting** - Closing tags go on the same line as parent closing comment: `</div>\n<!-- /wp:generateblocks/element -->`
 
 ## Performance Notes
 

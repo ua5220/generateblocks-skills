@@ -202,32 +202,32 @@ For repeater fields, use within query context:
 ### Dynamic Text Content
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"dyn001","tagName":"h1","useDynamicData":true,"dynamicContentType":"post-title"} -->
-<h1 class="gb-text gb-text-dyn001">{{post_title}}</h1>
+<!-- wp:generateblocks/text {"uniqueId":"dyn001","tagName":"h1","useDynamicData":true,"dynamicContentType":"post-title","className":"gb-text"} -->
+<h1 class="gb-text-dyn001 gb-text">{{post_title}}</h1>
 <!-- /wp:generateblocks/text -->
 ```
 
 ### Dynamic Link
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"dyn002","tagName":"a","htmlAttributes":[{"attribute":"href","value":"{{post_url}}"}],"useDynamicData":true} -->
-<a class="gb-text gb-text-dyn002" href="{{post_url}}">Read More</a>
+<!-- wp:generateblocks/text {"uniqueId":"dyn002","tagName":"a","htmlAttributes":[{"attribute":"href","value":"{{post_url}}"}],"useDynamicData":true,"className":"gb-text"} -->
+<a class="gb-text-dyn002 gb-text" href="{{post_url}}">Read More</a>
 <!-- /wp:generateblocks/text -->
 ```
 
 ### Dynamic Image
 
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"dyn003","useDynamicData":true,"htmlAttributes":[{"attribute":"src","value":"{{featured_image size=\"large\"}}"},{"attribute":"alt","value":"{{featured_image_alt}}"}]} -->
-<img class="gb-media gb-media-dyn003" src="{{featured_image size='large'}}" alt="{{featured_image_alt}}" />
+<!-- wp:generateblocks/media {"uniqueId":"dyn003","useDynamicData":true,"htmlAttributes":[{"attribute":"src","value":"{{featured_image size=\"large\"}}"},{"attribute":"alt","value":"{{featured_image_alt}}"}],"className":"gb-media"} -->
+<img class="gb-media-dyn003 gb-media" src="{{featured_image size='large'}}" alt="{{featured_image_alt}}" />
 <!-- /wp:generateblocks/media -->
 ```
 
 ### Dynamic Background Image
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"dyn004","tagName":"div","styles":{"backgroundImage":"url({{featured_image size='large'}})","backgroundSize":"cover","backgroundPosition":"center"},"css":".gb-element-dyn004{background-image:url({{featured_image size='large'}});background-size:cover;background-position:center}"} -->
-<div class="gb-element gb-element-dyn004">
+<!-- wp:generateblocks/element {"uniqueId":"dyn004","tagName":"div","styles":{"backgroundImage":"url({{featured_image size='large'}})","backgroundSize":"cover","backgroundPosition":"center"},"css":".gb-element-dyn004{background-image:url({{featured_image size='large'}});background-size:cover;background-position:center}","className":"gb-element"} -->
+<div class="gb-element-dyn004 gb-element">
     <!-- Content -->
 </div>
 <!-- /wp:generateblocks/element -->
@@ -238,8 +238,8 @@ For repeater fields, use within query context:
 ### Show/Hide Based on Content
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"cond001","tagName":"div","showIf":"{{post_meta key='show_banner'}}"} -->
-<div class="gb-element gb-element-cond001">
+<!-- wp:generateblocks/element {"uniqueId":"cond001","tagName":"div","showIf":"{{post_meta key='show_banner'}}","className":"gb-element"} -->
+<div class="gb-element-cond001 gb-element">
     <!-- Only shows if show_banner meta is truthy -->
 </div>
 <!-- /wp:generateblocks/element -->
@@ -257,26 +257,26 @@ For repeater fields, use within query context:
 ### Author Box
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"auth001","tagName":"div","styles":{"display":"flex","gap":"1.5rem","padding":"2rem","backgroundColor":"#f8f9fa","borderRadius":"1rem"},"css":".gb-element-auth001{display:flex;gap:1.5rem;padding:2rem;background-color:#f8f9fa;border-radius:1rem}@media(max-width:768px){.gb-element-auth001{flex-direction:column;text-align:center}}"} -->
-<div class="gb-element gb-element-auth001">
+<!-- wp:generateblocks/element {"uniqueId":"auth001","tagName":"div","styles":{"display":"flex","gap":"1.5rem","padding":"2rem","backgroundColor":"#f8f9fa","borderRadius":"1rem"},"css":".gb-element-auth001{display:flex;gap:1.5rem;padding:2rem;background-color:#f8f9fa;border-radius:1rem}@media(max-width:768px){.gb-element-auth001{flex-direction:column;text-align:center}}","className":"gb-element"} -->
+<div class="gb-element-auth001 gb-element">
 
-    <!-- wp:generateblocks/media {"uniqueId":"auth002","useDynamicData":true,"htmlAttributes":[{"attribute":"src","value":"{{author_avatar size='96'}}"},{"attribute":"alt","value":"{{author_name}}"}],"styles":{"width":"96px","height":"96px","borderRadius":"50%","objectFit":"cover"},"css":".gb-media-auth002{width:96px;height:96px;border-radius:50%;object-fit:cover}"} -->
-    <img class="gb-media gb-media-auth002" src="{{author_avatar size='96'}}" alt="{{author_name}}" />
+    <!-- wp:generateblocks/media {"uniqueId":"auth002","useDynamicData":true,"htmlAttributes":[{"attribute":"src","value":"{{author_avatar size='96'}}"},{"attribute":"alt","value":"{{author_name}}"}],"styles":{"width":"96px","height":"96px","borderRadius":"50%","objectFit":"cover"},"css":".gb-media-auth002{width:96px;height:96px;border-radius:50%;object-fit:cover}","className":"gb-media"} -->
+    <img class="gb-media-auth002 gb-media" src="{{author_avatar size='96'}}" alt="{{author_name}}" />
     <!-- /wp:generateblocks/media -->
 
-    <!-- wp:generateblocks/element {"uniqueId":"auth003","tagName":"div","styles":{"flex":"1"},"css":".gb-element-auth003{flex:1}"} -->
-    <div class="gb-element gb-element-auth003">
+    <!-- wp:generateblocks/element {"uniqueId":"auth003","tagName":"div","styles":{"flex":"1"},"css":".gb-element-auth003{flex:1}","className":"gb-element"} -->
+    <div class="gb-element-auth003 gb-element">
 
-        <!-- wp:generateblocks/text {"uniqueId":"auth004","tagName":"p","styles":{"fontSize":"0.875rem","color":"#666","marginBottom":"0.25rem"},"css":".gb-text-auth004{font-size:0.875rem;color:#666;margin-bottom:0.25rem}"} -->
-        <p class="gb-text gb-text-auth004">Written by</p>
+        <!-- wp:generateblocks/text {"uniqueId":"auth004","tagName":"p","styles":{"fontSize":"0.875rem","color":"#666","marginBottom":"0.25rem"},"css":".gb-text-auth004{font-size:0.875rem;color:#666;margin-bottom:0.25rem}","className":"gb-text"} -->
+        <p class="gb-text-auth004 gb-text">Written by</p>
         <!-- /wp:generateblocks/text -->
 
-        <!-- wp:generateblocks/text {"uniqueId":"auth005","tagName":"h3","useDynamicData":true,"dynamicContentType":"author-name","styles":{"fontSize":"1.25rem","fontWeight":"700","marginBottom":"0.5rem"},"css":".gb-text-auth005{font-size:1.25rem;font-weight:700;margin-bottom:0.5rem}"} -->
-        <h3 class="gb-text gb-text-auth005">{{author_name}}</h3>
+        <!-- wp:generateblocks/text {"uniqueId":"auth005","tagName":"h3","useDynamicData":true,"dynamicContentType":"author-name","styles":{"fontSize":"1.25rem","fontWeight":"700","marginBottom":"0.5rem"},"css":".gb-text-auth005{font-size:1.25rem;font-weight:700;margin-bottom:0.5rem}","className":"gb-text"} -->
+        <h3 class="gb-text-auth005 gb-text">{{author_name}}</h3>
         <!-- /wp:generateblocks/text -->
 
-        <!-- wp:generateblocks/text {"uniqueId":"auth006","tagName":"p","useDynamicData":true,"dynamicContentType":"author-description","styles":{"color":"#444","lineHeight":"1.6"},"css":".gb-text-auth006{color:#444;line-height:1.6}"} -->
-        <p class="gb-text gb-text-auth006">{{author_description}}</p>
+        <!-- wp:generateblocks/text {"uniqueId":"auth006","tagName":"p","useDynamicData":true,"dynamicContentType":"author-description","styles":{"color":"#444","lineHeight":"1.6"},"css":".gb-text-auth006{color:#444;line-height:1.6}","className":"gb-text"} -->
+        <p class="gb-text-auth006 gb-text">{{author_description}}</p>
         <!-- /wp:generateblocks/text -->
 
     </div>
@@ -289,27 +289,27 @@ For repeater fields, use within query context:
 ### Post Meta Display
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"meta001","tagName":"div","styles":{"display":"flex","gap":"1rem","flexWrap":"wrap","fontSize":"0.875rem","color":"#666"},"css":".gb-element-meta001{display:flex;gap:1rem;flex-wrap:wrap;font-size:0.875rem;color:#666}"} -->
-<div class="gb-element gb-element-meta001">
+<!-- wp:generateblocks/element {"uniqueId":"meta001","tagName":"div","styles":{"display":"flex","gap":"1rem","flexWrap":"wrap","fontSize":"0.875rem","color":"#666"},"css":".gb-element-meta001{display:flex;gap:1rem;flex-wrap:wrap;font-size:0.875rem;color:#666}","className":"gb-element"} -->
+<div class="gb-element-meta001 gb-element">
 
-    <!-- wp:generateblocks/text {"uniqueId":"meta002","tagName":"span","useDynamicData":true} -->
-    <span class="gb-text">{{post_date format="F j, Y"}}</span>
+    <!-- wp:generateblocks/text {"uniqueId":"meta002","tagName":"span","useDynamicData":true,"className":"gb-text"} -->
+    <span class="gb-text-meta002 gb-text">{{post_date format="F j, Y"}}</span>
     <!-- /wp:generateblocks/text -->
 
-    <!-- wp:generateblocks/text {"uniqueId":"meta003","tagName":"span"} -->
-    <span class="gb-text">•</span>
+    <!-- wp:generateblocks/text {"uniqueId":"meta003","tagName":"span","className":"gb-text"} -->
+    <span class="gb-text-meta003 gb-text">•</span>
     <!-- /wp:generateblocks/text -->
 
-    <!-- wp:generateblocks/text {"uniqueId":"meta004","tagName":"span","useDynamicData":true} -->
-    <span class="gb-text">{{post_terms taxonomy="category" separator=", "}}</span>
+    <!-- wp:generateblocks/text {"uniqueId":"meta004","tagName":"span","useDynamicData":true,"className":"gb-text"} -->
+    <span class="gb-text-meta004 gb-text">{{post_terms taxonomy="category" separator=", "}}</span>
     <!-- /wp:generateblocks/text -->
 
-    <!-- wp:generateblocks/text {"uniqueId":"meta005","tagName":"span"} -->
-    <span class="gb-text">•</span>
+    <!-- wp:generateblocks/text {"uniqueId":"meta005","tagName":"span","className":"gb-text"} -->
+    <span class="gb-text-meta005 gb-text">•</span>
     <!-- /wp:generateblocks/text -->
 
-    <!-- wp:generateblocks/text {"uniqueId":"meta006","tagName":"span","useDynamicData":true} -->
-    <span class="gb-text">{{comments_number}} comments</span>
+    <!-- wp:generateblocks/text {"uniqueId":"meta006","tagName":"span","useDynamicData":true,"className":"gb-text"} -->
+    <span class="gb-text-meta006 gb-text">{{comments_number}} comments</span>
     <!-- /wp:generateblocks/text -->
 
 </div>
@@ -319,19 +319,19 @@ For repeater fields, use within query context:
 ### Price Display with ACF
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"price001","tagName":"div","styles":{"display":"flex","alignItems":"baseline","gap":"0.5rem"},"css":".gb-element-price001{display:flex;align-items:baseline;gap:0.5rem}"} -->
-<div class="gb-element gb-element-price001">
+<!-- wp:generateblocks/element {"uniqueId":"price001","tagName":"div","styles":{"display":"flex","alignItems":"baseline","gap":"0.5rem"},"css":".gb-element-price001{display:flex;align-items:baseline;gap:0.5rem}","className":"gb-element"} -->
+<div class="gb-element-price001 gb-element">
 
-    <!-- wp:generateblocks/text {"uniqueId":"price002","tagName":"span","styles":{"fontSize":"0.875rem","color":"#666"},"css":".gb-text-price002{font-size:0.875rem;color:#666}"} -->
-    <span class="gb-text gb-text-price002">Starting at</span>
+    <!-- wp:generateblocks/text {"uniqueId":"price002","tagName":"span","styles":{"fontSize":"0.875rem","color":"#666"},"css":".gb-text-price002{font-size:0.875rem;color:#666}","className":"gb-text"} -->
+    <span class="gb-text-price002 gb-text">Starting at</span>
     <!-- /wp:generateblocks/text -->
 
-    <!-- wp:generateblocks/text {"uniqueId":"price003","tagName":"span","useDynamicData":true,"styles":{"fontSize":"2rem","fontWeight":"700","color":"#0a0a0a"},"css":".gb-text-price003{font-size:2rem;font-weight:700;color:#0a0a0a}"} -->
-    <span class="gb-text gb-text-price003">${{acf field="price"}}</span>
+    <!-- wp:generateblocks/text {"uniqueId":"price003","tagName":"span","useDynamicData":true,"styles":{"fontSize":"2rem","fontWeight":"700","color":"#0a0a0a"},"css":".gb-text-price003{font-size:2rem;font-weight:700;color:#0a0a0a}","className":"gb-text"} -->
+    <span class="gb-text-price003 gb-text">${{acf field="price"}}</span>
     <!-- /wp:generateblocks/text -->
 
-    <!-- wp:generateblocks/text {"uniqueId":"price004","tagName":"span","styles":{"fontSize":"0.875rem","color":"#666"},"css":".gb-text-price004{font-size:0.875rem;color:#666}"} -->
-    <span class="gb-text gb-text-price004">/month</span>
+    <!-- wp:generateblocks/text {"uniqueId":"price004","tagName":"span","styles":{"fontSize":"0.875rem","color":"#666"},"css":".gb-text-price004{font-size:0.875rem;color:#666}","className":"gb-text"} -->
+    <span class="gb-text-price004 gb-text">/month</span>
     <!-- /wp:generateblocks/text -->
 
 </div>
@@ -341,8 +341,8 @@ For repeater fields, use within query context:
 ### Dynamic CTA with Custom Field Link
 
 ```html
-<!-- wp:generateblocks/text {"uniqueId":"cta001","tagName":"a","useDynamicData":true,"htmlAttributes":[{"attribute":"href","value":"{{acf field='cta_link'}}"},{"attribute":"target","value":"_blank"},{"attribute":"rel","value":"noopener"}],"styles":{"display":"inline-flex","padding":"1rem 2rem","backgroundColor":"#e94560","color":"#ffffff","borderRadius":"0.5rem","textDecoration":"none","fontWeight":"600"},"css":".gb-text-cta001{display:inline-flex;padding:1rem 2rem;background-color:#e94560;color:#ffffff;border-radius:0.5rem;text-decoration:none;font-weight:600;transition:all 0.3s}.gb-text-cta001:hover{background-color:#d63850;transform:translateY(-2px)}"} -->
-<a class="gb-text gb-text-cta001" href="{{acf field='cta_link'}}" target="_blank" rel="noopener">{{acf field="cta_text" default="Learn More"}}</a>
+<!-- wp:generateblocks/text {"uniqueId":"cta001","tagName":"a","useDynamicData":true,"htmlAttributes":[{"attribute":"href","value":"{{acf field='cta_link'}}"},{"attribute":"target","value":"_blank"},{"attribute":"rel","value":"noopener"}],"styles":{"display":"inline-flex","padding":"1rem 2rem","backgroundColor":"#e94560","color":"#ffffff","borderRadius":"0.5rem","textDecoration":"none","fontWeight":"600"},"css":".gb-text-cta001{background-color:#e94560;border-radius:0.5rem;color:#ffffff;display:inline-flex;font-weight:600;padding:1rem 2rem;text-decoration:none}","className":"gb-text"} -->
+<a class="gb-text-cta001 gb-text" href="{{acf field='cta_link'}}" target="_blank" rel="noopener">{{acf field="cta_text" default="Learn More"}}</a>
 <!-- /wp:generateblocks/text -->
 ```
 
@@ -458,12 +458,12 @@ When inside a query loop, dynamic tags automatically use the current post contex
     <!-- wp:post-template -->
 
         <!-- Each dynamic tag uses the loop's current post -->
-        <!-- wp:generateblocks/text {"uniqueId":"loop001","tagName":"h3","useDynamicData":true} -->
-        <h3 class="gb-text gb-text-loop001">{{post_title}}</h3>
+        <!-- wp:generateblocks/text {"uniqueId":"loop001","tagName":"h3","useDynamicData":true,"className":"gb-text"} -->
+        <h3 class="gb-text-loop001 gb-text">{{post_title}}</h3>
         <!-- /wp:generateblocks/text -->
 
-        <!-- wp:generateblocks/text {"uniqueId":"loop002","tagName":"p","useDynamicData":true} -->
-        <p class="gb-text gb-text-loop002">{{post_excerpt}}</p>
+        <!-- wp:generateblocks/text {"uniqueId":"loop002","tagName":"p","useDynamicData":true,"className":"gb-text"} -->
+        <p class="gb-text-loop002 gb-text">{{post_excerpt}}</p>
         <!-- /wp:generateblocks/text -->
 
     <!-- /wp:post-template -->
