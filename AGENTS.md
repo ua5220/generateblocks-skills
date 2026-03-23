@@ -109,6 +109,7 @@ Examples:
 2. **No spaces in CSS functions** - `clamp(3rem,8vw,5rem)` not `clamp(3rem, 8vw, 5rem)`
 3. **SVG attribute order** - stroke-linejoin, stroke-linecap, stroke-width, stroke, fill, viewBox, height, width
 4. **Compact nesting** - Closing tags on same line as parent
+5. **Element `<a>` with text-only content causes recovery** - Use `generateblocks/text` with `tagName: "a"` for simple text links. Only use `generateblocks/element` with `tagName: "a"` when wrapping inner blocks (cards, icon buttons)
 
 ## No Extra HTML Comments
 

@@ -325,6 +325,7 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 16. **No spaces in CSS functions** - `clamp(3rem,8vw,5rem)` not `clamp(3rem, 8vw, 5rem)` — the block editor minifies, mismatch triggers recovery
 17. **SVG attribute order** - Block editor reorders: `stroke-linejoin`, `stroke-linecap`, `stroke-width`, `stroke`, `fill`, `viewBox`, `height`, `width`
 18. **Compact nesting** - Closing tags on same line as parent: `<!-- /wp:generateblocks/shape --></div>` not separate lines
+19. **Simple text links use text `<a>`** — Element `<a>` blocks with only text content (no inner blocks) trigger recovery errors. Use `generateblocks/text` with `tagName: "a"` for plain text links. Only use `generateblocks/element` with `tagName: "a"` when wrapping inner blocks (cards, icon buttons)
 
 ## Design Inference (When CSS Not Provided)
 

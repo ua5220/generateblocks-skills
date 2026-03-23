@@ -180,6 +180,7 @@ npm run plugin-zip         # Create plugin zip
 - `css` - Base styles (alphabetically sorted, minified). Exceptions: pseudo-elements, media queries, animations, parent hover targeting children. No hover states or transitions
 - `globalClasses` - Array of global CSS classes
 - `htmlAttributes` - Plain object of HTML attrs: `{"href":"url","target":"_blank"}`. NOT array format
+- **Element `<a>` vs Text `<a>`**: Use `generateblocks/text` with `tagName: "a"` for simple text links. Element `<a>` blocks with only text content (no inner blocks) cause recovery errors. Only use `generateblocks/element` with `tagName: "a"` when wrapping inner blocks
 
 ## CSS Approaches
 

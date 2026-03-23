@@ -398,6 +398,7 @@ When converting HTML without explicit CSS values, infer styles based on context:
 20. **No spaces in CSS functions** - Write `clamp(3rem,8vw,5rem)` not `clamp(3rem, 8vw, 5rem)` in the `css` attribute
 21. **SVG attribute order in HTML** - Follow this order: `stroke-linejoin`, `stroke-linecap`, `stroke-width`, `stroke`, `fill`, `viewBox`, `height`, `width`
 22. **Compact nesting** - Closing tags go on the same line as parent closing comment: `</div>\n<!-- /wp:generateblocks/element -->`
+23. **Element `<a>` with text-only content causes recovery errors** - Use `generateblocks/text` with `tagName: "a"` for simple text links. Only use `generateblocks/element` with `tagName: "a"` when wrapping inner blocks (cards, icon buttons)
 
 ## Performance Notes
 

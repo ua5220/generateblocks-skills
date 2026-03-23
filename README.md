@@ -160,6 +160,7 @@ generateblocks/shape    → SVG icons
 - Use `generateblocks/text` (NOT `/headline` or `/button`)
 - Classes MUST be: `gb-element-{id} gb-element` and `gb-text gb-text-{id}`
 - `htmlAttributes` must be a plain object (`{"href":"/about"}`) — never an array
+- Element `<a>` with text-only content causes recovery errors — use `generateblocks/text` with `tagName: "a"` for simple text links; only use `generateblocks/element` with `tagName: "a"` when wrapping inner blocks
 
 Block format:
 

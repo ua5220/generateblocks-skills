@@ -21,6 +21,7 @@ This error typically occurs when:
 9. JSON attributes are too long or complex
 10. Deeply nested structures confuse parsing
 11. Special characters break JSON encoding
+12. **Element `<a>` with raw text content** - Element blocks are containers expecting inner blocks. A `generateblocks/element` with `tagName: "a"` containing only text (no inner `<!-- wp: -->` blocks) causes recovery. Use `generateblocks/text` with `tagName: "a"` for simple text links
 
 ### Solutions
 
