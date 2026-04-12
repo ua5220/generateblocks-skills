@@ -24,6 +24,23 @@ tags:
 
 Convert Figma designs to clean, semantic GenerateBlocks V2 blocks for WordPress.
 
+## Read first
+
+Before generating blocks, read these files in the sibling
+`generateblocks-layouts` skill:
+
+1. `../generateblocks-layouts/references/_index.md` — task router
+2. `../generateblocks-layouts/references/recovery-rules.md` — every cause of
+   "Attempt Recovery" errors with the exact fix
+3. `../generateblocks-layouts/references/block-types.md` — attribute specs
+
+If the Figma design includes a card grid that's clearly meant to be fed by
+posts/products/CPTs, build it as a query loop using
+`../generateblocks-layouts/references/query-block.md`.
+
+For Figma components that map to interactive Pro features (tabs, accordion,
+carousel, sticky header), see `../generateblocks-layouts/references/gb-pro.md`.
+
 ## Output Requirements
 
 **ALWAYS output converted blocks to a file, never inline in the chat.**

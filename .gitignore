@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+vendor/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build / scratch
+output/
+dist/
+build/
+*.log
+
+# Plugin sources kept locally for reference, not versioned
+generateblocks-pro/

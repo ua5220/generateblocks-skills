@@ -31,13 +31,17 @@ skills/
 ├── generateblocks-layouts/
 │   ├── SKILL.md              # Main skill entry (V2 blocks, styling, patterns)
 │   ├── references/           # Detailed documentation
+│   │   ├── _index.md         # Skill router — read first
+│   │   ├── recovery-rules.md # Attempt Recovery error catalog (read every task)
 │   │   ├── block-types.md    # Element, Text, Media, Shape specs
+│   │   ├── query-block.md    # V2 query/looper/loop-item dynamic content
+│   │   ├── gb-pro.md         # GenerateBlocks Pro features
 │   │   ├── css-patterns.md   # Hover, transitions, gradients
 │   │   ├── responsive.md     # Media queries, breakpoints
 │   │   ├── svg-icons.md      # Shape block, inline SVG
-│   │   ├── troubleshooting.md# Complex layouts, chunking
-│   │   ├── query-loops.md    # Dynamic content loops
-│   │   ├── dynamic-content.md# Dynamic tags, ACF, Pro templates
+│   │   ├── troubleshooting.md# Debug recipes
+│   │   ├── query-loops.md    # LEGACY core/query patterns
+│   │   ├── dynamic-content.md# Dynamic tags basics
 │   │   ├── global-styles.md  # Design tokens, theme.json
 │   │   ├── patterns.md       # Block pattern registration
 │   │   ├── performance.md    # CSS delivery optimization

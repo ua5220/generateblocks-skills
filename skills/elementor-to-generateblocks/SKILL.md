@@ -22,6 +22,21 @@ tags:
 
 Convert bloated Elementor layouts to clean, semantic GenerateBlocks V2 blocks.
 
+## Read first
+
+Before converting, read these files in the sibling `generateblocks-layouts` skill:
+
+1. `../generateblocks-layouts/references/_index.md` — task router
+2. `../generateblocks-layouts/references/recovery-rules.md` — every cause of
+   "Attempt Recovery" errors with the exact fix
+3. `../generateblocks-layouts/references/block-types.md` — attribute specs
+
+For Elementor Posts/Loop widgets, build the GB equivalent with the V2 Query
+block family — see `../generateblocks-layouts/references/query-block.md`.
+
+For Elementor widgets that map to Pro features (accordion, tabs, carousel,
+sticky header), see `../generateblocks-layouts/references/gb-pro.md`.
+
 ## Output Requirements
 
 **ALWAYS output converted blocks to a file, never inline in the chat.**

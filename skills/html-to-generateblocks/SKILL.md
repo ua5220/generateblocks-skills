@@ -20,6 +20,21 @@ tags:
 
 Convert HTML/CSS layouts to GenerateBlocks V2 format using inline styles in block attributes.
 
+## Read first
+
+Before converting any markup, read these files in the sibling
+`generateblocks-layouts` skill:
+
+1. `../generateblocks-layouts/references/_index.md` — task router
+2. `../generateblocks-layouts/references/recovery-rules.md` — every cause of
+   "Attempt Recovery" errors with the exact fix. Non-negotiable.
+3. `../generateblocks-layouts/references/block-types.md` — attribute specs
+
+If the source HTML contains a list/grid that's clearly fed by dynamic data
+(post cards, product listings, related content), build it as a query loop
+using `../generateblocks-layouts/references/query-block.md` instead of
+duplicating the static markup.
+
 ## Output Requirements
 
 **ALWAYS output converted blocks to a file, never inline in the chat.**

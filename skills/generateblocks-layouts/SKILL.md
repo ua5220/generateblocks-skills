@@ -1,6 +1,6 @@
 ---
 name: generateblocks-layouts
-version: 2.0.0
+version: 2.1.0
 description: Build layouts using GenerateBlocks V2 elements for WordPress
 author: Gaurav Tiwari
 trigger:
@@ -11,13 +11,20 @@ trigger:
   - convert to GB
   - WordPress block layout
   - landing page section
+  - blog grid
+  - related posts
+  - query loop with GenerateBlocks
 tags:
   - wordpress
   - generateblocks
   - layouts
   - blocks
 references:
+  - references/_index.md
+  - references/recovery-rules.md
   - references/block-types.md
+  - references/query-block.md
+  - references/gb-pro.md
   - references/css-patterns.md
   - references/svg-icons.md
   - references/responsive.md
@@ -31,7 +38,43 @@ examples:
 
 # GenerateBlocks V2 Layout Builder
 
-Build professional WordPress layouts using GenerateBlocks V2's four core blocks.
+Build professional WordPress layouts using GenerateBlocks V2's four core blocks
+plus the Query / Looper / Loop-Item family for dynamic content.
+
+## Read first
+
+**Before generating any markup**, read these in order:
+
+1. `references/_index.md` — task router. Tells you which other files to load.
+2. `references/recovery-rules.md` — every known cause of "Attempt Recovery"
+   errors with the exact fix. This is non-negotiable. Skip it and you will
+   produce broken markup.
+3. The task-specific reference from `_index.md`.
+
+The most common task-specific files:
+- Static layout → `block-types.md`
+- Blog grid / dynamic content → `query-block.md`
+- Tabs / accordion / sticky header / ACF / conditions → `gb-pro.md`
+
+## The meta-rule (read this twice)
+
+> The WordPress block editor validates blocks by **re-serializing the
+> attributes and string-comparing against the markup you pasted**. Any
+> deviation — even semantically-equivalent JSON or HTML — is treated as
+> corruption and triggers "Attempt Recovery".
+
+This is the unifying principle. Every rule in `recovery-rules.md` exists to
+make your output **byte-identical** to what the editor itself would emit.
+
+That means matching:
+- The JSON key order from `block.json` declarations
+- The four substitutions (`--` `<` `>` `&` → `\u002d\u002d` `\u003c` `\u003e` `\u0026`) on every JSON string
+- CSS minification and alphabetization
+- The class list including any auto-injected duplicates
+- The exact spacing and quoting
+
+If you remember nothing else: **emit what the editor emits, not what you
+think is correct**.
 
 ## Output Requirements
 
@@ -94,26 +137,56 @@ For elements not available in GenerateBlocks or requiring advanced media feature
 <!-- /wp:generateblocks/{type} -->
 ```
 
-**Element blocks** add `"className":"gb-element-card001 gb-element"` to attributes. HTML class order: `gb-element-{id} gb-element`:
+**Element blocks** use `"className":"gb-element"` (just the base class — the plugin auto-injects the id-class). The rendered HTML class is `gb-element-{id} gb-element`:
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"div","className":"gb-element-card001 gb-element",...} -->
+<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"div","styles":{...},"css":"...","className":"gb-element"} -->
 <div class="gb-element-card001 gb-element">...</div>
 <!-- /wp:generateblocks/element -->
 ```
 
 ## Required Attributes
 
-Every block needs:
-- `uniqueId` - Unique identifier (format: `{section}{number}` like `hero001`, `card023`)
-- `tagName` - HTML element type
-- `styles` - CSS properties as JSON object (camelCase). Supports responsive keys like `"@media (max-width:1024px)":{...}`
-- `css` - Generated CSS string (kebab-case, minified, alphabetically sorted)
-- `htmlAttributes` - Plain object of attribute key-value pairs (for links, IDs, data attributes)
+Every block needs (in this canonical key order, from `block.json`):
 
-Optional:
-- `className` - Additional CSS classes. **Must include the uniqueId class**: e.g., `"gb-element-card001 gb-element"` for element blocks, `"gb-element-hero001 gb-element alignfull"` for full-width sections
-- `globalClasses` - Array of global CSS class slugs (e.g., `["lede"]`)
-- `align` - Block alignment (`"full"` for full-width)
+1. `uniqueId` — Unique identifier (`{section}{number}` like `hero001`, `card023`)
+2. `tagName` — HTML element type (omitted for `shape`, which uses `html` instead)
+3. `content` — **(text block only, position 3)** the rich text content
+4. `styles` — CSS properties as JSON object (camelCase). Supports responsive keys like `"@media (max-width:1024px)":{...}`
+5. `css` — Generated CSS string (kebab-case, minified, alphabetically sorted)
+6. `globalClasses` — Array of global CSS class slugs (optional)
+7. `htmlAttributes` — Plain object of attribute key-value pairs (for links, IDs, data attributes)
+8. Block-specific extras: `align` (element), `mediaId` (media), `queryType, paginationType, query, inheritQuery` (query), `midSize` (query-page-numbers), `icon, iconLocation, iconOnly` (text)
+9. `className` — **always last.** WordPress core attribute. Should NOT include the auto-injected `gb-{type}-{uniqueId}` class — the plugin adds that itself.
+
+**Per-block exceptions**:
+- **Text block**: `content` is at position 3, BEFORE `styles`. This is the only block that breaks the standard order.
+- **Shape block**: no `tagName`. `html` is at position 2.
+- **Query block**: `queryType, paginationType, query, inheritQuery` come after `htmlAttributes`.
+
+See `references/recovery-rules.md` §3.4 for the verified per-block declaration order.
+
+### className: do NOT include the id-class
+
+The plugin auto-injects `gb-{type}-{uniqueId}` into the rendered HTML class
+list whenever `styles` is non-empty. If you also put it in `className`, the
+rendered HTML has it **twice** and you trigger recovery on save.
+
+```json
+// RIGHT — let the plugin auto-inject
+"className":"gb-element"
+"className":"gb-element alignfull"
+
+// WRONG — duplicates the id-class
+"className":"gb-element-card001 gb-element"
+```
+
+The rendered HTML class list always shows the id-class once (auto-injected
+at the front) followed by whatever is in `className`:
+
+```html
+<div class="gb-element-card001 gb-element">           <!-- ✓ -->
+<header class="gb-element-hero001 gb-element alignfull"> <!-- ✓ -->
+```
 
 ## CRITICAL: htmlAttributes Format
 
@@ -140,14 +213,44 @@ Optional:
 "htmlAttributes": {"href": "/services/web-development/"}
 ```
 
-### Text `<a>` vs Element `<a>` Links
+### The link block pattern (read carefully)
 
-| Block Type | `htmlAttributes` for href | `href` in HTML | Use Case |
-|-----------|--------------------------|----------------|----------|
-| `generateblocks/text` with `tagName: "a"` | **No** - plugin manages link internally | **No** | Plain text buttons/links (no inner blocks) |
-| `generateblocks/element` with `tagName: "a"` | **Yes** - `{"href":"https://example.com/"}` | **Yes** | Containers wrapping inner blocks (cards, icon buttons) |
+There are two failure modes to avoid:
 
-**Rule:** Text `<a>` blocks are leaf blocks - the link URL is managed by the editor UI. Element `<a>` blocks are containers - they need explicit `htmlAttributes` for the href.
+- **`generateblocks/text` with `tagName:"a"`** strips its `href` on save. The
+  href does not survive the round trip. Don't use it for action links.
+- **`generateblocks/element` with `tagName:"a"` containing raw text** triggers
+  recovery — element blocks expect inner blocks, not text content.
+
+**The correct pattern: element `<a>` wrapping a `text` span child.**
+
+```html
+<!-- wp:generateblocks/element {"uniqueId":"link1","tagName":"a","styles":{"display":"inline-block","color":"#c0392b"},"css":".gb-element-link1{color:#c0392b;display:inline-block}","htmlAttributes":{"href":"https://example.com/page/?a=1\u0026b=2"},"className":"gb-element"} -->
+<a class="gb-element-link1 gb-element" href="https://example.com/page/?a=1&amp;b=2">
+    <!-- wp:generateblocks/text {"uniqueId":"link2","tagName":"span","content":"Read more →","styles":{},"css":""} -->
+    <span class="gb-text-link2 gb-text">Read more →</span>
+    <!-- /wp:generateblocks/text -->
+</a>
+<!-- /wp:generateblocks/element -->
+```
+
+This works because:
+- The element `<a>` has an inner block child → no "raw text" recovery
+- `htmlAttributes.href` on the element block survives save → href preserved
+- The text child is a `span`, not an `a` → no href stripping
+- The arrow is a literal `→` in the text — never use a CSS `\2192` escape
+- `&` in the JSON `htmlAttributes` is escaped as `\u0026`
+- The same `&` in the rendered HTML `href` is escaped as `&amp;`
+- `className` is just `"gb-element"` (no id-class duplicate) — the plugin
+  auto-injects `gb-element-link1` so the rendered HTML has it once
+- JSON key order: `uniqueId, tagName, styles, css, htmlAttributes, className`
+  (canonical block.json order, with `className` last)
+
+For inline links inside a paragraph, write the `<a>` directly in the rich text
+content of a single `generateblocks/text` paragraph block — don't wrap each
+inline link in its own block.
+
+See `references/recovery-rules.md` §4 for the full explanation.
 
 ## Styling Approach
 
@@ -252,13 +355,17 @@ Examples: `hero001`, `serv023a`, `card014`, `feat007b`
 
 ## References
 
-For detailed documentation, see:
+Start with `_index.md` to figure out which file you need.
 
-- **[Block Types](references/block-types.md)** - Complete attribute specs for all four blocks
-- **[CSS Patterns](references/css-patterns.md)** - Hover effects, transitions, gradients, pseudo-elements
-- **[SVG Icons](references/svg-icons.md)** - Shape block usage and inline SVG patterns
-- **[Responsive](references/responsive.md)** - Media queries and breakpoint patterns
-- **[Troubleshooting](references/troubleshooting.md)** - Complex layout handling, chunking, error recovery
+- **[Skill router](references/_index.md)** — task → file mapping. Read first.
+- **[Recovery rules](references/recovery-rules.md)** — every cause of "Attempt Recovery" with the exact fix. **Read on every task.**
+- **[Block types](references/block-types.md)** — attribute specs for element/text/media/shape
+- **[Query block](references/query-block.md)** — V2 dynamic content: query, looper, loop-item, no-results, page-numbers
+- **[GenerateBlocks Pro](references/gb-pro.md)** — Pro-only blocks, dynamic tags, conditions, transforms, effects
+- **[CSS patterns](references/css-patterns.md)** — hover effects, gradients, pseudo-elements
+- **[SVG icons](references/svg-icons.md)** — shape block usage and inline SVG
+- **[Responsive](references/responsive.md)** — media queries and breakpoint patterns
+- **[Troubleshooting](references/troubleshooting.md)** — debug recipes for known failures
 
 ## Examples
 
@@ -307,25 +414,32 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 
 ## Key Rules
 
-1. **No custom CSS classes** - All styling in block attributes
-2. **Minify CSS** - No line breaks in `css` attribute
-3. **CSS = base styles only** - No hover states or transitions in `css` (the plugin generates those from the `styles` object). Exceptions: pseudo-elements, media queries, animations, parent hover targeting children
-4. **Alphabetically sort CSS** - Properties in the `css` string must be alphabetically sorted
-5. **Duplicate styles** - Put in both `styles` object AND `css` string
-6. **Test responsive** - Add media queries for tablet (1024px) and mobile (768px)
-7. **Text `<a>` = no htmlAttributes for href** - The link URL is managed by the editor UI internally
-8. **Element `<a>` = use htmlAttributes for href** - Container links need explicit `{"href":"https://full-url.com/"}`
-9. **Buttons with icons** - Use `generateblocks/element` (tagName `a`) wrapping `generateblocks/text` + `generateblocks/shape` blocks. Plain text buttons use `generateblocks/text`
-10. **Shape blocks** - Use `styles.svg` for SVG-specific properties (fill, stroke, width, height) OR simple `styles` with width/height/color and inline SVG attributes. Both patterns work
-11. **Lists use `core/list` with `.list` class** - Always use the native WordPress list block with `className: "list"` and customize styling as needed
-12. **Use `--gb-container-width` for inner containers** - Set inner container width using the CSS variable; add `align: "full"` to parent section for full-width layouts
-13. **htmlAttributes as plain object** - Use `{"href":"https://example.com/"}` NOT array format `[{"attribute":"href","value":"..."}]`
-14. **className must include uniqueId** - Always `"gb-element-{uniqueId} gb-element"`, never just `"gb-element"`
-15. **Full absolute URLs** - Use `https://gauravtiwari.org/services/...` not `/services/...` — relative paths trigger block recovery on save
-16. **No spaces in CSS functions** - `clamp(3rem,8vw,5rem)` not `clamp(3rem, 8vw, 5rem)` — the block editor minifies, mismatch triggers recovery
-17. **SVG attribute order** - Block editor reorders: `stroke-linejoin`, `stroke-linecap`, `stroke-width`, `stroke`, `fill`, `viewBox`, `height`, `width`
-18. **Compact nesting** - Closing tags on same line as parent: `<!-- /wp:generateblocks/shape --></div>` not separate lines
-19. **Simple text links use text `<a>`** — Element `<a>` blocks with only text content (no inner blocks) trigger recovery errors. Use `generateblocks/text` with `tagName: "a"` for plain text links. Only use `generateblocks/element` with `tagName: "a"` when wrapping inner blocks (cards, icon buttons)
+1. **No custom CSS classes** — all styling in block attributes
+2. **Minify CSS** — no line breaks in `css` attribute, no spaces inside function args (`repeat(3,1fr)` not `repeat(3, 1fr)`)
+3. **CSS = base styles only** — no `transition` declarations and no `:hover` rules in the `css` string. The plugin generates both from the `styles` object. Exceptions: pseudo-elements, media queries, animations, parent-hover targeting children
+4. **Alphabetically sort CSS properties** inside each rule block in the `css` string
+5. **Duplicate styles** — most properties go in both the `styles` object AND the `css` string
+6. **Escape `--` as `\u002d\u002d`** anywhere it appears inside JSON strings (both `styles` values and `css` strings) — literal `--` in JSON triggers recovery on save. Inline `style=""` on rendered HTML can use literal `var(--foo)` because it's not JSON
+7. **No descendant selectors in `css`** — selectors like `.gb-text-x small{}` or `.gb-text-x .u{}` get stripped and trigger recovery. Put inline `style=""` on the inner `<small>`, `<code>`, `<strong>`, `<span>` directly. Allowed exceptions: pseudo-elements on the block's own selector, and parent-hover targeting another GB block by its own generated class
+8. **No CSS `\xxxx` escape sequences** — write literal characters: `content:'→'`, not `content:'\2192'`. Better: put arrows in the rendered text content, not in pseudo-elements
+9. **Action links: element `<a>` wrapping a `text` span child** — text `<a>` strips its href on save, element `<a>` with raw text triggers recovery. The `element-a wraps text-span` pattern avoids both. See SKILL.md "The link block pattern" section
+10. **`htmlAttributes` is always a plain object** — `{"href":"..."}` never `[{"attribute":"href","value":"..."}]`
+11. **Full absolute URLs in `htmlAttributes.href`** — relative paths get canonicalized on save → recovery
+12. **`&` encoding** — keep literal `&` in JSON `htmlAttributes`, encode as `&amp;` in the rendered HTML `<a href="...">` body
+13. **`className` must include the uniqueId class** — `"gb-element-{uniqueId} gb-element"`, never just `"gb-element"`
+14. **Compact nesting** — closing comment adjacent to closing tag, no blank lines inside empty blocks
+15. **No HTML comments other than WP block delimiters** — no section labels, no TODOs
+16. **Test responsive** — add media queries for tablet (1024px) and mobile (768px). Avoid responsive rules that would need descendant selectors in `css`
+17. **Static images with captions → `core/image`**, NOT `generateblocks/media`. `generateblocks/media` is for dynamic loop images. Plain static images without captions can use either, but `core/image` is more reliable
+18. **Lists → `core/list`** with `className:"list"`
+19. **Emojis → `core/paragraph`** — GB renders emoji glyphs incorrectly
+20. **Dynamic content → `query-block.md`** — use `generateblocks/query` + `looper` + `loop-item` for any post list, archive, or related-posts section
+21. **Shape block** — use `styles.svg` for SVG-specific props OR simple `styles` with inline SVG attributes; both work
+22. **Use `var(\u002d\u002dgb-container-width)` for inner containers** with `align:"full"` on the parent section for full-width layouts
+23. **SVG attribute order** — the editor reorders attributes: `stroke-linejoin`, `stroke-linecap`, `stroke-width`, `stroke`, `fill`, `viewBox`, `height`, `width`. Write them in that order.
+
+For the full list of recovery causes and the exact fix for each, see
+`references/recovery-rules.md`.
 
 ## Design Inference (When CSS Not Provided)
 
