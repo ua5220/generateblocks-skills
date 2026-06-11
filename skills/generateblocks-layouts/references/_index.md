@@ -47,6 +47,7 @@ around the internet (and in old markup) is wrong and silently fails.
 | Performance / CSS delivery | `performance.md` |
 | Migrating V1 blocks (`container`, `headline`, `grid`) | `migrations.md` |
 | Markup that's failing / debugging | `troubleshooting.md`, `recovery-rules.md` |
+| Hand-converting an existing design / bulk escaping / pre-delivery validation | `field-notes.md` |
 | Core `core/query` loops (only if explicitly requested) | `query-loops.md` |
 
 ---
@@ -57,6 +58,7 @@ around the internet (and in old markup) is wrong and silently fails.
 references/
 ├── _index.md                 ← you are here
 ├── recovery-rules.md         ← MUST read every task. Recovery error catalog.
+├── field-notes.md            ← Real-conversion lessons: escaping workflow, validation script
 ├── block-types.md            ← Element/Text/Media/Shape verified specs
 ├── dynamic-tags.md           ← Canonical tag catalog + syntax. Wins all conflicts.
 ├── query-block.md            ← Query/Looper/Loop-Item + Pro query extensions
