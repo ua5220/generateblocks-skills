@@ -1,6 +1,6 @@
 ---
 title: Query / Looper / Loop-Item (V2 dynamic content)
-description: How to build dynamic post lists, archives, related posts, and pagination with the GenerateBlocks V2 Query block family.
+description: How to build dynamic post lists, archives, related posts, ACF repeater loops, and pagination with the GenerateBlocks V2 Query block family. Source-verified against free 2.3 + Pro 2.6.
 ---
 
 # Query Block (V2)
@@ -22,293 +22,260 @@ generateblocks/query                        ← runs the WP_Query, holds query a
 ```
 
 `looper`, `query-no-results`, and `query-page-numbers` MUST be inside a `query`
-ancestor. `loop-item` MUST be the only child type inside a `looper`.
+ancestor (enforced via `ancestor` in block.json). `loop-item` MUST be the only
+child type inside a `looper` (`allowedBlocks`).
 
 ---
 
-## 1. The four blocks
+## 1. The five blocks (verified against block.json)
 
 ### 1.1 `generateblocks/query`
 
-Holds the query args and the WP_Query instance. Renders as a wrapper element.
-
-| Attribute | Required | Notes |
+| Attribute | Default | Notes |
 |---|---|---|
-| `uniqueId` | yes | id-class generated as `gb-query-{uniqueId}` if `styles` non-empty |
-| `tagName` | yes | One of: `div`, `section`, `article`, `aside`, `header`, `footer`, `nav`, `main` |
-| `queryType` | yes | `WP_Query` (default). GB Pro can add other types. |
-| `paginationType` | yes | `standard` or `instant` (instant = AJAX/instant-page replacement) |
-| `query` | yes | WP_Query args object — see §2 |
-| `inheritQuery` | no | If `true`, inherits the global `$wp_query` (used inside archive templates). When true, `query` is ignored. |
+| `uniqueId` | `""` | id-class `gb-query-{uniqueId}` auto-injected when `styles` non-empty |
+| `tagName` | `""` | Enum: `div`, `section`, `article`, `aside`, `header`, `footer`, `nav`, `main` |
+| `styles` / `css` / `globalClasses` / `htmlAttributes` | | Standard (see `block-types.md`) |
+| `queryType` | `"WP_Query"` | Free: `WP_Query` only. Pro adds `post_meta` and `option` (loop over arrays — see §6) |
+| `paginationType` | `"standard"` | Enum: `standard` (page reload) or `instant` (Interactivity-API router; enqueues `looper.js`, adds `data-gb-router-region`) |
+| `query` | `{}` | WP_Query args object — see §2 |
+| `inheritQuery` | `false` | `true` = use the global `$wp_query` (archive templates). `query` is ignored but still emit `"query":{}` |
+| `showTemplateSelector` | `false` | Editor-only |
 
-The query block provides context to all descendants:
-`generateblocks/queryData`, `generateblocks/queryId`, `generateblocks/queryType`,
-`generateblocks/inheritQuery`, `generateblocks/paginationType`.
+Provides context to all descendants: `generateblocks/query`,
+`generateblocks/queryId` (= uniqueId), `generateblocks/inheritQuery`,
+`generateblocks/paginationType`, `generateblocks/queryType`.
 
 ### 1.2 `generateblocks/looper`
 
-Iterates the query results. Holds layout styles for the list (grid, flex, gap).
+| Attribute | Notes |
+|---|---|
+| `uniqueId`, `styles`, `css`, `globalClasses`, `htmlAttributes` | Standard |
+| `tagName` | Enum: `div`, `section`, `article`, `aside`, `header`, `footer`, `nav`, `main`, `ul`, `ol` |
 
-| Attribute | Required | Notes |
-|---|---|---|
-| `uniqueId` | yes | |
-| `tagName` | yes | One of: `div`, `section`, `article`, `aside`, `header`, `footer`, `nav`, `main`, `ul`, `ol` |
-
-**Constraint:** `allowedBlocks: ["generateblocks/loop-item"]`. The looper can
-only contain a single `loop-item` child — that child is the template that
-gets rendered once per post.
+This is the grid/flex container — put `display:grid` + `gap` here.
+`allowedBlocks: ["generateblocks/loop-item"]` — exactly one loop-item child.
 
 ### 1.3 `generateblocks/loop-item`
 
-Per-post template. Rendered once per iteration. WordPress post classes are
-auto-injected via `WP_HTML_Tag_Processor` when the query type is `WP_Query`.
+| Attribute | Notes |
+|---|---|
+| `uniqueId`, `styles`, `css`, `globalClasses`, `htmlAttributes` | Standard |
+| `tagName` | Enum: `div`, `li`, `a`, `article`, `section`, `aside` |
 
-| Attribute | Required | Notes |
-|---|---|---|
-| `uniqueId` | yes | |
-| `tagName` | yes | One of: `div`, `li`, `a`, `article`, `section`, `aside` |
+The per-post template, rendered once per result. When `queryType` is
+`WP_Query`, WordPress post classes (`post-123 type-post ...`) are auto-injected
+into the rendered tag server-side via `WP_HTML_Tag_Processor`
+(`includes/blocks/class-loop-item.php:41`) — do NOT write them into your markup.
 
-Reads loop context: `generateblocks/loopItem` (current post), `generateblocks/loopIndex`
-(1-based counter), `postId`, `postType`.
+Each iteration receives context: `postId`, `postType`,
+`generateblocks/loopIndex` (1-based), `generateblocks/loopItem` (the post, or
+the array item for Pro `post_meta`/`option` loops).
 
 ### 1.4 `generateblocks/query-no-results`
 
-Conditional empty-state. Renders only when the parent query returns zero
-results. No required attributes. Place inside the `query` block, after
-the `looper`.
+**No attributes at all** — emit `<!-- wp:generateblocks/query-no-results -->`
+with inner blocks and the closing comment. Renders its inner blocks only when
+the query found zero posts. Place as a sibling after the `looper`.
 
 ### 1.5 `generateblocks/query-page-numbers`
 
-Pagination UI. Calls `paginate_links()` server-side.
+| Attribute | Notes |
+|---|---|
+| `uniqueId`, `styles`, `css`, `globalClasses`, `htmlAttributes` | Standard |
+| `tagName` | Enum: `div`, `section`, `nav` |
+| `midSize` | Number of page links each side of current (default `3`) |
 
-| Attribute | Required | Notes |
-|---|---|---|
-| `uniqueId` | yes | |
-| `tagName` | yes | One of: `div`, `section`, `nav` |
-| `midSize` | no | Number of page links shown around the current page (default `3`) |
+Body is an **empty element** — the server fills it via `paginate_links()`.
+Page links use the query-scoped URL param `?query-{uniqueId}-page=N`, so two
+queries on one page paginate independently. Sibling of `looper`, never a child.
 
 ---
 
 ## 2. The `query` args object
 
-The `query.query` JSON object maps directly to `WP_Query` arguments. Common
-keys:
+Native WP_Query keys, passed through `GenerateBlocks_Query_Utils::get_wp_query_args()`
+(`includes/class-query-utils.php:224`). Use real WP_Query names:
 
 ```json
-"query": {
-    "post_type": "post",
-    "posts_per_page": 6,
-    "order": "DESC",
-    "orderby": "date",
-    "paged": 1,
-    "ignore_sticky_posts": true,
-    "post_status": "publish",
-    "tax_query": [
-        {
-            "taxonomy": "category",
-            "field": "slug",
-            "terms": ["wordpress","seo"]
-        }
-    ],
-    "meta_query": [
-        {
-            "key": "_featured",
-            "value": "1",
-            "compare": "="
-        }
-    ]
+"query":{
+    "post_type":"post",
+    "posts_per_page":6,
+    "order":"DESC",
+    "orderby":"date",
+    "post_status":"publish",
+    "ignore_sticky_posts":true,
+    "offset":0,
+    "tax_query":[{"taxonomy":"category","field":"slug","terms":["wordpress","seo"],"operator":"IN","includeChildren":true}],
+    "meta_query":[{"key":"_featured","value":"1","compare":"="}],
+    "date_query":[{"after":"2025-01-01","before":"2025-12-31"}]
 }
 ```
 
-For related posts (current post excluded):
+Notes verified in source:
+
+- **`offset` composes with pagination** — the plugin computes
+  `offset = posts_per_page × (page − 1) + offset`, so a manual offset
+  doesn't break page 2+.
+- **Multiple `tax_query` clauses get `relation: AND`** automatically.
+- **`post_status` other than `publish`** is forced back to `publish` for
+  visitors who can't `read_private_posts`.
+- **`stickyPosts`** (GB-specific key): `"ignore"` → `ignore_sticky_posts:true`,
+  `"exclude"` → merges sticky IDs into `post__not_in`, `"only"` → only sticky.
+- `posts_per_page: -1` = all posts (no pagination).
+
+## 3. Pro magic values — relationship queries
+
+With GB Pro active, the string `"current"` resolves at render time inside
+these keys (`generateblocks-pro/includes/extend/query/class-query.php`):
+
+| Key | `"current"` means |
+|---|---|
+| `post__not_in` | Exclude the current post — **the related-posts essential** |
+| `post__in` | Only the current post |
+| `author__in` / `author__not_in` | Current post's author |
+| `post_parent__in` / `post_parent__not_in` | Current post's parent |
+| `tax_query[].terms` | Current post's terms in that taxonomy |
+
+### Related posts (same category, current post excluded)
+
 ```json
-"query": {
-    "post_type": "post",
-    "posts_per_page": 3,
-    "post__not_in": ["{{currentPostId}}"]
+"query":{
+    "post_type":"post",
+    "posts_per_page":3,
+    "post__not_in":["current"],
+    "tax_query":[{"taxonomy":"category","field":"term_id","terms":["current"],"operator":"IN"}]
 }
 ```
 
-To inherit the archive query (use inside category/tag/archive templates):
-```json
-"inheritQuery": true,
-"query": {}
-```
+Without Pro there are no magic values — related-posts sections need Pro, or
+hardcoded term IDs.
 
 ---
 
-## 3. Dynamic content inside loop-item
+## 4. Dynamic content inside loop-item
 
-Inside a `loop-item`, child blocks resolve dynamic tokens from the current
-post. The two common ways:
+Use dynamic tags — **exact syntax in `dynamic-tags.md`** (space after tag
+name, pipe-separated options, no quotes). The high-frequency loop patterns:
 
-### 3.1 `generateblocks/text` with a dynamic source
+| Need | Tag |
+|---|---|
+| Title | `{{post_title}}` or self-linking `{{post_title link:post}}` |
+| Permalink (for element `<a>` href) | `{{post_permalink}}` |
+| Excerpt | `{{post_excerpt length:25}}` |
+| Date | `{{post_date dateFormat:M j, Y}}` |
+| Featured image URL | `{{featured_image size:large}}` |
+| Featured image alt | `{{featured_image key:alt}}` |
+| Categories/tags | `{{term_list tax:category|sep:, }}` |
+| Custom field / ACF | `{{post_meta key:field_name}}` |
+| Author | `{{author_meta key:display_name}}` |
+| Item number | `{{loop_index}}` (Pro) |
 
-`generateblocks/text` supports binding its content to a post field via
-`htmlAttributes` and the GB dynamic-source registration. The simplest pattern
-is to set the content via dynamic tags:
+### Loop featured image → `generateblocks/media`
 
-```html
-<!-- wp:generateblocks/text {"uniqueId":"loop-title","tagName":"h3","content":"{{post_title}}","styles":{...},"css":"..."} -->
-<h3 class="gb-text gb-text-loop-title">{{post_title}}</h3>
-<!-- /wp:generateblocks/text -->
-```
-
-Available tags inside loop context:
-- `{{post_title}}`, `{{post_excerpt}}`, `{{post_date}}`, `{{post_author}}`
-- `{{post_url}}` (permalink)
-- `{{post_meta key="..."}}` (custom field)
-- `{{featured_image_url size="..."}}`
-- `{{post_terms taxonomy="..."}}`
-
-(GB Pro adds ACF, term meta, user meta, archive title, and more — see
-`gb-pro.md`.)
-
-### 3.2 `generateblocks/media` with dynamic source
-
-For featured images inside a loop:
+`core/image` cannot resolve loop context — inside loops always use
+`generateblocks/media` with a tag in `src` and `mediaId` omitted:
 
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"loop-img","tagName":"img","mediaId":"{{featured_image_id}}","htmlAttributes":{"src":"{{featured_image_url size=\"large\"}}","alt":"{{post_title}}"},"styles":{...},"css":"..."} -->
-<img class="gb-media gb-media-loop-img" src="{{featured_image_url size=&quot;large&quot;}}" alt="{{post_title}}"/>
+<!-- wp:generateblocks/media {"uniqueId":"grid004","tagName":"img","styles":{"width":"100%","aspectRatio":"16/9","objectFit":"cover"},"css":".gb-media-grid004{aspect-ratio:16/9;object-fit:cover;width:100%}","htmlAttributes":{"src":"{{featured_image size:large}}","alt":"{{featured_image key:alt}}","loading":"lazy"},"className":"gb-media"} -->
+<img class="gb-media-grid004 gb-media" src="{{featured_image size:large}}" alt="{{featured_image key:alt}}" loading="lazy"/>
 <!-- /wp:generateblocks/media -->
 ```
 
-For featured images, **`generateblocks/media` is the right block** (not
-`core/image`) because it can resolve the dynamic source from loop context.
-This is the one case where you do NOT use `core/image`.
+### Whole-card link
 
-### 3.3 Element `<a>` linking to the current post
-
-The card itself usually links to the post. Use `generateblocks/element` with
-`tagName:"a"` and a dynamic href:
+Either make the loop-item itself an `<a>` (`tagName:"a"` is in its enum), or
+use an inner element `<a>`:
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"loop-link","tagName":"a","htmlAttributes":{"href":"{{post_url}}"},"styles":{...},"css":"..."} -->
-<a class="gb-element-loop-link gb-element" href="{{post_url}}">
-    <!-- nested text/media/shape children -->
+<!-- wp:generateblocks/element {"uniqueId":"grid005","tagName":"a","styles":{"display":"block"},"css":".gb-element-grid005{display:block}","htmlAttributes":{"href":"{{post_permalink}}","aria-label":"{{post_title}}"},"className":"gb-element"} -->
+<a class="gb-element-grid005 gb-element" href="{{post_permalink}}" aria-label="{{post_title}}">
+    <!-- inner blocks -->
 </a>
 <!-- /wp:generateblocks/element -->
 ```
 
 ---
 
-## 4. Complete worked example: 3-column blog grid
-
-The canonical, fully-validated, copy-pasteable example lives at:
-
-**[`examples/layouts/query-blog-grid.html`](../examples/layouts/query-blog-grid.html)**
-
-Six recent posts in a responsive grid, with dynamic featured images, post
-terms, title, excerpt, "Read more" link, an empty state, and pagination.
-Every recovery rule from `recovery-rules.md` is enforced.
-
-Key things to copy from that file:
-- Outer `query` block runs the WP_Query and provides the layout wrapper
-- `looper` is a `<div>` with the responsive grid styles
-- `loop-item` is `<article>` — WP post classes auto-injected by the plugin
-- The card image link uses element `<a>` wrapping `generateblocks/media`
-  (dynamic, so we use `media` not `core/image`)
-- The "Read more" link uses element `<a>` wrapping a text `span` child —
-  the canonical link pattern (see `recovery-rules.md` §4)
-- Pagination uses `query-page-numbers` with empty `<nav>` body — the plugin
-  fills it server-side
-- Every JSON attribute is in canonical block.json declaration order
-- Every `--` is `\u002d\u002d`, every `&` (in dynamic-tag attributes) is
-  `\u0022` for quotes, etc.
-- `className` omits the auto-injected id-class (Option A from
-  `recovery-rules.md` §3.3)
-
-Read the example file directly when you need to build a query loop. Do not
-recreate it from memory — copy the structure.
-
----
-
-## 5. Common patterns
-
-### 5.1 Related posts (current post excluded)
+## 5. Common query recipes
 
 ```json
-"queryType":"WP_Query",
-"query":{
-    "post_type":"post",
-    "posts_per_page":3,
-    "post__not_in":["{{currentPostId}}"],
-    "orderby":"rand"
-}
-```
+// Inherit archive query (archive.html, category templates, home.html)
+"inheritQuery":true,"query":{}
 
-### 5.2 Inherit archive query
+// Custom post type grid
+"query":{"post_type":"project","posts_per_page":12,"orderby":"menu_order","order":"ASC"}
 
-Used inside `archive.html`, `category.html`, `tag.html`, `home.html` templates:
+// Children of current page (Pro magic value)
+"query":{"post_type":"page","post_parent__in":["current"],"posts_per_page":-1,"orderby":"menu_order","order":"ASC"}
 
-```json
-"inheritQuery":true,
-"query":{}
-```
+// Featured posts only (meta flag)
+"query":{"post_type":"post","posts_per_page":4,"meta_query":[{"key":"_featured","value":"1","compare":"="}]}
 
-### 5.3 Custom post type
+// More from this author (Pro)
+"query":{"post_type":"post","posts_per_page":3,"author__in":["current"],"post__not_in":["current"]}
 
-```json
-"query":{"post_type":"product","posts_per_page":12}
-```
-
-### 5.4 Featured posts only
-
-```json
-"query":{
-    "post_type":"post",
-    "posts_per_page":4,
-    "meta_query":[{"key":"_featured","value":"1","compare":"="}]
-}
-```
-
-### 5.5 Children of current page
-
-```json
-"query":{
-    "post_type":"page",
-    "post_parent":"{{currentPostId}}",
-    "posts_per_page":-1,
-    "orderby":"menu_order",
-    "order":"ASC"
-}
+// Random pick
+"query":{"post_type":"post","posts_per_page":1,"orderby":"rand"}
 ```
 
 ---
 
-## 6. Recovery-error rules specific to query blocks
+## 6. Pro: looping arrays — ACF repeaters and options
 
-These are in addition to the global rules in `recovery-rules.md`.
+Pro adds two `queryType` values that loop over array data instead of posts:
 
-1. **`looper` may only contain `loop-item`.** If you put any other block type
-   directly inside a `looper`, the editor rejects it.
+```json
+"queryType":"post_meta"   // loop a post meta array (ACF repeater)
+"queryType":"option"      // loop an option array (ACF options-page repeater)
+```
 
-2. **`loop-item` must be inside a `looper`.** It cannot be used standalone
-   anywhere else. Same for `query-no-results` and `query-page-numbers` — both
-   require an ancestor `query` block.
+The `query` object for these types:
 
-3. **Only one `loop-item` per `looper`.** It is a template, not a list. Don't
-   try to add multiple loop-items to vary the layout — use conditional dynamic
-   tags inside a single loop-item instead.
+```json
+"query":{
+    "meta_key_id":"current",        // post to read meta from ("current" or an ID)
+    "meta_key":"team_members",      // the repeater/array field name
+    "posts_per_page":10,
+    "offset":0
+}
+```
 
-4. **`query.query` is required.** Even when `inheritQuery: true`, emit at
-   least an empty `"query":{}` object — missing the key has caused recovery
-   in older builds.
+Inside the loop-item, read fields with `{{loop_item key:...}}` and number rows
+with `{{loop_index}}` — full worked repeater example in
+`acf-and-custom-fields.md` §4.
 
-5. **`paginationType` must be set on the `query` block.** Default to
-   `"standard"`. `"instant"` requires GB Pro and the looper.js asset.
+---
 
-6. **Don't put `query-page-numbers` inside `looper`.** It's a sibling of
-   `looper`, not a child. Pagination is per-query, not per-iteration.
+## 7. Complete worked example
 
-7. **Double-quote escaping inside dynamic tags.** When a dynamic tag has a
-   parameter with quoted value (like `{{featured_image_url size="large"}}`)
-   AND that tag lives inside an HTML attribute, escape the inner quotes as
-   `&quot;` in the rendered HTML body. The JSON `htmlAttributes` value uses
-   `\"` escaping. See the example above for the exact form.
+The canonical, copy-pasteable blog grid lives at
+**[`examples/layouts/query-blog-grid.html`](../examples/layouts/query-blog-grid.html)** —
+query → looper (responsive grid) → loop-item (`article`) with dynamic image,
+terms, title, excerpt, read-more, plus no-results and pagination. Copy its
+structure rather than rebuilding from memory; every recovery rule and the
+canonical tag syntax are already enforced there.
 
-8. **Dynamic image src must use `generateblocks/media`, not `core/image`.**
-   `core/image` cannot resolve loop context. The `recovery-rules.md` rule
-   that says "use `core/image` for static images with captions" does NOT
-   apply inside loop-items — there, `generateblocks/media` is correct.
+---
+
+## 8. Recovery + correctness rules specific to query blocks
+
+In addition to the global rules in `recovery-rules.md`:
+
+1. **`looper` may only contain `loop-item`** — anything else is rejected.
+2. **`loop-item`/`query-no-results`/`query-page-numbers` can't be used outside
+   their required ancestors.**
+3. **One `loop-item` per `looper`.** It's a template, not a list. Vary
+   presentation inside the template, not by adding siblings.
+4. **Always emit `"query":{}`** even with `inheritQuery:true`.
+5. **`paginationType` defaults to `"standard"`** — `"instant"` enqueues the
+   Interactivity-API router; keep `standard` unless asked.
+6. **`query-page-numbers` is a sibling of `looper`**, never a child.
+7. **No quoted values inside dynamic tags** — `{{featured_image size:large}}`,
+   never `size="large"`. Wrong syntax doesn't trigger recovery; it renders
+   literally on the frontend, which is worse because it saves fine.
+8. **Dynamic images = `generateblocks/media`**, static captioned images =
+   `core/image`. The loop is the exception zone where media is mandatory.
+9. **Don't write WP post classes on the loop-item** — the server injects them.
+10. **`{{currentPostId}}` does not exist.** Use Pro's `"current"` magic value
+    in the query args, or hardcode an ID.

@@ -30,6 +30,9 @@ Before converting, read these files in the sibling `generateblocks-layouts` skil
 2. `../generateblocks-layouts/references/recovery-rules.md` — every cause of
    "Attempt Recovery" errors with the exact fix
 3. `../generateblocks-layouts/references/block-types.md` — attribute specs
+4. `../generateblocks-layouts/references/dynamic-tags.md` — REQUIRED for any
+   dynamic content. Tag syntax is `{{tag option:value|option2:value}}` —
+   wrong syntax saves fine but renders as literal text.
 
 For Elementor Posts/Loop widgets, build the GB equivalent with the V2 Query
 block family — see `../generateblocks-layouts/references/query-block.md`.
@@ -323,7 +326,7 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 ]
 ```
 
-**Note:** `linkHtmlAttributes` for media blocks may use a different format.
+**Note:** `linkHtmlAttributes` (media blocks) is also a plain object: `{"href":"https://...","target":"_blank"}`.
 
 ### 2. Always Include Both styles and css
 

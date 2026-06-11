@@ -29,6 +29,9 @@ Before converting any markup, read these files in the sibling
 2. `../generateblocks-layouts/references/recovery-rules.md` — every cause of
    "Attempt Recovery" errors with the exact fix. Non-negotiable.
 3. `../generateblocks-layouts/references/block-types.md` — attribute specs
+4. `../generateblocks-layouts/references/dynamic-tags.md` — REQUIRED for any
+   dynamic content. Tag syntax is `{{tag option:value|option2:value}}` —
+   wrong syntax saves fine but renders as literal text.
 
 If the source HTML contains a list/grid that's clearly fed by dynamic data
 (post cards, product listings, related content), build it as a query loop
@@ -96,12 +99,9 @@ For HTML elements not available in GenerateBlocks, use WordPress Core Blocks:
 ]
 ```
 
-**linkHtmlAttributes** (for media blocks) uses the same array format:
+**linkHtmlAttributes** (for media blocks) is also a plain object:
 ```json
-"linkHtmlAttributes": [
-  {"attribute": "href", "value": "/product/"},
-  {"attribute": "target", "value": "_blank"}
-]
+"linkHtmlAttributes": {"href": "https://example.com/product/", "target": "_blank"}
 ```
 
 ## Block Structure
@@ -149,8 +149,8 @@ Cards with inner blocks use `generateblocks/element` (not `text`) with `tagName:
 ### Media/Image Block
 
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"img001","mediaType":"image","htmlAttributes":[{"attribute":"src","value":"https://example.com/image.jpg"},{"attribute":"alt","value":"Description"},{"attribute":"loading","value":"lazy"},{"attribute":"width","value":"600"},{"attribute":"height","value":"400"}],"styles":{"display":"block","width":"100%"},"css":".gb-media-img001{display:block;width:100%}"} -->
-<img class="gb-media gb-media-img001" src="https://example.com/image.jpg" alt="Description" loading="lazy" width="600" height="400" />
+<!-- wp:generateblocks/media {"uniqueId":"img001","tagName":"img","styles":{"display":"block","width":"100%"},"css":".gb-media-img001{display:block;width:100%}","htmlAttributes":{"src":"https://example.com/image.jpg","alt":"Description","loading":"lazy","width":"600","height":"400"},"className":"gb-media"} -->
+<img class="gb-media-img001 gb-media" src="https://example.com/image.jpg" alt="Description" loading="lazy" width="600" height="400"/>
 <!-- /wp:generateblocks/media -->
 ```
 

@@ -266,7 +266,7 @@ Semantic elements reduce the need for wrapper divs:
 ### Lazy Loading
 
 ```html
-<!-- wp:generateblocks/media {"htmlAttributes":[{"attribute":"loading","value":"lazy"},{"attribute":"decoding","value":"async"}]} -->
+<!-- wp:generateblocks/media {"htmlAttributes":{"loading":"lazy","decoding":"async"}} -->
 <img loading="lazy" decoding="async" ... />
 <!-- /wp:generateblocks/media -->
 ```
@@ -274,7 +274,7 @@ Semantic elements reduce the need for wrapper divs:
 ### Responsive Images
 
 ```html
-<!-- wp:generateblocks/media {"htmlAttributes":[{"attribute":"srcset","value":"img-400.jpg 400w, img-800.jpg 800w"},{"attribute":"sizes","value":"(max-width: 600px) 100vw, 50vw"}]} -->
+<!-- wp:generateblocks/media {"htmlAttributes":{"srcset":"img-400.jpg 400w, img-800.jpg 800w","sizes":"(max-width: 600px) 100vw, 50vw"}} -->
 <img srcset="img-400.jpg 400w, img-800.jpg 800w" sizes="(max-width: 600px) 100vw, 50vw" ... />
 <!-- /wp:generateblocks/media -->
 ```

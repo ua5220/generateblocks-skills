@@ -33,6 +33,9 @@ Before generating blocks, read these files in the sibling
 2. `../generateblocks-layouts/references/recovery-rules.md` — every cause of
    "Attempt Recovery" errors with the exact fix
 3. `../generateblocks-layouts/references/block-types.md` — attribute specs
+4. `../generateblocks-layouts/references/dynamic-tags.md` — REQUIRED for any
+   dynamic content. Tag syntax is `{{tag option:value|option2:value}}` —
+   wrong syntax saves fine but renders as literal text.
 
 If the Figma design includes a card grid that's clearly meant to be fed by
 posts/products/CPTs, build it as a query loop using
@@ -345,7 +348,7 @@ Cards with inner blocks use `generateblocks/element` (not `text`) with `tagName:
 ```html
 <!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"https://example.com/link/"},"styles":{"backgroundColor":"white","border":"1px solid #e5e5e5","borderRadius":"1rem","display":"flex","flexDirection":"column","overflow":"hidden","textDecoration":"none"},"css":".gb-element-card001{background-color:white;border:1px solid #e5e5e5;border-radius:1rem;display:flex;flex-direction:column;overflow:hidden;text-decoration:none}","className":"gb-element-card001 gb-element"} -->
 <a class="gb-element-card001 gb-element" href="https://example.com/link/">
-    <!-- wp:generateblocks/media {"uniqueId":"card002","mediaType":"image","htmlAttributes":[{"attribute":"src","value":"image.jpg"},{"attribute":"alt","value":"Card image"}],"styles":{"aspectRatio":"16/9","objectFit":"cover","width":"100%"},"css":".gb-media-card002{aspect-ratio:16/9;object-fit:cover;width:100%}"} -->
+    <!-- wp:generateblocks/media {"uniqueId":"card002","tagName":"img","styles":{"aspectRatio":"16/9","objectFit":"cover","width":"100%"},"css":".gb-media-card002{aspect-ratio:16/9;object-fit:cover;width:100%}","htmlAttributes":{"src":"https://example.com/image.jpg","alt":"Card image"},"className":"gb-media"} -->
     <img class="gb-media gb-media-card002" src="image.jpg" alt="Card image" />
     <!-- /wp:generateblocks/media -->
     <!-- wp:generateblocks/element {"uniqueId":"card003","tagName":"div","styles":{"display":"flex","flexDirection":"column","gap":"0.75rem","padding":"1.5rem"},"css":".gb-element-card003{display:flex;flex-direction:column;gap:0.75rem;padding:1.5rem}","className":"gb-element-card003 gb-element"} -->
@@ -493,7 +496,7 @@ Any extra HTML comments will **break the WordPress block editor** and cause pars
 ]
 ```
 
-**Note:** `linkHtmlAttributes` for media blocks may use a different format.
+**Note:** `linkHtmlAttributes` (media blocks) is also a plain object: `{"href":"https://...","target":"_blank"}`.
 
 ### 2. Both styles AND css Required
 
@@ -629,13 +632,13 @@ Closing tags must be on the same line as their parent's closing comment. No blan
 When Figma shows placeholder images, use:
 ```json
 {
-  "htmlAttributes": [
-    {"attribute": "src", "value": "https://placehold.co/800x600/f5f5f3/5c5c5c?text=Image"},
-    {"attribute": "alt", "value": "Descriptive alt text"},
-    {"attribute": "width", "value": "800"},
-    {"attribute": "height", "value": "600"},
-    {"attribute": "loading", "value": "lazy"}
-  ]
+  "htmlAttributes": {
+    "src": "https://placehold.co/800x600/f5f5f3/5c5c5c?text=Image",
+    "alt": "Descriptive alt text",
+    "width": "800",
+    "height": "600",
+    "loading": "lazy"
+  }
 }
 ```
 

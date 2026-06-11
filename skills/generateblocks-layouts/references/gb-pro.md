@@ -1,218 +1,101 @@
 ---
-title: GenerateBlocks Pro features
-description: What Pro adds on top of free GenerateBlocks — Pro-only blocks, extended attributes on free blocks, dynamic content, conditions, patterns.
+title: GenerateBlocks Pro overview (2.6)
+description: What Pro adds on top of free GenerateBlocks — block catalog, global classes, query extensions, conditions, forms, overlays — with pointers to the deep-dive references.
 ---
 
-# GenerateBlocks Pro
+# GenerateBlocks Pro (2.6)
 
-Use Pro features when the user has GB Pro installed. If you're not sure,
-default to the free-plugin patterns and add a comment in chat saying which
-sections need Pro.
+Use Pro features only when the user has GB Pro installed. If unsure, default
+to free-plugin patterns and say in chat which parts would need Pro.
 
----
+Status note (June 2026): public stable is free 2.2.1 / Pro 2.5.0; free 2.3
+and Pro 2.6 (Forms, CSS Mode) are in beta/RC — this repo carries the RC
+source. If the user's site runs stable, Forms and CSS Mode aren't available
+yet. Note 2.3 also disables the legacy "Additional CSS" block option by
+default in favor of CSS Mode.
 
-## 1. Pro-only blocks
+## What Pro adds — map
 
-| Block | Slug | Children | Purpose |
-|---|---|---|---|
-| Accordion | `generateblocks-pro/accordion` | item, toggle, content, toggle-icon | Collapsible content groups |
-| Tabs | `generateblocks-pro/tabs` | tabs-menu, tab-menu-item, tab-items, tab-item | Tabbed interfaces |
-| Carousel | `generateblocks-pro/carousel` | carousel-items, carousel-item, pagination, control | Slider |
-| Site Header | `generateblocks-pro/site-header` | (any) | Header wrapper, supports `data-gb-is-sticky` |
-| Navigation | `generateblocks-pro/navigation` | classic-menu, menu-toggle, menu-container | Pro nav block |
-| Classic Menu | `generateblocks-pro/classic-menu` | classic-menu-item, classic-sub-menu | Render a registered WP menu |
-| Menu Toggle | `generateblocks-pro/menu-toggle` | (icon) | Mobile menu toggle |
-| Menu Container | `generateblocks-pro/menu-container` | (any) | Drawer/dropdown wrapper |
-
-All Pro blocks follow the same JSON / className / `gb-{slug}-{uniqueId}`
-conventions as the free blocks. The recovery rules in `recovery-rules.md`
-apply equally.
-
-### Sticky header pattern
-
-```json
-"htmlAttributes":{"data-gb-is-sticky":"true"}
-```
-
-Pro auto-enqueues `sticky-element.js` when this attribute is present on
-`generateblocks-pro/site-header` or any container element.
-
----
-
-## 2. Pro extensions to free blocks
-
-### 2.1 Variant roles (turn a free element into an interactive component)
-
-A free `generateblocks/element` can be transformed into an accordion or tab
-element by setting:
-
-```json
-"variantRole":"accordion"
-"variantRole":"tabs"
-```
-
-Pro generates the matching CSS and binds the interaction script. This is
-how the Pro accordion/tabs blocks are actually built under the hood.
-
-### 2.2 Transforms
-
-```json
-"useTransform":true,
-"transforms":[
-    {"type":"translateY","value":"-6px","state":"hover"},
-    {"type":"scale","value":"1.02","state":"hover","device":"desktop"}
-]
-```
-
-Translate, scale, rotate, skew. Per-state (`base`, `hover`) and per-device
-(`desktop`, `tablet`, `mobile`).
-
-### 2.3 Effects
-
-Hover background/gradient changes with target selection:
-
-```json
-"effects":[
-    {
-        "type":"backgroundColor",
-        "target":"self",
-        "state":"hover",
-        "value":"#c0392b"
-    }
-]
-```
-
-Targets: `self`, `innerContainer`, `backgroundImage`, `icon`, `customSelector`,
-pseudo-elements (`::before`, `::after`).
-
----
-
-## 3. Dynamic content (Pro tags)
-
-Pro extends the dynamic-tag system far beyond the free plugin. Tags resolve
-inside any `generateblocks/text`, `media`, or element `htmlAttributes`.
-
-Common Pro tags:
-
-| Tag | Resolves to |
+| Capability | Detail file |
 |---|---|
-| `{{archive_title}}` | Current archive title |
-| `{{archive_description}}` | Current archive description |
-| `{{site_option key="..."}}` | A WP option value |
-| `{{user_meta key="..."}}` | Logged-in user meta |
-| `{{term_meta key="..."}}` | Current term meta |
-| `{{acf field="..."}}` | ACF field value (post context) |
-| `{{acf field="..." source="user"}}` | ACF field on user |
-| `{{acf field="..." source="term"}}` | ACF field on term |
-| `{{acf field="..." source="option"}}` | ACF options-page field |
-| `{{adjacent_post type="next"}}` | Next post permalink |
-| `{{adjacent_post type="previous"}}` | Previous post permalink |
-| `{{current_year}}` | Current year |
-| `{{current_date format="..."}}` | Formatted date |
+| Accordion, Tabs, Carousel, Navigation, Site Header, Overlays, Mega Menus | `pro-interactive.md` |
+| Forms (fields, validation, email/webhook/ESP integrations, Turnstile) — **2.6** | `pro-forms.md` |
+| Block/menu conditions (`gbBlockCondition` → Conditions CPT) | `conditions.md` |
+| Pro dynamic tags (`archive_title`, `site_*`, `option`, `term_meta`, `user_meta`, `loop_index`, `loop_item`, adjacent-post `source:`) | `dynamic-tags.md` §6 |
+| ACF / custom-field deep integration | `acf-and-custom-fields.md` |
+| Query extensions (`"current"` magic values, `stickyPosts`, `post_meta`/`option` loop types) | `query-block.md` §3, §6 |
+| Global classes & Styles dashboard | below |
+| Pattern library (local CPT + remote pro library) | below |
 
-Use these inside `loop-item` blocks (see `query-block.md`) or anywhere on
-single-post / archive templates.
+## Pro block catalog (28 blocks, verified)
 
----
-
-## 4. Pro query loop extensions
-
-Pro adds query types beyond `WP_Query`:
-
-```json
-"queryType":"TYPE_POST_META"   // Loop over a serialized post meta array
-"queryType":"TYPE_OPTION"      // Loop over a stored option array
-"queryType":"TYPE_USERS"       // Loop over WP_User_Query results
-"queryType":"TYPE_TERMS"       // Loop over get_terms() results
+```
+Forms (2.6):     form, form-field, form-field-label, form-field-control, form-render
+Accordion:       accordion, accordion-item, accordion-toggle, accordion-toggle-icon, accordion-content
+Tabs:            tabs, tabs-menu, tab-menu-item, tab-items, tab-item
+Carousel (2.5):  carousel, carousel-items, carousel-item, carousel-control, carousel-pagination
+Navigation (2.2):navigation, menu-toggle, menu-container, classic-menu, classic-menu-item, classic-sub-menu
+Header (2.2):    site-header
 ```
 
-Pro also adds query relationship filters:
+All namespaced `generateblocks-pro/{slug}`, class pattern
+`gb-{slug}-{uniqueId}`, same recovery rules — but **attribute declaration
+order differs per block**: see `pro-interactive.md` top section before
+emitting any Pro block JSON.
+
+## Global classes
+
+- Created/managed in the **Styles dashboard** (GenerateBlocks → Styles);
+  stored server-side (option + `gblocks_global_style` CPT), CSS compiled and
+  enqueued site-wide.
+- A block opts in via its `globalClasses` array attribute; the class names
+  are also written into the rendered HTML class list:
 
 ```json
-"query":{
-    "post_type":"post",
-    "posts_per_page":4,
-    "gb_related_by":"taxonomy",
-    "gb_related_taxonomy":"category",
-    "gb_exclude_current":true
-}
+"globalClasses":["button-primary"]
+```
+```html
+<a class="gb-element-cta001 gb-element button-primary" href="...">
 ```
 
-Other Pro filters: `gb_related_by_author`, `gb_related_by_parent`,
-`gb_exclude_current_author`, `gb_exclude_current_parent`, `gb_exclude_current_terms`.
+- Use global classes when the same component style repeats across the site
+  (buttons, cards, badges). The per-block `styles`/`css` then carries only
+  instance-specific overrides.
+- 2.6 adds **CSS Mode** (write raw CSS on blocks and global styles) and a CSS
+  Properties panel in the Styles builder.
+- Hand-authoring: reference existing global classes freely. Creating them
+  programmatically goes through the Styles REST API — otherwise tell the user
+  to create the class in the dashboard first.
 
----
+## Pattern library
 
-## 5. Block conditions (conditional visibility)
+- Local patterns: `wp_block` posts + `gblocks_pattern_collections` taxonomy.
+- Remote pro pattern library fetched from generatepress.com (2.0+),
+  "instant patterns" since 2.5.
+- Pattern markup is just block markup — anything this skill emits can be
+  saved as a pattern. See `patterns.md` for registration options.
 
-Hide/show any block based on rules. Set on the block's attributes:
+## Version timeline (what exists at which Pro version)
 
-```json
-"gbBlockCondition":[
-    {"type":"userRole","operator":"is","value":"administrator"},
-    {"type":"deviceType","operator":"is","value":"mobile"},
-    {"type":"queryArg","operator":"equals","key":"utm_source","value":"newsletter"}
-]
-```
+| Version | Features |
+|---|---|
+| 2.0 | v2 rewrite: accordion/tabs v2, ACF dynamic tags, query extensions |
+| 2.1 | Device visibility, nested accordions, FAQ schema, a11y options |
+| 2.2 | Navigation + Site Header blocks |
+| 2.3 | Overlays (modals, off-canvas, anchored), mega menus |
+| 2.4 | Conditions system (blocks + menu items) |
+| 2.5 | Carousel, site logo/URL tags, grid-template controls |
+| 2.6 | Forms system + integrations, CSS Mode |
 
-Available condition types:
-`location`, `queryArg`, `userRole`, `userCapability`, `dateTime`, `deviceType`,
-`referrer`, `postMeta`, `userMeta`, `cookie`, `language`, `author`.
+## When to recommend Pro
 
-Multiple conditions are AND'd. For OR logic, register multiple sibling
-blocks with different conditions.
+- Accordions, tabs, carousels, mega menus, modals/off-canvas
+- Site header/navigation built in blocks rather than the theme
+- Native forms with ESP integrations
+- Conditional rendering (roles, scheduling, devices, meta)
+- Related-posts queries (`"current"` magic values) and ACF repeater loops
+- Archive/site/option/term/user dynamic tags, prev/next post navigation
+- Global classes / design-token management in the Styles dashboard
 
----
-
-## 6. Pattern library
-
-Pro adds a CPT-backed pattern library:
-
-- `gblocks_pattern` (post type) — local patterns
-- `gblocks_pattern_collections` (taxonomy) — pattern groupings
-- Cloud library — fetch patterns from generateblocks.com
-- REST API endpoints for pattern CRUD
-
-When emitting pattern markup, the format is the same as any block markup —
-you just save it via the WP REST API or by importing into the pattern UI.
-
----
-
-## 7. Overlays / modals
-
-Pro provides an overlay CPT (`gblocks_overlay`) for full-page modal/panel
-templates. The overlay is rendered in an iframe context for isolation.
-Trigger overlays from any element:
-
-```json
-"htmlAttributes":{
-    "data-gb-overlay-trigger":"overlay-id-123"
-}
-```
-
----
-
-## 8. Mega menus
-
-Per-menu-item meta drives mega-menu rendering:
-
-- `_gb_mega_menu` — boolean
-- `_gb_mega_menu_anchor` — anchor selector
-
-Set inside the WP menu admin or via REST API.
-
----
-
-## 9. When to recommend Pro
-
-Recommend Pro to the user when their request needs:
-- Accordions, tabs, or carousels
-- Sticky headers / advanced site headers
-- Conditional visibility / personalization
-- ACF integration in dynamic tags
-- Related-posts / advanced query relationships
-- Block-level transforms or hover effects beyond simple color changes
-- Pattern library / cloud patterns
-- Overlays / modals
-
-For everything else, the free plugin is enough.
+Everything else — layout, styling, static sections, standard query loops,
+free dynamic tags — works on the free plugin.

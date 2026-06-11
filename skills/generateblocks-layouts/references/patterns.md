@@ -279,8 +279,8 @@ Use content lock and placeholder text for user customization:
     <!-- wp:generateblocks/element {"uniqueId":"test003","tagName":"footer","styles":{"display":"flex","alignItems":"center","gap":"1rem"},"css":".gb-element-test003{display:flex;align-items:center;gap:1rem}"} -->
     <footer class="gb-element gb-element-test003">
 
-        <!-- wp:generateblocks/media {"uniqueId":"test004","mediaType":"image","htmlAttributes":[{"attribute":"src","value":"https://via.placeholder.com/48"},{"attribute":"alt","value":"Customer photo"}],"styles":{"width":"48px","height":"48px","borderRadius":"50%","objectFit":"cover"},"css":".gb-media-test004{width:48px;height:48px;border-radius:50%;object-fit:cover}"} -->
-        <img class="gb-media gb-media-test004" src="https://via.placeholder.com/48" alt="Customer photo" />
+        <!-- wp:generateblocks/media {"uniqueId":"test004","tagName":"img","styles":{"width":"48px","height":"48px","borderRadius":"50%","objectFit":"cover"},"css":".gb-media-test004{border-radius:50%;height:48px;object-fit:cover;width:48px}","htmlAttributes":{"src":"https://via.placeholder.com/48","alt":"Customer photo"},"className":"gb-media"} -->
+        <img class="gb-media-test004 gb-media" src="https://via.placeholder.com/48" alt="Customer photo" />
         <!-- /wp:generateblocks/media -->
 
         <!-- wp:generateblocks/element {"uniqueId":"test005","tagName":"div"} -->

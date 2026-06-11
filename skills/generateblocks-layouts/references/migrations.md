@@ -129,7 +129,7 @@ generateblocks/shape        → SVG icons and shapes
 
 **V2:**
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"img123","mediaId":456,"htmlAttributes":[{"attribute":"src","value":"image.jpg"},{"attribute":"alt","value":"Description"},{"attribute":"width","value":"600"},{"attribute":"height","value":"400"}],"styles":{"width":"600px","height":"400px"},"css":".gb-media-img123{width:600px;height:400px}","className":"gb-media"} -->
+<!-- wp:generateblocks/media {"uniqueId":"img123","mediaId":456,"htmlAttributes":{"src":"https://example.com/image.jpg","alt":"Description","width":"600","height":"400"},"styles":{"width":"600px","height":"400px"},"css":".gb-media-img123{width:600px;height:400px}","className":"gb-media"} -->
 <img class="gb-media-img123 gb-media" src="image.jpg" alt="Description" width="600" height="400" />
 <!-- /wp:generateblocks/media -->
 ```

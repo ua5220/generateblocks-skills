@@ -116,22 +116,24 @@ generateblocks-skills/
 ├── AGENTS.md                  # Universal LLM instructions
 ├── skills/                    # Skill source files
 │   ├── generateblocks-layouts/
-│   │   ├── SKILL.md           # Main entry point
-│   │   ├── references/        # Block types, CSS, responsive, queries, etc.
+│   │   ├── SKILL.md           # Main entry point (slim — depth in references/)
+│   │   ├── references/        # 21 files: blocks, dynamic tags, queries, ACF,
+│   │   │                      # conditions, forms, animations, templates, Pro
 │   │   └── examples/          # Basic, compound, layout, SVG examples
 │   ├── html-to-generateblocks/
 │   ├── elementor-to-generateblocks/
 │   └── figma-to-generateblocks/
 ├── importable/                # .skill and .zip files for upload
 ├── examples/                  # 38 golden examples across 14 sections
-└── generateblocks/            # Plugin source (V2.2.0) for reference
+├── generateblocks/            # Plugin source (2.3.0-rc) for reference
+└── generateblocks-pro/        # Pro plugin source (2.6.0-rc) for reference
 ```
 
 ### Skills
 
 | Skill | Purpose |
 |-------|---------|
-| **GenerateBlocks Layouts** | Build layouts using GB V2 blocks (element, text, media, shape) |
+| **GenerateBlocks Layouts** | Build anything with GB V2: static sections, query loops, dynamic tags, ACF data, animations, conditions, Pro forms/interactive blocks, full-site templates |
 | **HTML to GenerateBlocks** | Convert HTML/CSS to GenerateBlocks block markup |
 | **Elementor to GenerateBlocks** | Migrate Elementor layouts to clean GB blocks |
 | **Figma to GenerateBlocks** | Convert Figma designs to GB blocks |
@@ -200,9 +202,13 @@ Key attributes:
 ## Limitations
 
 - **No external URLs** — Provide HTML, screenshots, or descriptions
-- **Static output** — CSS-only, no JavaScript interactions
+- **No custom JavaScript** — interactions are CSS-only, plus GB Pro's built-in
+  JS blocks (accordion, tabs, carousel, overlays, instant pagination)
 - **Placeholder images** — Replace with real images after generation
 - **Hover inference** — Interactive states inferred from static designs
+- **UI-managed settings** — condition rules, form actions, overlay triggers,
+  and display rules are configured in wp-admin, not in block markup; the
+  skills list these as manual steps
 
 ---
 

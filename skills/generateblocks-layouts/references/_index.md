@@ -5,21 +5,22 @@ description: Tells Claude which reference file to open for which task. Always ch
 
 # GenerateBlocks Skill Router
 
-When this skill loads, read this file FIRST. It tells you which reference to
-load for the task at hand. Loading the wrong file (or loading too much) wastes
-context — be precise.
+Read this file FIRST, then load only what the task needs. Loading the wrong
+file (or loading too much) wastes context — be precise.
+
+Verified against: GenerateBlocks free **2.3**, GB Pro **2.6**.
 
 ## Before doing anything
 
-**Always read these two files at the start of every task, no matter the task:**
+**Always read these two, every task:**
 
 1. `references/recovery-rules.md` — every cause of "Attempt Recovery" errors
-   plus the exact fix. This is the bug-prevention manual. Skip it and you
-   will produce broken markup.
-2. The relevant task file from the table below.
+   plus the exact fix. The bug-prevention manual. Non-negotiable.
+2. The task file(s) from the table below.
 
-The base `SKILL.md` has the high-level conventions. The references below
-have the depth.
+If the task touches dynamic data in ANY way (loops, custom fields, dates,
+titles, archives), also read `dynamic-tags.md` — older tag syntax floating
+around the internet (and in old markup) is wrong and silently fails.
 
 ---
 
@@ -28,19 +29,25 @@ have the depth.
 | If the user is asking for... | Read |
 |---|---|
 | A static section / hero / cards / grid (no dynamic data) | `block-types.md`, `css-patterns.md` |
-| Hover effects, transitions, gradients, pseudo-elements | `css-patterns.md`, `recovery-rules.md` §2 |
+| Hover effects, transitions, gradients, pseudo-elements | `css-patterns.md` |
+| Entrance animations, scroll effects, micro-interactions, motion | `animations.md` |
 | SVG icons or decorative shapes | `svg-icons.md` |
-| Responsive layout / breakpoints | `responsive.md`, `recovery-rules.md` §6 |
-| **A blog grid, archive page, related posts, or any dynamic post list** | **`query-block.md`** |
-| Pagination on a query | `query-block.md` §1.5, §4 |
-| Custom post type loop | `query-block.md` §5.3 |
-| Accordion / tabs / carousel / sticky header | `gb-pro.md` |
-| ACF fields, dynamic tags, conditional visibility | `gb-pro.md` §3, §5 |
-| Migrating from V1 (`generateblocks/container`, `/headline`, `/grid`) | `migrations.md` |
+| Responsive layout / breakpoints | `responsive.md` |
+| **Blog grid, archive, related posts, any dynamic post list** | `query-block.md` + `dynamic-tags.md` |
+| Pagination on a query | `query-block.md` §1.5 |
+| Dynamic titles, dates, images, meta, author boxes | `dynamic-tags.md` |
+| **ACF fields, repeaters, options pages, Meta Box, custom fields** | `acf-and-custom-fields.md` |
+| Conditional visibility (roles, devices, scheduling, meta) | `conditions.md` |
+| Accordion / tabs / carousel / mega menu / modal / site header | `pro-interactive.md` |
+| Contact form, newsletter signup, any form | `pro-forms.md` |
+| **Full site: headers, footers, archive/single templates, FSE, GeneratePress Elements** | `template-authoring.md` |
+| "What needs Pro?" / Pro feature overview / global classes | `gb-pro.md` |
+| Design tokens, theme.json bridge | `global-styles.md` |
 | Block patterns / pattern registration | `patterns.md` |
-| Global styles, design tokens, theme.json | `global-styles.md` |
 | Performance / CSS delivery | `performance.md` |
-| Already produced markup that's failing | `troubleshooting.md`, `recovery-rules.md` |
+| Migrating V1 blocks (`container`, `headline`, `grid`) | `migrations.md` |
+| Markup that's failing / debugging | `troubleshooting.md`, `recovery-rules.md` |
+| Core `core/query` loops (only if explicitly requested) | `query-loops.md` |
 
 ---
 
@@ -48,22 +55,28 @@ have the depth.
 
 ```
 references/
-├── _index.md              ← you are here
-├── recovery-rules.md      ← MUST read every task. Recovery error catalog.
-├── block-types.md         ← Element/Text/Media/Shape attribute specs
-├── query-block.md         ← V2 Query/Looper/Loop-Item dynamic content
-├── gb-pro.md              ← Pro-only blocks, dynamic tags, conditions
-├── css-patterns.md        ← Hover, transitions, gradients, pseudo-elements
-├── svg-icons.md           ← Shape block + inline SVG patterns
-├── responsive.md          ← Media queries, breakpoints (V2)
-├── responsive-legacy.md   ← Older breakpoint patterns (reference only)
-├── dynamic-content.md     ← Free-plugin dynamic tag basics
-├── global-styles.md       ← Design tokens, theme.json bridge
-├── patterns.md            ← Block pattern registration
-├── performance.md         ← CSS delivery optimization
-├── migrations.md          ← V1 → V2 migration guide
-├── query-loops.md         ← LEGACY core/query patterns (only if user explicitly wants core blocks)
-└── troubleshooting.md     ← Debug recipes for known failures
+├── _index.md                 ← you are here
+├── recovery-rules.md         ← MUST read every task. Recovery error catalog.
+├── block-types.md            ← Element/Text/Media/Shape verified specs
+├── dynamic-tags.md           ← Canonical tag catalog + syntax. Wins all conflicts.
+├── query-block.md            ← Query/Looper/Loop-Item + Pro query extensions
+├── acf-and-custom-fields.md  ← ACF patterns, repeater loops, options pages
+├── conditions.md             ← Pro conditions + free alternatives
+├── template-authoring.md     ← Full-site building: FSE, GP Elements, templates
+├── animations.md             ← Motion: hover, keyframes, scroll-driven, a11y
+├── gb-pro.md                 ← Pro overview + feature map (2.6)
+├── pro-forms.md              ← Forms system deep dive
+├── pro-interactive.md        ← Accordion/Tabs/Carousel/Nav/Header/Overlays
+├── css-patterns.md           ← Hover, gradients, pseudo-elements, buttons, cards
+├── svg-icons.md              ← Shape block + inline SVG patterns
+├── responsive.md             ← Media queries, breakpoints (V2)
+├── global-styles.md          ← Design tokens, theme.json bridge
+├── patterns.md               ← Block pattern registration
+├── performance.md            ← CSS delivery optimization
+├── migrations.md             ← V1 → V2 migration guide
+├── query-loops.md            ← LEGACY core/query patterns (only on request)
+├── responsive-legacy.md      ← Older breakpoint patterns (reference only)
+└── troubleshooting.md        ← Debug recipes for known failures
 ```
 
 ---
@@ -74,29 +87,36 @@ references/
    or `{slug}.html`. Place in `output/` if working in this repo, otherwise
    wherever the user wants.
 2. **Run the pre-flight checklist** from `recovery-rules.md` §7 against your
-   output before saving the file. Every item.
-3. **Summarize in chat** what you built — purpose, block count, anything that
-   needs Pro, anything you skipped due to a recovery rule.
+   output before saving. Every item.
+3. **Summarize in chat**: purpose, block count, anything that needs Pro,
+   anything skipped due to a recovery rule.
 
 ---
 
 ## Decision shortcuts
 
 - **Static image with caption?** → `core/image`, not `generateblocks/media`.
-- **Dynamic image inside a loop?** → `generateblocks/media` (it can resolve
-  loop context).
-- **Action link / button with text?** → `generateblocks/element` `tagName:"a"`
-  wrapping a `generateblocks/text` `span` child. Never text `<a>` (strips
-  href). Never element `<a>` with raw text (recovery error).
+- **Dynamic image inside a loop?** → `generateblocks/media` with
+  `{{featured_image size:large}}` in `htmlAttributes.src`.
+- **Action link / button-styled link?** → element `<a>` wrapping a text `span`
+  child. Never text `<a>` with href (stripped). Never element `<a>` with raw
+  text (recovery).
+- **Inline link inside a sentence?** → write the `<a>` in the text block's
+  rich-text content (escaped in JSON, literal in HTML body).
 - **List?** → `core/list` with `className:"list"`.
-- **Emoji?** → `core/paragraph`. GB renders emoji glyphs incorrectly.
-- **Tabs / accordion / carousel?** → GB Pro block. Tell the user it requires
-  Pro.
-- **Inheriting an archive query?** → `inheritQuery:true` with empty
-  `"query":{}`.
-- **Need a CSS variable in JSON?** → escape it: `var(\u002d\u002dgb-foo)`.
-- **Need a CSS variable in inline `style=""`?** → literal: `var(--gb-foo)`.
+- **Emoji?** → `core/paragraph`.
+- **Dynamic tag?** → `{{tag option:value|option2:value}}` — space after tag
+  name, pipes between options, NO quotes. `dynamic-tags.md` is law.
+- **ACF field?** → `{{post_meta key:field_name}}` (no `{{acf}}` tag exists).
+- **ACF repeater loop?** → Pro `queryType:"post_meta"` — `acf-and-custom-fields.md` §4.
+- **Related posts?** → Pro `"post__not_in":["current"]` + tax_query
+  `"terms":["current"]`.
+- **Inheriting an archive query?** → `"inheritQuery":true,"query":{}`.
+- **Conditional block?** → Pro `"gbBlockCondition":<condition post ID>` —
+  rules are built in the dashboard, not inline.
+- **CSS variable in JSON?** → escape it: `var(\u002d\u002dgb-foo)`.
+- **CSS variable in inline `style=""`?** → literal: `var(--gb-foo)`.
+- **Quote inside a JSON string value?** → `\u0022`, never `\"`.
 
-If you're not sure which file to load, default to: `recovery-rules.md` +
-`block-types.md` + the task-specific file from the table above. That's
-the minimum viable context for any GenerateBlocks task.
+Default minimum context for any task: `recovery-rules.md` + `block-types.md`
++ the task file. Add `dynamic-tags.md` whenever data is dynamic.

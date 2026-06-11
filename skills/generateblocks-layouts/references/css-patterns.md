@@ -188,7 +188,7 @@ box-shadow:inset 0 2px 4px rgba(0,0,0,0.1)
 When a button has an SVG icon, use `generateblocks/element` with `tagName: "a"` as the wrapper containing `generateblocks/text` for the label and `generateblocks/shape` for the icon:
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"btn010","tagName":"a","htmlAttributes":[{"attribute":"href","value":"/services/"}],"styles":{"display":"inline-flex","alignItems":"center","gap":"0.75rem","padding":"0.75rem 1.25rem","fontSize":"0.9375rem","fontWeight":"600","color":"#0a0a0a","border":"2px solid #e5e5e5","borderRadius":"2rem","textDecoration":"none"},"css":".gb-element-btn010{align-items:center;border:2px solid #e5e5e5;border-radius:2rem;color:#0a0a0a;display:inline-flex;font-size:0.9375rem;font-weight:600;gap:0.75rem;padding:0.75rem 1.25rem;text-decoration:none}"} -->
+<!-- wp:generateblocks/element {"uniqueId":"btn010","tagName":"a","htmlAttributes":{"href":"https://example.com/services/"},"styles":{"display":"inline-flex","alignItems":"center","gap":"0.75rem","padding":"0.75rem 1.25rem","fontSize":"0.9375rem","fontWeight":"600","color":"#0a0a0a","border":"2px solid #e5e5e5","borderRadius":"2rem","textDecoration":"none"},"css":".gb-element-btn010{align-items:center;border:2px solid #e5e5e5;border-radius:2rem;color:#0a0a0a;display:inline-flex;font-size:0.9375rem;font-weight:600;gap:0.75rem;padding:0.75rem 1.25rem;text-decoration:none}"} -->
 <a class="gb-element gb-element-btn010" href="/services/">
     <!-- wp:generateblocks/text {"uniqueId":"btn010a","tagName":"span","styles":{},"css":""} -->
     <span class="gb-text gb-text-btn010a">View all services</span>

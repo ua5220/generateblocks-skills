@@ -7,9 +7,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This repository contains GenerateBlocks WordPress plugin development and skills for creating/converting layouts.
 
 **Contents:**
-- `generateblocks/` - Free plugin source code (V2.2.0)
-- `generateblocks-pro/` - Pro plugin source code
+- `generateblocks/` - Free plugin source code (2.3.0-rc)
+- `generateblocks-pro/` - Pro plugin source code (2.6.0-rc — Forms, CSS Mode)
 - `skills/` - Claude Code skills for GenerateBlocks workflows
+- `examples/` - Golden example sections + production pages from gauravtiwari.org
 
 ## Skills
 
@@ -33,15 +34,21 @@ skills/
 │   ├── references/           # Detailed documentation
 │   │   ├── _index.md         # Skill router — read first
 │   │   ├── recovery-rules.md # Attempt Recovery error catalog (read every task)
-│   │   ├── block-types.md    # Element, Text, Media, Shape specs
-│   │   ├── query-block.md    # V2 query/looper/loop-item dynamic content
-│   │   ├── gb-pro.md         # GenerateBlocks Pro features
+│   │   ├── block-types.md    # Element, Text, Media, Shape verified specs
+│   │   ├── dynamic-tags.md   # Canonical dynamic tag catalog + syntax
+│   │   ├── query-block.md    # V2 query/looper/loop-item + Pro query extensions
+│   │   ├── acf-and-custom-fields.md # ACF patterns, repeater loops, options
+│   │   ├── conditions.md     # Pro conditions + free alternatives
+│   │   ├── template-authoring.md # Full sites: GP Elements, FSE, archives
+│   │   ├── animations.md     # Motion: hover, keyframes, scroll-driven
+│   │   ├── gb-pro.md         # GenerateBlocks Pro overview (2.6)
+│   │   ├── pro-forms.md      # Pro Forms system (2.6)
+│   │   ├── pro-interactive.md# Accordion/Tabs/Carousel/Nav/Header/Overlays
 │   │   ├── css-patterns.md   # Hover, transitions, gradients
 │   │   ├── responsive.md     # Media queries, breakpoints
 │   │   ├── svg-icons.md      # Shape block, inline SVG
 │   │   ├── troubleshooting.md# Debug recipes
 │   │   ├── query-loops.md    # LEGACY core/query patterns
-│   │   ├── dynamic-content.md# Dynamic tags basics
 │   │   ├── global-styles.md  # Design tokens, theme.json
 │   │   ├── patterns.md       # Block pattern registration
 │   │   ├── performance.md    # CSS delivery optimization
@@ -184,7 +191,8 @@ npm run plugin-zip         # Create plugin zip
 - `css` - Base styles (alphabetically sorted, minified). Exceptions: pseudo-elements, media queries, animations, parent hover targeting children. No hover states or transitions
 - `globalClasses` - Array of global CSS classes
 - `htmlAttributes` - Plain object of HTML attrs: `{"href":"url","target":"_blank"}`. NOT array format
-- **Element `<a>` vs Text `<a>`**: Use `generateblocks/text` with `tagName: "a"` for simple text links. Element `<a>` blocks with only text content (no inner blocks) cause recovery errors. Only use `generateblocks/element` with `tagName: "a"` when wrapping inner blocks
+- **Links**: element `<a>` wrapping a text `span` child. Text `<a>` strips its `href` on save; element `<a>` with raw text (no inner blocks) causes recovery. Inline links go inside a text block's rich-text content
+- **Dynamic tags**: `{{tag option:value|option2:value}}` — space after tag name, pipes between options, no quotes. Real tags: `{{post_permalink}}`, `{{featured_image size:large}}`, `{{post_meta key:field}}`, `{{term_list tax:category}}`. NOT `{{post_url}}`/`{{featured_image_url}}`/`{{acf}}` — those don't exist. See `skills/generateblocks-layouts/references/dynamic-tags.md`
 
 ## CSS Approaches
 

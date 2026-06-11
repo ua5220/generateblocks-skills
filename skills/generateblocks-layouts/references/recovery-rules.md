@@ -34,7 +34,7 @@ what you think is correct**.
 
 ## 1. JSON encoding rules (the silent killers)
 
-WordPress's `serialize_block_attributes()` runs four substitutions on the JSON
+WordPress's `serialize_block_attributes()` runs five substitutions on the JSON
 string after `wp_json_encode()` to make it safe for the HTML comment context
 the block delimiter lives in:
 
@@ -44,11 +44,20 @@ the block delimiter lives in:
 | `<` | `\u003c` | Defends against `</script>` injection |
 | `>` | `\u003e` | Same |
 | `&` | `\u0026` | Defends against entity injection |
+| `\"` (escaped quote) | `\u0022` | Quote inside a JSON string value |
 
 If you emit the literal form, the editor re-serializes to the escaped form,
-the strings differ, recovery fires. **Apply all four substitutions to every
+the strings differ, recovery fires. **Apply all five substitutions to every
 JSON string value** inside block delimiter attributes (`styles` values, `css`
 strings, `htmlAttributes` values, content strings — everywhere).
+
+The fifth matters whenever a string value contains a double quote — e.g.
+inline HTML in a text block's `content` or an SVG string in a text block's
+`icon` attribute. Never emit `\"` — the canonical form is `\u0022`:
+
+```json
+"content":"Read the \u003ca href=\u0022https://example.com/\u0022\u003eguide\u003c/a\u003e now"
+```
 
 ### 1.1 Escape `--` as `\u002d\u002d`
 
@@ -128,7 +137,7 @@ newline inside content, encode `\n`.
 
 Inside the rendered HTML body (e.g. `style="..."` on a real `<span>`), use
 literal characters: `var(--foo)`, `&amp;`, `<`, `>`. The HTML body is not
-JSON-parsed, so the four substitutions above do not apply there.
+JSON-parsed, so the five substitutions above do not apply there.
 
 This is why the canonical link with a multi-param URL has `&amp;` in the
 HTML body and `\u0026` in the JSON — same character, different escape rules
@@ -340,6 +349,13 @@ way.
 auto-inject the id-class. In that case the rendered HTML class list is exactly
 what you put in `className`. This is rare — most blocks have non-empty styles.
 
+**Legacy form (no `className` at all):** older validated markup in this repo
+omits `className` entirely and renders `class="gb-element gb-element-{id}"`
+(base class first — the plugin's backup class generation). This round-trips
+too, but the order differs from the Option A form. Never mix forms within one
+block: either `"className":"gb-element"` + id-first body (new work), or no
+className + base-first body (when matching existing legacy markup).
+
 ### 3.4 JSON attribute key order matters
 
 The editor serializes block attributes in a fixed key order (declaration order
@@ -546,11 +562,12 @@ risk. Drop it.
 
 Before saving any output to a file, verify:
 
-**JSON string escapes (the four substitutions)**
+**JSON string escapes (the five substitutions)**
 - [ ] Every `--` inside JSON strings is `\u002d\u002d`
 - [ ] Every `&` inside JSON strings is `\u0026`
 - [ ] Every `<` inside JSON strings is `\u003c`
 - [ ] Every `>` inside JSON strings is `\u003e`
+- [ ] Every `"` inside JSON string values is `\u0022` (never `\"`)
 
 **JSON attribute order**
 - [ ] Attributes appear in canonical key order (see §3.4): `uniqueId`, `tagName`, `styles`, `css`, `globalClasses`, `htmlAttributes`, `className`, `align`, ...

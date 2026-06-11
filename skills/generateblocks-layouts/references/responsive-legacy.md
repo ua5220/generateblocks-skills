@@ -1,5 +1,10 @@
 # GenerateBlocks Responsive Design Skill
 
+> **LEGACY FILE — patterns here predate the hardened serialization rules.**
+> Markup examples may use old class order, unsorted CSS, and descendant
+> selectors. Use `responsive.md` for current patterns; treat this file as
+> historical reference only.
+
 Handle responsive design, breakpoints, and device-specific layouts in GenerateBlocks.
 
 ## When to Use This Skill
@@ -245,7 +250,7 @@ Define base styles for mobile, enhance for larger screens:
 ### Aspect Ratio Preservation
 
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"img001","htmlAttributes":[{"attribute":"src","value":"image.jpg"},{"attribute":"alt","value":"Description"}],"styles":{"width":"100%","height":"auto","aspectRatio":"16/9","objectFit":"cover"},"css":".gb-media-img001{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}@media(max-width:768px){.gb-media-img001{aspect-ratio:4/3}}"} -->
+<!-- wp:generateblocks/media {"uniqueId":"img001","htmlAttributes":{"src":"image.jpg","alt":"Description"},"styles":{"width":"100%","height":"auto","aspectRatio":"16/9","objectFit":"cover"},"css":".gb-media-img001{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}@media(max-width:768px){.gb-media-img001{aspect-ratio:4/3}}"} -->
 <img class="gb-media gb-media-img001" src="image.jpg" alt="Description" />
 <!-- /wp:generateblocks/media -->
 ```
@@ -253,7 +258,7 @@ Define base styles for mobile, enhance for larger screens:
 ### Responsive Image Sizes
 
 ```html
-<!-- wp:generateblocks/media {"uniqueId":"img002","htmlAttributes":[{"attribute":"src","value":"image.jpg"},{"attribute":"alt","value":"Description"},{"attribute":"srcset","value":"image-400.jpg 400w, image-800.jpg 800w, image-1200.jpg 1200w"},{"attribute":"sizes","value":"(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"}],"styles":{"width":"100%","height":"auto"},"css":".gb-media-img002{width:100%;height:auto}"} -->
+<!-- wp:generateblocks/media {"uniqueId":"img002","htmlAttributes":{"src":"image.jpg","alt":"Description","srcset":"image-400.jpg 400w, image-800.jpg 800w, image-1200.jpg 1200w","sizes":"(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"},"styles":{"width":"100%","height":"auto"},"css":".gb-media-img002{width:100%;height:auto}"} -->
 <img class="gb-media gb-media-img002" src="image.jpg" alt="Description" srcset="image-400.jpg 400w, image-800.jpg 800w, image-1200.jpg 1200w" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" />
 <!-- /wp:generateblocks/media -->
 ```
@@ -342,11 +347,11 @@ Define base styles for mobile, enhance for larger screens:
         <!-- wp:generateblocks/element {"uniqueId":"hero005","tagName":"div","styles":{"display":"flex","gap":"1rem","justifyContent":"center","flexWrap":"wrap"},"css":".gb-element-hero005{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}@media(max-width:768px){.gb-element-hero005{flex-direction:column;gap:0.75rem}}"} -->
         <div class="gb-element gb-element-hero005">
 
-            <!-- wp:generateblocks/text {"uniqueId":"hero006","tagName":"a","htmlAttributes":[{"attribute":"href","value":"#"}],"styles":{"padding":"1rem 2rem","backgroundColor":"#e94560","color":"#ffffff","borderRadius":"0.5rem","textDecoration":"none","fontWeight":"600"},"css":".gb-text-hero006{padding:1rem 2rem;background-color:#e94560;color:#ffffff;border-radius:0.5rem;text-decoration:none;font-weight:600;transition:all 0.3s}.gb-text-hero006:hover{background-color:#d63850;transform:translateY(-2px)}@media(max-width:768px){.gb-text-hero006{padding:0.875rem 1.5rem;width:100%}}"} -->
+            <!-- wp:generateblocks/text {"uniqueId":"hero006","tagName":"a","htmlAttributes":{"href":"#"},"styles":{"padding":"1rem 2rem","backgroundColor":"#e94560","color":"#ffffff","borderRadius":"0.5rem","textDecoration":"none","fontWeight":"600"},"css":".gb-text-hero006{padding:1rem 2rem;background-color:#e94560;color:#ffffff;border-radius:0.5rem;text-decoration:none;font-weight:600;transition:all 0.3s}.gb-text-hero006:hover{background-color:#d63850;transform:translateY(-2px)}@media(max-width:768px){.gb-text-hero006{padding:0.875rem 1.5rem;width:100%}}"} -->
             <a class="gb-text gb-text-hero006" href="#">Get Started</a>
             <!-- /wp:generateblocks/text -->
 
-            <!-- wp:generateblocks/text {"uniqueId":"hero007","tagName":"a","htmlAttributes":[{"attribute":"href","value":"#"}],"styles":{"padding":"1rem 2rem","backgroundColor":"transparent","color":"#ffffff","border":"2px solid #ffffff","borderRadius":"0.5rem","textDecoration":"none","fontWeight":"600"},"css":".gb-text-hero007{padding:1rem 2rem;background-color:transparent;color:#ffffff;border:2px solid #ffffff;border-radius:0.5rem;text-decoration:none;font-weight:600;transition:all 0.3s}.gb-text-hero007:hover{background-color:#ffffff;color:#1a1a2e}@media(max-width:768px){.gb-text-hero007{padding:0.875rem 1.5rem;width:100%}}"} -->
+            <!-- wp:generateblocks/text {"uniqueId":"hero007","tagName":"a","htmlAttributes":{"href":"#"},"styles":{"padding":"1rem 2rem","backgroundColor":"transparent","color":"#ffffff","border":"2px solid #ffffff","borderRadius":"0.5rem","textDecoration":"none","fontWeight":"600"},"css":".gb-text-hero007{padding:1rem 2rem;background-color:transparent;color:#ffffff;border:2px solid #ffffff;border-radius:0.5rem;text-decoration:none;font-weight:600;transition:all 0.3s}.gb-text-hero007:hover{background-color:#ffffff;color:#1a1a2e}@media(max-width:768px){.gb-text-hero007{padding:0.875rem 1.5rem;width:100%}}"} -->
             <a class="gb-text gb-text-hero007" href="#">Learn More</a>
             <!-- /wp:generateblocks/text -->
 
