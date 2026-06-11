@@ -502,7 +502,18 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		$content      = $request->get_param( 'content' );
 		$context      = $request->get_param( 'context' );
 		$client_id    = $request->get_param( 'clientId' );
-		$post_id      = $context['postId'] ?? 0;
+		$post_id      = absint( is_array( $context ) ? ( $context['postId'] ?? 0 ) : 0 );
+
+		// Bail if the content isn't a string we can scan for dynamic tags.
+		if ( ! is_string( $content ) ) {
+			return rest_ensure_response( [] );
+		}
+
+		// Verify the current user can read the context post.
+		if ( $post_id && ! current_user_can( 'read_post', $post_id ) ) {
+			return rest_ensure_response( [] );
+		}
+
 		$fallback_id  = $post_id;
 		$instance     = new stdClass();
 		$replacements = [];
@@ -512,13 +523,14 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		// Create a unique cache key.
 		$cache_key = sprintf(
-			'replacements_%s_%s_%s',
+			'replacements_%s_%s_%s_%s',
 			md5( $content ),
 			$client_id,
-			$post_id
+			$post_id,
+			get_current_user_id()
 		);
 
-		$replacements_cache = wp_cache_get( $cache_key, 'generate_blocks_dynamic_tags' );
+		$replacements_cache = wp_cache_get( $cache_key, 'generateblocks_dynamic_tags' );
 
 		// Return the cache here if present.
 		if ( false !== $replacements_cache ) {
@@ -554,6 +566,25 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 				if ( 'user' === $type ) {
 					$fallback_id = get_current_user_id();
+				}
+
+				// Check object-level access for tags where id: refers to a post ID.
+				// Parse options using the same logic the callbacks use so the
+				// authorised ID always matches the ID used for data retrieval.
+				if ( in_array( $type, [ 'post', 'author', 'media' ], true ) ) {
+					$tag_options_string = isset( $split_tag[1] ) ? ltrim( $split_tag[1], ' ' ) : '';
+					$tag_options        = GenerateBlocks_Register_Dynamic_Tag::parse_options( $tag_options_string, $tag_name );
+					$tag_post_id        = isset( $tag_options['id'] ) ? absint( $tag_options['id'] ) : 0;
+
+					if ( $tag_post_id && ! current_user_can( 'read_post', $tag_post_id ) ) {
+						$replacements[] = [
+							'original'    => "{{{$tag}}}",
+							'replacement' => '',
+							'fallback'    => $fallback,
+						];
+
+						continue;
+					}
 				}
 
 				if ( ! generateblocks_str_contains( $tag, ' ' ) ) {
