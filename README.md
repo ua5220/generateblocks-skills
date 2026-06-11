@@ -1,6 +1,18 @@
 # GenerateBlocks Skills
 
-LLM-optimized skill documentation and development resources for [GenerateBlocks](https://generateblocks.com/) WordPress plugin.
+LLM-optimized skill documentation and development resources for the [GenerateBlocks](https://generateblocks.com/) WordPress plugin.
+
+**Source-verified against GenerateBlocks free 2.3 and GB Pro 2.6** (June 2026). Every block schema, attribute order, and dynamic-tag in these skills was checked against the plugin source in this repo — not recalled from training data.
+
+## What the skills can build
+
+- **Static sections** — heroes, pricing, cards, FAQs, CTAs, full landing pages
+- **Dynamic content** — query loops (blog grids, related posts, archives), 27 dynamic tags with exact syntax
+- **Custom fields** — ACF text/image/link/group fields, repeater loops, options pages, meta queries
+- **Animations** — hover micro-interactions, keyframe entrances, CSS scroll-driven reveals, reduced-motion guards
+- **Conditions** — GB Pro block/menu conditions, form-field conditions, free-plugin alternatives
+- **GB Pro blocks** — accordion, tabs, carousel, navigation, site header, overlays/mega menus, the 2.6 Forms system
+- **Full-site templates** — GeneratePress Elements (loop templates, page heroes, hooks, display rules), FSE block themes
 
 ## Quick Install
 
@@ -92,9 +104,9 @@ Browse the [`examples/`](examples/) folder for **38 ready-to-use templates** acr
 | [Timeline](examples/13-timeline/) | Vertical timeline |
 | [Comparison Table](examples/14-comparison-table/) | Feature comparison |
 
-Each folder contains multiple variations plus the prompt that generated them.
+Each folder contains multiple variations plus the prompt that generated them. A fully dynamic query-loop blog grid lives at [`skills/generateblocks-layouts/examples/layouts/query-blog-grid.html`](skills/generateblocks-layouts/examples/layouts/query-blog-grid.html).
 
-**Bonus:** Check out [`examples/from-gauravtiwari-org/`](examples/from-gauravtiwari-org/) for real-world sections from production sites.
+**Bonus:** Check out [`examples/from-gauravtiwari-org/`](examples/from-gauravtiwari-org/) for real-world sections exported from production sites.
 
 ### Using Examples
 
@@ -117,8 +129,7 @@ generateblocks-skills/
 ├── skills/                    # Skill source files
 │   ├── generateblocks-layouts/
 │   │   ├── SKILL.md           # Main entry point (slim — depth in references/)
-│   │   ├── references/        # 21 files: blocks, dynamic tags, queries, ACF,
-│   │   │                      # conditions, forms, animations, templates, Pro
+│   │   ├── references/        # 23 reference files (see map below)
 │   │   └── examples/          # Basic, compound, layout, SVG examples
 │   ├── html-to-generateblocks/
 │   ├── elementor-to-generateblocks/
@@ -138,6 +149,26 @@ generateblocks-skills/
 | **Elementor to GenerateBlocks** | Migrate Elementor layouts to clean GB blocks |
 | **Figma to GenerateBlocks** | Convert Figma designs to GB blocks |
 
+### Reference map (generateblocks-layouts/references/)
+
+| File | Covers |
+|------|--------|
+| `_index.md` | Task router — which file to load for which job |
+| `recovery-rules.md` | Every known cause of "Attempt Recovery" errors + exact fixes |
+| `field-notes.md` | Real-conversion lessons: escaping workflow, validation scripts |
+| `block-types.md` | Element/Text/Media/Shape verified attribute schemas |
+| `dynamic-tags.md` | Canonical catalog of all 27 dynamic tags + exact syntax |
+| `query-block.md` | Query/Looper/Loop-Item + Pro query extensions |
+| `acf-and-custom-fields.md` | ACF fields, repeater loops, options pages, Meta Box |
+| `conditions.md` | Pro block/menu/form conditions + free alternatives |
+| `template-authoring.md` | Full sites: GeneratePress Elements, FSE, archive templates |
+| `animations.md` | Hover, keyframes, scroll-driven animation, reduced motion |
+| `gb-pro.md` | Pro feature map (28 blocks, global classes, version timeline) |
+| `pro-forms.md` | Pro 2.6 Forms: fields, validation, ESP integrations, Turnstile |
+| `pro-interactive.md` | Accordion, Tabs, Carousel, Navigation, Site Header, Overlays |
+| `css-patterns.md` · `svg-icons.md` · `responsive.md` | Styling patterns |
+| `global-styles.md` · `patterns.md` · `performance.md` · `migrations.md` · `troubleshooting.md` | Supporting guides |
+
 ### Importable Formats
 
 The `importable/` folder contains two formats for each skill:
@@ -148,42 +179,48 @@ The `importable/` folder contains two formats for each skill:
 
 ## GenerateBlocks V2 Quick Reference
 
-Four block types:
+Four core blocks plus the query family:
 
 ```
-generateblocks/element  → Containers (div, section, nav, etc.)
-generateblocks/text     → Text (h1-h6, p, span, a, button)
-generateblocks/media    → Images
-generateblocks/shape    → SVG icons
+generateblocks/element    → Containers (div, section, nav, figure, a, ul/ol/li, dl/dt/dd)
+generateblocks/text       → Text (h1-h6, p, span, div, a, button, figcaption, li)
+generateblocks/media      → Images (img only — static and dynamic)
+generateblocks/shape      → SVG icons
+generateblocks/query      → Dynamic lists (+ looper, loop-item, query-no-results, query-page-numbers)
 ```
 
-**V2 Naming Rules:**
-- Use `generateblocks/element` (NOT `/container`)
-- Use `generateblocks/text` (NOT `/headline` or `/button`)
-- Classes MUST be: `gb-element-{id} gb-element` and `gb-text gb-text-{id}`
-- `htmlAttributes` must be a plain object (`{"href":"/about"}`) — never an array
-- Element `<a>` with text-only content causes recovery errors — use `generateblocks/text` with `tagName: "a"` for simple text links; only use `generateblocks/element` with `tagName: "a"` when wrapping inner blocks
+**The rules that matter most:**
 
-Block format:
+- Use `generateblocks/element` (NOT `/container`), `generateblocks/text` (NOT `/headline` or `/button`)
+- `htmlAttributes` is a plain object (`{"href":"https://example.com/about/"}`) — never an array
+- **Links**: element `<a>` wrapping a text `span` child. Text `<a>` strips its href on save; element `<a>` with raw text triggers recovery
+- JSON attribute order follows each block's `block.json` declaration order, `className` last
+- The `css` string is single-line, minified, alphabetized — hover states live in the `styles` object
+
+Block format (Option A — the plugin auto-injects the id-class):
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"hero001","className":"gb-element-hero001 gb-element","tagName":"section","styles":{...},"css":"..."} -->
+<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{...},"css":"...","className":"gb-element"} -->
 <section class="gb-element-hero001 gb-element">
     <!-- content -->
 </section>
 <!-- /wp:generateblocks/element -->
-
-<!-- wp:generateblocks/text {"uniqueId":"hero002","tagName":"h1","styles":{...},"css":"..."} -->
-<h1 class="gb-text gb-text-hero002">Heading</h1>
-<!-- /wp:generateblocks/text -->
 ```
 
-Key attributes:
-- `uniqueId` — Required for CSS targeting (format: `hero001`, `card023`)
-- `tagName` — HTML element type
-- `styles` — CSS properties as JSON (camelCase)
-- `css` — Base CSS string (minified, alphabetically sorted). Pseudo-elements, media queries in css. NO hover/transitions
-- `htmlAttributes` — Additional HTML attributes (href, target, aria-*)
+**Dynamic tags** — space after the tag name, pipe-separated options, no quotes:
+
+```
+{{post_title link:post}}
+{{post_permalink}}
+{{featured_image size:large}}
+{{post_excerpt length:25}}
+{{post_date dateFormat:M j, Y}}
+{{term_list tax:category|sep:, }}
+{{post_meta key:my_acf_field}}
+{{post_meta key:repeater.0.subfield}}
+```
+
+`{{post_url}}`, `{{featured_image_url}}`, `{{post_terms}}`, `{{acf}}`, and any `key="quoted"` form **do not exist** — they save fine and render as literal text. The full catalog is in [`references/dynamic-tags.md`](skills/generateblocks-layouts/references/dynamic-tags.md).
 
 ---
 
@@ -193,7 +230,13 @@ Key attributes:
 
 > "Build a 3-column pricing table with a highlighted middle tier"
 
-> "Make a testimonial grid with avatars, star ratings, and quote marks"
+> "Build a related-posts section: 3 posts from the same category, current post excluded"
+
+> "Loop my ACF repeater team_members into a 3-column team grid"
+
+> "Build an archive loop template for GeneratePress Elements that inherits the query"
+
+> "Add a scroll-reveal animation to this section with a reduced-motion fallback"
 
 > "Convert this HTML to GenerateBlocks: [paste HTML]"
 
@@ -209,6 +252,8 @@ Key attributes:
 - **UI-managed settings** — condition rules, form actions, overlay triggers,
   and display rules are configured in wp-admin, not in block markup; the
   skills list these as manual steps
+- **Pro 2.6 / free 2.3 features** (Forms, CSS Mode) are beta as of June 2026 —
+  sites on stable releases won't have them yet
 
 ---
 
