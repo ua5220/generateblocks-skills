@@ -6,8 +6,12 @@ description: Source-verified attribute specifications for the four GenerateBlock
 # Block Types Reference
 
 The four core V2 blocks, verified against `dist/blocks/*/block.json` in
-GB 2.3.0. All examples follow `recovery-rules.md` (Option A className, plain
+GB 2.4.0. All examples follow `recovery-rules.md` (Option A className, plain
 object `htmlAttributes`, escaped `--`, sorted minified css).
+
+2.4 note: `text.content` and `media.mediaId` are flagged `"role":"content"`
+in block.json (powers Pro 2.7 content-only editing). Editor schema only — it
+changes neither attribute order nor saved markup.
 
 Common attributes on every block: `uniqueId`, `styles` (object), `css`
 (string), `globalClasses` (array), `htmlAttributes` (**plain object**).

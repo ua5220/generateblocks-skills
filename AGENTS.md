@@ -6,8 +6,8 @@ Universal instructions for all LLM assistants working in this repo.
 `references/recovery-rules.md` before emitting any GenerateBlocks markup.
 This file is only the orientation summary.
 
-Plugin source in this repo: GenerateBlocks free **2.3** (`generateblocks/`),
-GB Pro **2.6** (`generateblocks-pro/`). All skill claims are verified against
+Plugin source in this repo: GenerateBlocks free **2.4** (`generateblocks/`),
+GB Pro **2.7** (`generateblocks-pro/`). All skill claims are verified against
 this source. Canonical online docs for v2: learn.generatepress.com
 (docs.generateblocks.com covers v1 only).
 
@@ -70,6 +70,10 @@ ACF: `{{post_meta key:acf_field}}`, nested via dot notation
 - Lists → `core/list` (`className:"list"`); emoji → `core/paragraph`.
 - Responsive: `@media (max-width:1024px)` / `(max-width:768px)` keys in
   `styles`, mirrored in `css`.
+- **Invented designs** (no reference provided) must pass the anti-slop gate
+  in `skills/generateblocks-layouts/SKILL.md` ("Design quality — no slop"):
+  no thick borders on rounded containers, no card soup, hierarchy from
+  type/spacing not decoration.
 
 ## Skills in this repo
 

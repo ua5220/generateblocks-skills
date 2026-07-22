@@ -88,8 +88,12 @@ Pro: a Conditions post on Post Meta — see `conditions.md`.
 ```
 
 Capability limits apply for visitors: options are whitelisted +
-ACF-detected keys; `_`-prefixed (protected) meta never resolves publicly.
-If a tag works logged-in but not logged-out, this is why.
+ACF-detected keys (Pro 2.7 also allow-lists `option` keys per-user at save
+time); `_`-prefixed (protected) meta never resolves publicly. Since free
+2.4, dot-path lookups that dereference into a **non-public post**
+(draft/private/password-protected) return empty, and
+`post_password`/`user_pass`-type keys are always blocked. If a tag works
+logged-in but not logged-out, this is why.
 
 ## 4. Looping an ACF repeater (Pro)
 
@@ -151,7 +155,7 @@ filter cleanly; relationship/repeater fields store serialized data and don't
   integration** (no field picker; cloneable/group fields store shapes that
   may not dot-traverse cleanly), and fields not exposed to REST won't preview
   in the editor — they still render on the frontend. Native Meta Box support
-  is on the GB roadmap (announced for 2026, not shipped as of Pro 2.6).
+  is on the GB roadmap (announced for 2026, not shipped as of Pro 2.7).
 - **ACF without Pro** — free GB still reads the raw meta value via
   `{{post_meta}}`: scalars are fine; image-ID fields render the ID, not a URL.
   For image fields on free, set ACF return format to URL.
@@ -168,3 +172,5 @@ filter cleanly; relationship/repeater fields store serialized data and don't
 | Repeater previews blank in editor, works on frontend | Meta key not REST-exposed — editor preview needs REST | 
 | `{{loop_item key:x}}` literal text on page | Pro missing (it's a Pro tag) or used outside a looper |
 | Field renders raw array text | Pointed at the repeater/group itself — point at a subfield with dot notation |
+| ALL tags on the page suddenly empty | 2.4 taint model — post last saved by an untrusted user; trusted re-save fixes it (`dynamic-tags.md` §10) |
+| Dot-path into a related post stopped working | The related post is draft/private/password-protected — 2.4 blocks dereferencing non-public posts |

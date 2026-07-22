@@ -8,7 +8,7 @@ description: Tells Claude which reference file to open for which task. Always ch
 Read this file FIRST, then load only what the task needs. Loading the wrong
 file (or loading too much) wastes context — be precise.
 
-Verified against: GenerateBlocks free **2.3**, GB Pro **2.6**.
+Verified against: GenerateBlocks free **2.4**, GB Pro **2.7**.
 
 ## Before doing anything
 
@@ -66,7 +66,7 @@ references/
 ├── conditions.md             ← Pro conditions + free alternatives
 ├── template-authoring.md     ← Full-site building: FSE, GP Elements, templates
 ├── animations.md             ← Motion: hover, keyframes, scroll-driven, a11y
-├── gb-pro.md                 ← Pro overview + feature map (2.6)
+├── gb-pro.md                 ← Pro overview + feature map (2.7)
 ├── pro-forms.md              ← Forms system deep dive
 ├── pro-interactive.md        ← Accordion/Tabs/Carousel/Nav/Header/Overlays
 ├── css-patterns.md           ← Hover, gradients, pseudo-elements, buttons, cards
@@ -92,6 +92,9 @@ references/
    output before saving. Every item.
 3. **Summarize in chat**: purpose, block count, anything that needs Pro,
    anything skipped due to a recovery rule.
+4. **Anti-slop gate**: if you invented any part of the design (no reference
+   provided), run the "Design quality — no slop" checklist in `SKILL.md`
+   before delivering — load the `/design-slop` skill when it's available.
 
 ---
 

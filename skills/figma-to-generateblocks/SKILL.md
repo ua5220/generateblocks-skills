@@ -3,7 +3,7 @@ name: figma-to-generateblocks
 version: 1.0.0
 description: Convert Figma designs to GenerateBlocks V2 format for WordPress
 author: Gaurav Tiwari
-updated: 2026-01-22
+updated: 2026-07-22
 trigger:
   - Figma to GenerateBlocks
   - convert Figma
@@ -178,12 +178,12 @@ letter-spacing: -0.02em;
 {
   "styles": {
     "fontFamily": "'Inter', sans-serif",
-    "fontSize": "clamp(2rem, 5vw, 3rem)",
+    "fontSize": "clamp(2rem,5vw,3rem)",
     "fontWeight": "700",
     "lineHeight": "1.2",
     "letterSpacing": "-0.02em"
   },
-  "css": ".gb-text-head001{font-family:'Inter', sans-serif;font-size:clamp(2rem, 5vw, 3rem);font-weight:700;letter-spacing:-0.02em;line-height:1.2}"
+  "css": ".gb-text-head001{font-family:'Inter',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:700;letter-spacing:-0.02em;line-height:1.2}"
 }
 ```
 
@@ -218,10 +218,10 @@ letter-spacing: -0.02em;
 {
   "styles": {
     "display": "grid",
-    "gridTemplateColumns": "repeat(3, minmax(0, 1fr))",
+    "gridTemplateColumns": "repeat(3,minmax(0,1fr))",
     "gap": "1.5rem"
   },
-  "css": ".gb-element-grid001{display:grid;gap:1.5rem;grid-template-columns:repeat(3, minmax(0, 1fr))}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr}}"
+  "css": ".gb-element-grid001{display:grid;gap:1.5rem;grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:1024px){.gb-element-grid001{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:768px){.gb-element-grid001{grid-template-columns:1fr}}"
 }
 ```
 
@@ -275,10 +275,10 @@ Convert fixed Figma sizes to fluid typography:
 
 | Figma Size | GenerateBlocks |
 |------------|----------------|
-| 64px | `clamp(2.5rem, 5vw, 4rem)` |
-| 48px | `clamp(2rem, 4vw, 3rem)` |
-| 36px | `clamp(1.75rem, 3vw, 2.25rem)` |
-| 24px | `clamp(1.25rem, 2vw, 1.5rem)` |
+| 64px | `clamp(2.5rem,5vw,4rem)` |
+| 48px | `clamp(2rem,4vw,3rem)` |
+| 36px | `clamp(1.75rem,3vw,2.25rem)` |
+| 24px | `clamp(1.25rem,2vw,1.5rem)` |
 | 18px | `1.125rem` |
 | 16px | `1rem` |
 | 14px | `0.875rem` |
@@ -313,11 +313,11 @@ Frame (Hero)
 
 **GenerateBlocks:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"paddingBottom":"4rem","paddingTop":"4rem","@media (max-width:768px)":{"paddingBottom":"2rem","paddingTop":"2rem"}},"css":".gb-element-hero001{padding-bottom:4rem;padding-top:4rem}@media(max-width:768px){.gb-element-hero001{padding-bottom:2rem;padding-top:2rem}}","className":"gb-element-hero001 gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"paddingBottom":"4rem","paddingTop":"4rem","@media (max-width:768px)":{"paddingBottom":"2rem","paddingTop":"2rem"}},"css":".gb-element-hero001{padding-bottom:4rem;padding-top:4rem}@media(max-width:768px){.gb-element-hero001{padding-bottom:2rem;padding-top:2rem}}","className":"gb-element"} -->
 <section class="gb-element-hero001 gb-element">
-    <!-- wp:generateblocks/element {"uniqueId":"hero002","tagName":"div","styles":{"alignItems":"center","display":"grid","gap":"3rem","gridTemplateColumns":"minmax(0, 1fr) minmax(0, 1fr)","marginLeft":"auto","marginRight":"auto","maxWidth":"var(--gb-container-width)","paddingLeft":"1rem","paddingRight":"1rem","@media (max-width:768px)":{"gridTemplateColumns":"1fr","textAlign":"center"}},"css":".gb-element-hero002{align-items:center;display:grid;gap:3rem;grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);margin-left:auto;margin-right:auto;max-width:var(--gb-container-width);padding-left:1rem;padding-right:1rem}@media(max-width:768px){.gb-element-hero002{grid-template-columns:1fr;text-align:center}}","className":"gb-element-hero002 gb-element"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"hero002","tagName":"div","styles":{"alignItems":"center","display":"grid","gap":"3rem","gridTemplateColumns":"minmax(0,1fr) minmax(0,1fr)","marginLeft":"auto","marginRight":"auto","maxWidth":"var(--gb-container-width)","paddingLeft":"1rem","paddingRight":"1rem","@media (max-width:768px)":{"gridTemplateColumns":"1fr","textAlign":"center"}},"css":".gb-element-hero002{align-items:center;display:grid;gap:3rem;grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-left:auto;margin-right:auto;max-width:var(--gb-container-width);padding-left:1rem;padding-right:1rem}@media(max-width:768px){.gb-element-hero002{grid-template-columns:1fr;text-align:center}}","className":"gb-element"} -->
     <div class="gb-element-hero002 gb-element">
-        <!-- wp:generateblocks/element {"uniqueId":"hero003","tagName":"div","styles":{"display":"flex","flexDirection":"column","gap":"1.5rem"},"css":".gb-element-hero003{display:flex;flex-direction:column;gap:1.5rem}","className":"gb-element-hero003 gb-element"} -->
+        <!-- wp:generateblocks/element {"uniqueId":"hero003","tagName":"div","styles":{"display":"flex","flexDirection":"column","gap":"1.5rem"},"css":".gb-element-hero003{display:flex;flex-direction:column;gap:1.5rem}","className":"gb-element"} -->
         <div class="gb-element-hero003 gb-element">
             <!-- Tagline, Headline, Description, Buttons -->
         </div>
@@ -346,12 +346,12 @@ Frame (Card)
 Cards with inner blocks use `generateblocks/element` (not `text`) with `tagName: "a"`. Hover states and transitions are managed by the `styles` object — never put them in `css`.
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"https://example.com/link/"},"styles":{"backgroundColor":"white","border":"1px solid #e5e5e5","borderRadius":"1rem","display":"flex","flexDirection":"column","overflow":"hidden","textDecoration":"none"},"css":".gb-element-card001{background-color:white;border:1px solid #e5e5e5;border-radius:1rem;display:flex;flex-direction:column;overflow:hidden;text-decoration:none}","className":"gb-element-card001 gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"card001","tagName":"a","htmlAttributes":{"href":"https://example.com/link/"},"styles":{"backgroundColor":"white","border":"1px solid #e5e5e5","borderRadius":"1rem","display":"flex","flexDirection":"column","overflow":"hidden","textDecoration":"none"},"css":".gb-element-card001{background-color:white;border:1px solid #e5e5e5;border-radius:1rem;display:flex;flex-direction:column;overflow:hidden;text-decoration:none}","className":"gb-element"} -->
 <a class="gb-element-card001 gb-element" href="https://example.com/link/">
     <!-- wp:generateblocks/media {"uniqueId":"card002","tagName":"img","styles":{"aspectRatio":"16/9","objectFit":"cover","width":"100%"},"css":".gb-media-card002{aspect-ratio:16/9;object-fit:cover;width:100%}","htmlAttributes":{"src":"https://example.com/image.jpg","alt":"Card image"},"className":"gb-media"} -->
     <img class="gb-media gb-media-card002" src="image.jpg" alt="Card image" />
     <!-- /wp:generateblocks/media -->
-    <!-- wp:generateblocks/element {"uniqueId":"card003","tagName":"div","styles":{"display":"flex","flexDirection":"column","gap":"0.75rem","padding":"1.5rem"},"css":".gb-element-card003{display:flex;flex-direction:column;gap:0.75rem;padding:1.5rem}","className":"gb-element-card003 gb-element"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"card003","tagName":"div","styles":{"display":"flex","flexDirection":"column","gap":"0.75rem","padding":"1.5rem"},"css":".gb-element-card003{display:flex;flex-direction:column;gap:0.75rem;padding:1.5rem}","className":"gb-element"} -->
     <div class="gb-element-card003 gb-element">
         <!-- Title, Description -->
     </div>
@@ -375,10 +375,10 @@ Frame (Nav)
 
 **GenerateBlocks:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"nav001","tagName":"header","styles":{"alignItems":"center","display":"flex","justifyContent":"space-between","padding":"1rem 0"},"css":".gb-element-nav001{align-items:center;display:flex;justify-content:space-between;padding:1rem 0}","className":"gb-element-nav001 gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"nav001","tagName":"header","styles":{"alignItems":"center","display":"flex","justifyContent":"space-between","padding":"1rem 0"},"css":".gb-element-nav001{align-items:center;display:flex;justify-content:space-between;padding:1rem 0}","className":"gb-element"} -->
 <header class="gb-element-nav001 gb-element">
     <!-- Logo -->
-    <!-- wp:generateblocks/element {"uniqueId":"nav002","tagName":"nav","styles":{"display":"flex","gap":"2rem","@media (max-width:768px)":{"display":"none"}},"css":".gb-element-nav002{display:flex;gap:2rem}@media(max-width:768px){.gb-element-nav002{display:none}}","className":"gb-element-nav002 gb-element"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"nav002","tagName":"nav","styles":{"display":"flex","gap":"2rem","@media (max-width:768px)":{"display":"none"}},"css":".gb-element-nav002{display:flex;gap:2rem}@media(max-width:768px){.gb-element-nav002{display:none}}","className":"gb-element"} -->
     <nav class="gb-element-nav002 gb-element">
         <!-- Navigation links -->
     </nav>
@@ -525,11 +525,14 @@ Format: `{section}{number}{letter}`
 - `hero001`, `hero001a`, `hero001b`
 - `card023`, `card023a`
 
-### 5. Element Blocks Need className
+### 5. Element Blocks Need className (Option A)
 
-Add `"className":"gb-element-{id} gb-element"` to all element block attributes (className MUST include the uniqueId). HTML class order: `gb-element-{id} gb-element`:
+Add `"className":"gb-element"` — the base class only, serialized last. The
+plugin injects `gb-element-{id}` into the rendered class list; never
+duplicate the id-class into `className`. HTML class order stays
+`gb-element-{id} gb-element`:
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"card001",...,"className":"gb-element-card001 gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"card001",...,"className":"gb-element"} -->
 <div class="gb-element-card001 gb-element">...</div>
 <!-- /wp:generateblocks/element -->
 ```
@@ -624,6 +627,15 @@ Closing tags must be on the same line as their parent's closing comment. No blan
 
 <!-- /wp:generateblocks/element -->
 ```
+
+### 15. Inferred Design Must Pass the Anti-Slop Gate
+
+Figma gives you the design — but hover states, missing mobile compositions,
+and spacing gaps are **inferred by you**. Everything you infer must pass the
+anti-slop gate in `../generateblocks-layouts/SKILL.md` ("Design quality — no
+slop") — load the `/design-slop` skill when available. In particular: never
+invent thick borders on rounded cards, decorative gradients, or card soup
+that isn't in the source design.
 
 ## Image Handling
 

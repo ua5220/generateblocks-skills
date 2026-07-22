@@ -200,6 +200,34 @@ After generating all chunks, combine in order with proper nesting.
 
 ---
 
+## Dynamic Data Failures (2.4+ security model)
+
+Free GB 2.4 added a capability-based security model for dynamic tags. Three
+new failure recipes (full model: `dynamic-tags.md` §10):
+
+### Every dynamic tag on a page renders empty
+
+1. Check who last saved the post. If they lack `unfiltered_html` /
+   `manage_options`, the post is taint-flagged
+   (`_generateblocks_untrusted_dynamic_content` meta) and ALL its dynamic
+   tags render empty on the frontend.
+2. Fix: re-save the post from a trusted (admin) account — the flag clears.
+3. To widen who counts as trusted, use the
+   `generateblocks_user_can_author_dynamic_data` filter.
+
+### Save rejected (403) when pasting markup with tags
+
+The save gate blocks untrusted users from saving content that **adds**
+dynamic tags. Paste and save with a trusted account; removing existing tags
+is always allowed.
+
+### Tag inside an event-handler attribute renders empty
+
+2.4 strips dynamic tags from `on*` attributes (`onclick`, ...) and `srcdoc`.
+Don't put tags there — move the logic to real attributes or CSS.
+
+---
+
 ## Nesting Issues
 
 ### Maximum Nesting Depth

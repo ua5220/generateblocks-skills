@@ -1,11 +1,12 @@
 # Golden Examples
 
-10 canonical GenerateBlocks sections ready to copy and use.
+14 canonical GenerateBlocks section types (38 output templates) ready to
+copy and use, plus production pages in `from-gauravtiwari-org/`.
 
 ## How to Use
 
 1. Choose an example below
-2. Open the `output.html` file
+2. Open any `output-*.html` file (most sections ship several variations)
 3. Copy all content
 4. In WordPress, switch to Code Editor (three dots menu > Code Editor)
 5. Paste and switch back to Visual Editor
@@ -71,15 +72,28 @@ A bento-style grid with featured service and smaller cards.
 - Animated accent bars on hover
 - Icon animation on hover
 
+### [11. Logo Carousel](11-logo-carousel/)
+Client/partner logo strip — scrolling marquee and static grid variants.
+
+### [12. Team Grid](12-team-grid/)
+Team member cards with photos, names, roles, and social links.
+
+### [13. Timeline](13-timeline/)
+Vertical timeline with markers, dates, and milestone content.
+
+### [14. Comparison Table](14-comparison-table/)
+Feature comparison — table layout and stacked-cards variants.
+
 ---
 
 ## Each Example Contains
 
 ```
 examples/XX-name/
-├── prompt.md    # The prompt that generated this
-├── output.html  # Copy-paste ready blocks
-└── README.md    # Usage and customization notes
+├── prompt.md            # The prompt that generated this
+├── output-1-*.html      # Copy-paste ready blocks (default variation)
+├── output-2-*.html      # Further variations (most sections have 2-5)
+└── README.md            # Usage and customization notes
 ```
 
 ## Customization Tips

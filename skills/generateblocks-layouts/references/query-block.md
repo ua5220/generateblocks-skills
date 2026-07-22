@@ -1,6 +1,6 @@
 ---
 title: Query / Looper / Loop-Item (V2 dynamic content)
-description: How to build dynamic post lists, archives, related posts, ACF repeater loops, and pagination with the GenerateBlocks V2 Query block family. Source-verified against free 2.3 + Pro 2.6.
+description: How to build dynamic post lists, archives, related posts, ACF repeater loops, and pagination with the GenerateBlocks V2 Query block family. Source-verified against free 2.4 + Pro 2.7.
 ---
 
 # Query Block (V2)
@@ -95,7 +95,7 @@ queries on one page paginate independently. Sibling of `looper`, never a child.
 ## 2. The `query` args object
 
 Native WP_Query keys, passed through `GenerateBlocks_Query_Utils::get_wp_query_args()`
-(`includes/class-query-utils.php:224`). Use real WP_Query names:
+(`includes/class-query-utils.php`). Use real WP_Query names:
 
 ```json
 "query":{
@@ -244,6 +244,11 @@ The `query` object for these types:
 Inside the loop-item, read fields with `{{loop_item key:...}}` and number rows
 with `{{loop_index}}` — full worked repeater example in
 `acf-and-custom-fields.md` §4.
+
+Since Pro 2.7, `option` loops (and the `{{option}}` tag) are allow-listed
+per user at save time — non-admins can only save option keys already on the
+allowed list (filter:
+`generateblocks_dynamic_tags_allowed_options_for_current_user`).
 
 ---
 

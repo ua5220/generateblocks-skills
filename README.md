@@ -2,7 +2,7 @@
 
 LLM-optimized skill documentation and development resources for the [GenerateBlocks](https://generateblocks.com/) WordPress plugin.
 
-**Source-verified against GenerateBlocks free 2.3 and GB Pro 2.6** (June 2026). Every block schema, attribute order, and dynamic-tag in these skills was checked against the plugin source in this repo — not recalled from training data.
+**Source-verified against GenerateBlocks free 2.4 and GB Pro 2.7** (July 2026). Every block schema, attribute order, and dynamic-tag in these skills was checked against the plugin source in this repo — not recalled from training data.
 
 ## What the skills can build
 
@@ -136,8 +136,8 @@ generateblocks-skills/
 │   └── figma-to-generateblocks/
 ├── importable/                # .skill and .zip files for upload
 ├── examples/                  # 38 golden examples across 14 sections
-├── generateblocks/            # Plugin source (2.3.0-rc) for reference
-└── generateblocks-pro/        # Pro plugin source (2.6.0-rc) for reference
+├── generateblocks/            # Plugin source (2.4.0-rc) for reference
+└── generateblocks-pro/        # Pro plugin source (2.7.0-rc, git-ignored) for reference
 ```
 
 ### Skills
@@ -163,8 +163,8 @@ generateblocks-skills/
 | `conditions.md` | Pro block/menu/form conditions + free alternatives |
 | `template-authoring.md` | Full sites: GeneratePress Elements, FSE, archive templates |
 | `animations.md` | Hover, keyframes, scroll-driven animation, reduced motion |
-| `gb-pro.md` | Pro feature map (28 blocks, global classes, version timeline) |
-| `pro-forms.md` | Pro 2.6 Forms: fields, validation, ESP integrations, Turnstile |
+| `gb-pro.md` | Pro feature map (27 blocks, global classes, Editor Access, version timeline) |
+| `pro-forms.md` | Pro Forms (2.6+): fields, validation, ESP integrations, Turnstile |
 | `pro-interactive.md` | Accordion, Tabs, Carousel, Navigation, Site Header, Overlays |
 | `css-patterns.md` · `svg-icons.md` · `responsive.md` | Styling patterns |
 | `global-styles.md` · `patterns.md` · `performance.md` · `migrations.md` · `troubleshooting.md` | Supporting guides |
@@ -174,6 +174,8 @@ generateblocks-skills/
 The `importable/` folder contains two formats for each skill:
 - **`.skill`** — Upload to any AI chat (Claude.ai, ChatGPT, Gemini)
 - **`.zip`** — Compressed skill with references included
+
+After editing any skill, regenerate all bundles with `./build-bundles.sh`.
 
 ---
 
@@ -252,8 +254,9 @@ Block format (Option A — the plugin auto-injects the id-class):
 - **UI-managed settings** — condition rules, form actions, overlay triggers,
   and display rules are configured in wp-admin, not in block markup; the
   skills list these as manual steps
-- **Pro 2.6 / free 2.3 features** (Forms, CSS Mode) are beta as of June 2026 —
-  sites on stable releases won't have them yet
+- **Pro 2.7 / free 2.4 features** (Editor Access, dynamic-data save gate) are
+  RC as of July 2026 — sites on stable releases (free 2.3.0 / Pro 2.6.1)
+  won't have them yet; Forms and CSS Mode are stable
 
 ---
 

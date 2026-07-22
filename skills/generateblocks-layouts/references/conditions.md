@@ -1,6 +1,6 @@
 ---
 title: Conditional display (GB Pro Conditions + alternatives)
-description: Block-level conditions (gblocks_conditions CPT + gbBlockCondition), form field conditions, menu item conditions, and free-plugin alternatives including GeneratePress Elements display rules.
+description: Block-level conditions (gblocks_condition CPT + gbBlockCondition), form field conditions, menu item conditions, and free-plugin alternatives including GeneratePress Elements display rules.
 ---
 
 # Conditional Display
@@ -18,8 +18,9 @@ Four different systems show/hide things conditionally. Pick by scope:
 ## 1. GB Pro Block Conditions (the real model)
 
 **A condition is a saved post, not inline rules.** Conditions live in the
-`gblocks_conditions` CPT (Dashboard → GenerateBlocks → Conditions), where you
-build the rule set in a UI. A block then references the condition post by ID:
+`gblocks_condition` CPT — singular; the REST base is `gblocks-conditions`
+(Dashboard → GenerateBlocks → Conditions) — where you build the rule set in
+a UI. A block then references the condition post by ID:
 
 ```json
 "gbBlockCondition":123,

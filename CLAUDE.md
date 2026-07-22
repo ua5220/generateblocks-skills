@@ -7,8 +7,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This repository contains GenerateBlocks WordPress plugin development and skills for creating/converting layouts.
 
 **Contents:**
-- `generateblocks/` - Free plugin source code (2.3.0-rc)
-- `generateblocks-pro/` - Pro plugin source code (2.6.0-rc — Forms, CSS Mode)
+- `generateblocks/` - Free plugin source code (2.4.0-rc)
+- `generateblocks-pro/` - Pro plugin source code (2.7.0-rc — Editor Access, Forms, CSS Mode; git-ignored)
 - `skills/` - Claude Code skills for GenerateBlocks workflows
 - `examples/` - Golden example sections + production pages from gauravtiwari.org
 
@@ -41,8 +41,8 @@ skills/
 │   │   ├── conditions.md     # Pro conditions + free alternatives
 │   │   ├── template-authoring.md # Full sites: GP Elements, FSE, archives
 │   │   ├── animations.md     # Motion: hover, keyframes, scroll-driven
-│   │   ├── gb-pro.md         # GenerateBlocks Pro overview (2.6)
-│   │   ├── pro-forms.md      # Pro Forms system (2.6)
+│   │   ├── gb-pro.md         # GenerateBlocks Pro overview (2.7)
+│   │   ├── pro-forms.md      # Pro Forms system (2.6+)
 │   │   ├── pro-interactive.md# Accordion/Tabs/Carousel/Nav/Header/Overlays
 │   │   ├── css-patterns.md   # Hover, transitions, gradients
 │   │   ├── responsive.md     # Media queries, breakpoints
@@ -135,10 +135,11 @@ npm run plugin-zip         # Create plugin zip
 **IMPORTANT V2 Naming:**
 - Use `generateblocks/element` (NOT `/container`)
 - Use `generateblocks/text` (NOT `/headline` or `/button`)
-- Classes MUST be: `gb-element-{uniqueId} gb-element` for element blocks
-- Classes MUST be: `gb-text-{uniqueId} gb-text` for text blocks
-- Classes MUST be: `gb-media-{uniqueId} gb-media` for media blocks
-- Classes MUST be: `gb-shape-{uniqueId} gb-shape` for shape blocks
+- Rendered HTML classes MUST be: `gb-element-{uniqueId} gb-element` for element blocks
+- Rendered HTML classes MUST be: `gb-text-{uniqueId} gb-text` for text blocks
+- Rendered HTML classes MUST be: `gb-media-{uniqueId} gb-media` for media blocks
+- Rendered HTML classes MUST be: `gb-shape-{uniqueId} gb-shape` for shape blocks
+- In JSON, `className` holds only the base class (`"className":"gb-element"` — Option A, serialized last); the plugin auto-injects the id-class into the rendered class list
 
 ### Plugin Structure
 
@@ -177,7 +178,7 @@ npm run plugin-zip         # Create plugin zip
 ## Block Structure (V2)
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"abc123","className":"gb-element-abc123 gb-element","tagName":"div","styles":{...},"css":"..."} -->
+<!-- wp:generateblocks/element {"uniqueId":"abc123","tagName":"div","styles":{...},"css":"...","className":"gb-element"} -->
 <div class="gb-element-abc123 gb-element">
     <!-- Inner blocks -->
 </div>

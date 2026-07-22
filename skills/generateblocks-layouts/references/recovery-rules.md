@@ -394,6 +394,10 @@ generateblocks/query-page-numbers
   uniqueId, tagName, styles, css, globalClasses, htmlAttributes, midSize
 ```
 
+Verified unchanged in GB 2.4.0 — the only block.json delta is an additive
+`"role":"content"` flag on `text.content` and `media.mediaId`, which is
+editor schema only and never serialized into markup.
+
 **`className` is a WordPress core attribute** (provided by `supports.className`).
 It is NOT in `block.json`. Empirically, `className` serializes **after** the
 block's declared attributes — i.e. last in the JSON object.
@@ -460,7 +464,7 @@ editor tries to recover.
 For action links, buttons, and any link with visible text:
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"link1","tagName":"a","htmlAttributes":{"href":"https://example.com/page/"},"styles":{...},"css":"...","className":"gb-element-link1 gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"link1","tagName":"a","htmlAttributes":{"href":"https://example.com/page/"},"styles":{...},"css":"...","className":"gb-element"} -->
 <a class="gb-element-link1 gb-element" href="https://example.com/page/">
     <!-- wp:generateblocks/text {"uniqueId":"link2","tagName":"span","styles":{...},"css":"..."} -->
     <span class="gb-text gb-text-link2">Read the full guide →</span>

@@ -1,18 +1,19 @@
 ---
-title: GenerateBlocks Pro overview (2.6)
+title: GenerateBlocks Pro overview (2.7)
 description: What Pro adds on top of free GenerateBlocks — block catalog, global classes, query extensions, conditions, forms, overlays — with pointers to the deep-dive references.
 ---
 
-# GenerateBlocks Pro (2.6)
+# GenerateBlocks Pro (2.7)
 
 Use Pro features only when the user has GB Pro installed. If unsure, default
 to free-plugin patterns and say in chat which parts would need Pro.
 
-Status note (June 2026): public stable is free 2.2.1 / Pro 2.5.0; free 2.3
-and Pro 2.6 (Forms, CSS Mode) are in beta/RC — this repo carries the RC
-source. If the user's site runs stable, Forms and CSS Mode aren't available
-yet. Note 2.3 also disables the legacy "Additional CSS" block option by
-default in favor of CSS Mode.
+Status note (July 2026): public stable is free 2.3.0 / Pro 2.6.1; free 2.4
+and Pro 2.7 (Editor Access) are in RC — this repo carries the RC source
+(free 2.4.0-rc.1 / Pro 2.7.0-rc.1). On a stable site, Editor Access isn't
+available yet, but Forms and CSS Mode (2.6) are. Note 2.3 also disabled the
+legacy "Additional CSS" block option by default in favor of CSS Mode; 2.4/2.7
+raise minimum WordPress to 6.7.
 
 ## What Pro adds — map
 
@@ -26,8 +27,9 @@ default in favor of CSS Mode.
 | Query extensions (`"current"` magic values, `stickyPosts`, `post_meta`/`option` loop types) | `query-block.md` §3, §6 |
 | Global classes & Styles dashboard | below |
 | Pattern library (local CPT + remote pro library) | below |
+| Editor Access & Control Sets (lock down editing per role) — **2.7** | below |
 
-## Pro block catalog (28 blocks, verified)
+## Pro block catalog (27 blocks, verified)
 
 ```
 Forms (2.6):     form, form-field, form-field-label, form-field-control, form-render
@@ -43,11 +45,16 @@ All namespaced `generateblocks-pro/{slug}`, class pattern
 order differs per block**: see `pro-interactive.md` top section before
 emitting any Pro block JSON.
 
+Overlays, Conditions, Global Styles, and Editor Access are **not blocks** —
+they're CPT-backed systems (`gblocks_overlay`, `gblocks_condition`,
+`gblocks_styles`, `gb_access_profile`/`gb_access_set`) configured in the
+dashboard and referenced from blocks by ID or applied globally.
+
 ## Global classes
 
 - Created/managed in the **Styles dashboard** (GenerateBlocks → Styles);
-  stored server-side (option + `gblocks_global_style` CPT), CSS compiled and
-  enqueued site-wide.
+  stored server-side (option + `gblocks_styles` CPT — `gblocks_global_style`
+  is the deprecated V1 CPT), CSS compiled and enqueued site-wide.
 - A block opts in via its `globalClasses` array attribute; the class names
   are also written into the rendered HTML class list:
 
@@ -66,6 +73,26 @@ emitting any Pro block JSON.
 - Hand-authoring: reference existing global classes freely. Creating them
   programmatically goes through the Styles REST API — otherwise tell the user
   to create the class in the dashboard first.
+
+## Editor Access & Control Sets (2.7)
+
+Role-based editing restrictions for client sites — lock blocks down so
+editors can change content but not design.
+
+- **Access Profiles** (`gb_access_profile` CPT) define what a user group can
+  do in the editor; **Control Sets** (`gb_access_set` CPT) define which
+  block controls are exposed. Both are built in the GenerateBlocks
+  dashboard; REST-backed; managing them needs `manage_options`, being
+  subject to them needs only `edit_posts` (filter:
+  `generateblocks_editor_access_capability`).
+- Adds **content-only** and **read-only** editing modes to GB blocks (free
+  2.4 marks `text.content` and `media.mediaId` with `role:content` to
+  support this).
+- **Requires free GenerateBlocks 2.4** — the feature silently stays off
+  unless the free plugin exposes `generateblocks_supports(
+  'block-inspector-slot' )`. V1 legacy blocks are excluded.
+- No markup impact: nothing about Editor Access is serialized into block
+  comments, so everything this skill emits is unaffected.
 
 ## Pattern library
 
@@ -86,6 +113,7 @@ emitting any Pro block JSON.
 | 2.4 | Conditions system (blocks + menu items) |
 | 2.5 | Carousel, site logo/URL tags, grid-template controls |
 | 2.6 | Forms system + integrations, CSS Mode |
+| 2.7 | Editor Access + Control Sets, content-only/read-only editing (needs free 2.4); forms editing now needs `edit_others_posts` |
 
 ## When to recommend Pro
 
@@ -96,6 +124,7 @@ emitting any Pro block JSON.
 - Related-posts queries (`"current"` magic values) and ACF repeater loops
 - Archive/site/option/term/user dynamic tags, prev/next post navigation
 - Global classes / design-token management in the Styles dashboard
+- Client sites needing role-locked editing (Editor Access / Control Sets, 2.7)
 
 Everything else — layout, styling, static sections, standard query loops,
 free dynamic tags — works on the free plugin.

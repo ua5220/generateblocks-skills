@@ -16,7 +16,7 @@ archive loops, single-post templates, 404s, hooks.
 | **GB Pro Site Header / Navigation blocks** | Header built in blocks instead of theme; combines with either architecture | Page content or an Element |
 | **FSE block theme + GB** | The site already uses a block theme (Twenty Twenty-Five etc.) | Site Editor templates / template parts |
 
-Context (May 2026): GeneratePress explicitly is **not** adopting core block
+Context (July 2026, unchanged): GeneratePress explicitly is **not** adopting core block
 themes — their position is that GB + GP Elements exceeds FSE in CSS coverage,
 dynamic content, and conditional logic, with their own next-gen full-site
 system in development. GB works fine inside FSE templates (one of the few

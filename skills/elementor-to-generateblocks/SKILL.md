@@ -3,7 +3,7 @@ name: elementor-to-generateblocks
 version: 1.0.0
 description: Convert Elementor layouts to clean GenerateBlocks V2 format, eliminating DIVception
 author: Gaurav Tiwari
-updated: 2026-01-22
+updated: 2026-07-22
 trigger:
   - Elementor to GenerateBlocks
   - convert Elementor
@@ -82,9 +82,9 @@ Elementor wraps everything in excessive nested divs with utility classes:
 Same content, cleaner structure:
 
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"sect001","tagName":"section","styles":{"paddingBottom":"4rem","paddingTop":"4rem"},"css":".gb-element-sect001{padding-bottom:4rem;padding-top:4rem}","className":"gb-element-sect001 gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"sect001","tagName":"section","styles":{"paddingBottom":"4rem","paddingTop":"4rem"},"css":".gb-element-sect001{padding-bottom:4rem;padding-top:4rem}","className":"gb-element"} -->
 <section class="gb-element-sect001 gb-element">
-    <!-- wp:generateblocks/element {"uniqueId":"sect001a","tagName":"div","styles":{"marginLeft":"auto","marginRight":"auto","maxWidth":"var(--gb-container-width)","paddingLeft":"1rem","paddingRight":"1rem"},"css":".gb-element-sect001a{margin-left:auto;margin-right:auto;max-width:var(--gb-container-width);padding-left:1rem;padding-right:1rem}","className":"gb-element-sect001a gb-element"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"sect001a","tagName":"div","styles":{"marginLeft":"auto","marginRight":"auto","maxWidth":"var(--gb-container-width)","paddingLeft":"1rem","paddingRight":"1rem"},"css":".gb-element-sect001a{margin-left:auto;margin-right:auto;max-width:var(--gb-container-width);padding-left:1rem;padding-right:1rem}","className":"gb-element"} -->
     <div class="gb-element-sect001a gb-element">
         <!-- wp:generateblocks/text {"uniqueId":"sect001b","tagName":"h2","styles":{"color":"#0a0a0a","fontSize":"2rem","fontWeight":"700"},"css":".gb-text-sect001b{color:#0a0a0a;font-size:2rem;font-weight:700}"} -->
         <h2 class="gb-text gb-text-sect001b">Hello World</h2>
@@ -173,7 +173,7 @@ Some Elementor widgets should convert to Core Blocks instead of GenerateBlocks:
 
 **GenerateBlocks equivalent:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"col001","tagName":"div","styles":{"display":"grid","gap":"2rem","gridTemplateColumns":"repeat(2, minmax(0, 1fr))","@media (max-width:768px)":{"gridTemplateColumns":"1fr"}},"css":".gb-element-col001{display:grid;gap:2rem;grid-template-columns:repeat(2, minmax(0, 1fr))}@media(max-width:768px){.gb-element-col001{grid-template-columns:1fr}}","className":"gb-element-col001 gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"col001","tagName":"div","styles":{"display":"grid","gap":"2rem","gridTemplateColumns":"repeat(2,minmax(0,1fr))","@media (max-width:768px)":{"gridTemplateColumns":"1fr"}},"css":".gb-element-col001{display:grid;gap:2rem;grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:768px){.gb-element-col001{grid-template-columns:1fr}}","className":"gb-element"} -->
 <div class="gb-element-col001 gb-element">
     <!-- Column 1 content -->
     <!-- Column 2 content -->
@@ -185,7 +185,7 @@ Some Elementor widgets should convert to Core Blocks instead of GenerateBlocks:
 
 **Hero with background:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"alignItems":"center","backgroundImage":"url(image.jpg)","backgroundPosition":"center","backgroundSize":"cover","display":"flex","justifyContent":"center","minHeight":"80vh"},"css":".gb-element-hero001{align-items:center;background-image:url(image.jpg);background-position:center;background-size:cover;display:flex;justify-content:center;min-height:80vh}.gb-element-hero001::before{background:rgba(0,0,0,0.5);content:'';inset:0;position:absolute}","className":"gb-element-hero001 gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"hero001","tagName":"section","styles":{"alignItems":"center","backgroundImage":"url(image.jpg)","backgroundPosition":"center","backgroundSize":"cover","display":"flex","justifyContent":"center","minHeight":"80vh","position":"relative"},"css":".gb-element-hero001{align-items:center;background-image:url(image.jpg);background-position:center;background-size:cover;display:flex;justify-content:center;min-height:80vh;position:relative}.gb-element-hero001::before{background:rgba(0,0,0,0.5);content:'';inset:0;position:absolute}","className":"gb-element"} -->
 <section class="gb-element-hero001 gb-element">
     <!-- Hero content -->
 </section>
@@ -194,7 +194,7 @@ Some Elementor widgets should convert to Core Blocks instead of GenerateBlocks:
 
 **Card grid:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"cards001","tagName":"div","styles":{"display":"grid","gap":"2rem","gridTemplateColumns":"repeat(3, minmax(0, 1fr))","@media (max-width:1024px)":{"gridTemplateColumns":"repeat(2, minmax(0, 1fr))"},"@media (max-width:768px)":{"gridTemplateColumns":"1fr"}},"css":".gb-element-cards001{display:grid;gap:2rem;grid-template-columns:repeat(3, minmax(0, 1fr))}@media(max-width:1024px){.gb-element-cards001{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media(max-width:768px){.gb-element-cards001{grid-template-columns:1fr}}","className":"gb-element-cards001 gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"cards001","tagName":"div","styles":{"display":"grid","gap":"2rem","gridTemplateColumns":"repeat(3,minmax(0,1fr))","@media (max-width:1024px)":{"gridTemplateColumns":"repeat(2,minmax(0,1fr))"},"@media (max-width:768px)":{"gridTemplateColumns":"1fr"}},"css":".gb-element-cards001{display:grid;gap:2rem;grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:1024px){.gb-element-cards001{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:768px){.gb-element-cards001{grid-template-columns:1fr}}","className":"gb-element"} -->
 <div class="gb-element-cards001 gb-element">
     <!-- Card blocks -->
 </div>
@@ -243,6 +243,12 @@ When the target site is known, extract design tokens from:
 1. **Theme's style.css** - Primary colors, fonts, base sizes
 2. **theme.json** (block themes) - Color palette, typography presets
 3. **Existing pages** - Match the established visual language
+
+Anything you infer (rather than copy from the Elementor source) must pass
+the anti-slop gate in `../generateblocks-layouts/SKILL.md` ("Design quality
+— no slop") — load the `/design-slop` skill when available. Elementor
+sources are often slop-heavy themselves (decorative gradients, card soup,
+thick rounded borders); flattening the DOM is also the moment to drop those.
 
 **Example inference for gauravtiwari.org:**
 ```json
@@ -336,11 +342,14 @@ Every block needs:
 - The `css` attribute must **NOT** contain hover states or transitions (the plugin generates those from the `styles` object)
 - Exceptions that go in `css`: pseudo-elements (::before/::after), media queries, animations, parent hover targeting children
 
-### 3. Element Blocks Need className
+### 3. Element Blocks Need className (Option A)
 
-Add `"className":"gb-element-{id} gb-element"` to all element block attributes (className MUST include the uniqueId). HTML class order: `gb-element-{id} gb-element`:
+Add `"className":"gb-element"` — the base class only, serialized last. The
+plugin injects `gb-element-{id}` into the rendered class list; never
+duplicate the id-class into `className`. HTML class order stays
+`gb-element-{id} gb-element`:
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"card001",...,"className":"gb-element-card001 gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"card001",...,"className":"gb-element"} -->
 <div class="gb-element-card001 gb-element">...</div>
 <!-- /wp:generateblocks/element -->
 ```
@@ -415,12 +424,12 @@ Never convert `elementor-widget-spacer` to a block. Use:
 
 **GenerateBlocks:**
 ```html
-<!-- wp:generateblocks/element {"uniqueId":"ibox001","tagName":"div","styles":{"alignItems":"flex-start","display":"flex","gap":"1rem"},"css":".gb-element-ibox001{align-items:flex-start;display:flex;gap:1rem}","className":"gb-element-ibox001 gb-element"} -->
+<!-- wp:generateblocks/element {"uniqueId":"ibox001","tagName":"div","styles":{"alignItems":"flex-start","display":"flex","gap":"1rem"},"css":".gb-element-ibox001{align-items:flex-start;display:flex;gap:1rem}","className":"gb-element"} -->
 <div class="gb-element-ibox001 gb-element">
     <!-- wp:generateblocks/shape {"uniqueId":"ibox001a","styles":{"alignItems":"center","backgroundColor":"#f5f5f3","borderRadius":"0.75rem","color":"#c0392b","display":"flex","flexShrink":"0","height":"3rem","justifyContent":"center","width":"3rem","svg":{"fill":"currentColor","height":"1.5rem","width":"1.5rem"}},"css":".gb-shape-ibox001a{align-items:center;background-color:#f5f5f3;border-radius:0.75rem;color:#c0392b;display:flex;flex-shrink:0;height:3rem;justify-content:center;width:3rem}.gb-shape-ibox001a svg{fill:currentColor;height:1.5rem;width:1.5rem}"} -->
     <span class="gb-shape gb-shape-ibox001a"><svg viewBox="0 0 24 24" fill="currentColor"><path d="..."/></svg></span>
     <!-- /wp:generateblocks/shape -->
-    <!-- wp:generateblocks/element {"uniqueId":"ibox001b","tagName":"div","styles":{"flex":"1"},"css":".gb-element-ibox001b{flex:1}","className":"gb-element-ibox001b gb-element"} -->
+    <!-- wp:generateblocks/element {"uniqueId":"ibox001b","tagName":"div","styles":{"flex":"1"},"css":".gb-element-ibox001b{flex:1}","className":"gb-element"} -->
     <div class="gb-element-ibox001b gb-element">
         <!-- wp:generateblocks/text {"uniqueId":"ibox001c","tagName":"h3","styles":{"fontSize":"1.125rem","fontWeight":"700","marginBottom":"0.5rem"},"css":".gb-text-ibox001c{font-size:1.125rem;font-weight:700;margin-bottom:0.5rem}"} -->
         <h3 class="gb-text gb-text-ibox001c">Title</h3>

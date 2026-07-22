@@ -5,11 +5,15 @@ description: The GenerateBlocks Pro forms system — block hierarchy, field type
 
 # GB Pro Forms
 
-Requires **GB Pro 2.6+** (beta as of June 2026). Forms are an **opt-in
+Requires **GB Pro 2.6+** (stable since Pro 2.6.1). Forms are an **opt-in
 module** — enable under GenerateBlocks → Settings first. A first-class
 system: form posts (CPT), form blocks, server-side processing, integrations,
 and a submissions table. Spam protection is layered: honeypot, token
 freshness, origin check, optional Turnstile.
+
+Since Pro 2.7, editing forms requires the `edit_others_posts` capability
+(Editors and above) — adjust via the `generateblocks_form_capability`
+filter. Contributors/Authors can no longer author form posts.
 
 ## 1. Architecture — how forms actually work
 
@@ -144,6 +148,6 @@ Form blocks follow the same serialization rules as every GB block
 ## 8. When NOT to use GB forms
 
 - Multi-step forms, file uploads, payments → use a dedicated form plugin
-  (the GB system has no uploads or payment actions as of 2.6).
+  (the GB system has no uploads or payment actions as of 2.7).
 - A bare email-capture embedded in body copy where the site already runs
   another form system — keep one form stack per site.

@@ -1,12 +1,12 @@
 ---
 title: Dynamic Tags (canonical catalog)
-description: Every dynamic tag in GenerateBlocks free 2.3 + Pro 2.6 with exact source-verified syntax, options, and usage in block markup. Replaces all older tag documentation.
+description: Every dynamic tag in GenerateBlocks free 2.4 + Pro 2.7 with exact source-verified syntax, options, and usage in block markup. Replaces all older tag documentation.
 ---
 
 # Dynamic Tags — Canonical Reference
 
-Source-verified against GenerateBlocks 2.3.0 (`includes/dynamic-tags/`) and
-GB Pro 2.6.0 (`includes/extend/dynamic-tags/`); matches the official docs at
+Source-verified against GenerateBlocks 2.4.0 (`includes/dynamic-tags/`) and
+GB Pro 2.7.0 (`includes/extend/dynamic-tags/`); matches the official docs at
 learn.generatepress.com (canonical for v2 — docs.generateblocks.com is v1
 only). **If another file in this repo shows a different tag syntax, this file
 wins.**
@@ -48,8 +48,9 @@ frontend — no recovery error, just `{{...}}` visible to visitors):
 ```
 
 The matcher regex is `/\{{(tag_names)(\s+[^}]+)?}}/` — whitespace after the
-tag name is mandatory before any options
-(`includes/dynamic-tags/class-register-dynamic-tag.php:92`).
+tag name is mandatory before any options (`find_matches()` in
+`includes/dynamic-tags/class-register-dynamic-tag.php`; unchanged in 2.4,
+which only added `preg_quote()` around tag names).
 
 ## 2. Where tags work
 
@@ -66,6 +67,10 @@ blocks only: `generateblocks/element`, `text`, `media`, `shape`, `query`,
 | Query `query` values | `"post__not_in":["current"]` (Pro magic value, not a `{{}}` tag) |
 
 Tags do NOT work in core blocks (`core/paragraph`, `core/image`, ...).
+
+Since 2.4, tags are **stripped to empty inside `on*` event-handler
+attributes** (`onclick`, `onmouseover`, ...) and `srcdoc` — see §10. Don't
+put tags there.
 
 **JSON escaping still applies.** A tag inside a JSON attribute value follows
 the normal recovery rules: if the tag value contains `--`, `&`, `<`, `>`, use
@@ -85,7 +90,7 @@ How a tag decides which post/user/term it reads from, in priority order:
 
 No setup needed inside loops — `{{post_title}}` in a loop-item just works.
 
-## 4. Free tags (GenerateBlocks 2.3)
+## 4. Free tags (GenerateBlocks 2.4)
 
 ### Post
 
@@ -140,7 +145,7 @@ a wrapper when its data is missing. Don't hand-guess its serialized form;
 insert once via the UI and copy, or use the `:empty` CSS fallback from
 `conditions.md` §4.
 
-## 6. Pro tags (GB Pro 2.6)
+## 6. Pro tags (GB Pro 2.7)
 
 ### Archive / site / options
 
@@ -266,7 +271,49 @@ attachment, which a loop image doesn't.
 | `{{post_meta key="x"}}` visible | Quoted value breaks option parsing | `{{post_meta key:x}}` |
 | Tag renders empty | Key/field has no value, or wrong context | Check field exists on the post; add `id:` to test; for ACF check the field name not the label |
 | Tag works in editor preview, empty on frontend | Protected meta (`_`-prefixed) or capability-gated (user meta, options) | Use a non-protected key, or an allowed option key |
-| Save rejected / tag stripped on save | 2.2+ validation middleware blocks unsafe meta references at save time | Use allowed keys; don't reference protected/system meta |
+| **Every tag on the page renders empty** | 2.4 taint model: post was last saved by a user without dynamic-data permission | Re-save the post with a trusted account (see §10) |
+| Save rejected with 403 when adding a tag | 2.4 save gate: only trusted users can save content that adds dynamic tags | Save with a trusted account, or filter `generateblocks_user_can_author_dynamic_data` |
+| Tag inside `onclick`/`on*` attribute renders empty | 2.4 strips tags from event-handler attributes and `srcdoc` | Don't put tags in event handlers (opt-in filter exists — §10) |
 | ACF field previews blank in editor but renders on frontend | Field not exposed to REST (editor preview uses REST) | Expected — verify on the frontend |
 | Tag renders raw inside a core block | Tags only run in GB blocks | Move into `generateblocks/text` |
 | Wrong post's data inside a loop | Tag has stray `id:` option | Remove `id:` to use loop context |
+
+## 10. Permissions & security model (2.4)
+
+GenerateBlocks 2.4 replaced the old save-time validation middleware with a
+capability model, a save gate, and render-time taint tracking. The old
+validation methods are no-op stubs now. What matters when authoring markup:
+
+- **Who counts as trusted:** users with `unfiltered_html` OR
+  `manage_options` (filter: `generateblocks_user_can_author_dynamic_data`).
+  On standard single-site WP that's Editors and above; on multisite only
+  super admins have `unfiltered_html` by default.
+- **Save gate** (`includes/class-save-gate.php`): an untrusted user's save
+  is rejected (403) if the content **adds** dynamic tags — via REST,
+  autosave, classic editor, or programmatic paths. Removing existing tags
+  saves fine, as do byte-identical saves that don't increase exposure.
+- **Taint model** (`class-dynamic-tag-security.php`): a post whose last save
+  came from an untrusted user is stamped with
+  `_generateblocks_untrusted_dynamic_content` meta, and **all** dynamic tags
+  in it render empty on the frontend until a trusted user re-saves it. This
+  is the first thing to check when tags "suddenly stopped rendering".
+- **Event handlers:** tags never resolve inside `on*` attributes or
+  `srcdoc`. Opt back in (event handlers only) with the
+  `generateblocks_allow_dynamic_data_in_event_handlers` filter; `srcdoc`
+  is always stripped.
+- **Context-aware escaping:** resolved tag output is escaped once, per
+  attribute context (`replace_tags_in_content()`): URL attributes (`href`,
+  `src`, `action`, `formaction`, `xlink:href`) get `esc_url()` — so
+  `javascript:`/`data:` values die — while text/body positions stay
+  HTML-capable.
+- **Meta lookups:** `post_password`, `password`, `user_pass`, and
+  `user_activation_key` are always blocked; `_`-prefixed protected meta is
+  blocked (the leading-space bypass is fixed in 2.4); dot-path traversal
+  that dereferences into a non-public post (draft/private/password) returns
+  empty.
+- **Editor previews** for untrusted users come back blank or
+  kses-sanitized; the server render is authoritative.
+
+None of this changes tag syntax or markup rules — it changes **who can save
+tags and when they render**. Markup this skill emits is unaffected as long
+as the person pasting it is a trusted user.

@@ -1,7 +1,7 @@
 ---
 name: generateblocks-layouts
 version: 3.0.0
-description: Build any WordPress design with GenerateBlocks V2 — static sections, dynamic query loops, ACF data, animations, conditions, forms, and full-site templates. Source-verified against GB free 2.3 + Pro 2.6.
+description: Build any WordPress design with GenerateBlocks V2 — static sections, dynamic query loops, ACF data, animations, conditions, forms, and full-site templates. Source-verified against GB free 2.4 + Pro 2.7.
 author: Gaurav Tiwari
 trigger:
   - GenerateBlocks
@@ -64,7 +64,7 @@ Details: `recovery-rules.md`.
 | `generateblocks/shape` | `gb-shape-{id} gb-shape` | Inline SVG icons/shapes |
 | `generateblocks/query` + `looper` + `loop-item` (+ `query-no-results`, `query-page-numbers`) | `gb-query-{id}` etc. | All dynamic post lists — `query-block.md` |
 
-GB Pro adds 28 more (accordion, tabs, carousel, navigation, site-header,
+GB Pro adds 27 more (accordion, tabs, carousel, navigation, site-header,
 forms) — `gb-pro.md` has the map.
 
 Use core blocks for specialized content: `core/image` (captions),
@@ -126,6 +126,31 @@ H1 42px / H2 35px / H3 29px, section padding 60px, container
 `#5c5c5c`, light bg `#f5f5f3`, headings weight 900 with tight tracking,
 section padding 4rem, card radius 1rem, button radius 2rem, hover lift
 `translateY(-6px)`, shadow `0 20px 60px rgba(0,0,0,0.15)`.
+
+## Design quality — no slop
+
+Any design this skill **invents** (no reference given, or gaps you fill
+yourself) must pass the anti-slop gate. If the `/design-slop` skill is
+available, load it before styling — its rules win. The non-negotiables
+either way:
+
+- **Never a thick border (2px+) on a rounded card, callout, or container**
+  — including one thick side. Separate with whitespace first, then a 1px
+  hairline, then a subtle background tint. Shadows only for elements that
+  truly float.
+- Cards only for independently interactive or genuinely distinct units.
+  Whitespace before containers, dividers before cards — no card soup.
+- One dominant visual idea per section. Gradients, glows, glass, blur, and
+  decorative motion stay rare and purposeful — never crutches for weak
+  hierarchy.
+- Consistent, modest radius scale. Not every element a pill.
+- Hierarchy comes from type scale, spacing, and alignment — not decoration.
+- Real content and real states: no fabricated metrics or testimonials;
+  survive long titles and empty fields; compose mobile deliberately instead
+  of just stacking.
+
+Final check: if the business name could be swapped without the section
+changing, it's generic — make it specific before shipping.
 
 ## Complex layout strategy
 
