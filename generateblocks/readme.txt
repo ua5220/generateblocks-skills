@@ -2,10 +2,10 @@
 Contributors: edge22
 Donate link: https://generatepress.com
 Tags: blocks, gutenberg, editor, page builder, posts
-Requires at least: 6.5
-Tested up to: 6.9
+Requires at least: 6.7
+Tested up to: 7.0
 Requires PHP: 7.2
-Stable tag: 2.2.1
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,7 +128,20 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 2.4.0 =
+* Feature: Add block inspector slot support for the new Editor Access feature in Pro
+* Feature: Add content-only and read-only support to our blocks
+* Tweak: Users without dynamic data permissions can remove existing dynamic tags but can no longer add or save new dynamic data
+* Tweak: Dynamic data no longer renders on pages last saved by a user without dynamic data permissions until a trusted user re-saves them
+* Tweak: Dynamic tags no longer resolve inside inline event handler attributes (onclick, onmouseover, etc.)
+* Tweak: Add generateblocks_allow_dynamic_data_in_event_handlers filter to allow dynamic tags to inline event handler attributes
+* Tweak: Add editor notices when a save disables or re-enables dynamic data
+* Tweak: Improve permissions around dynamic data previews, metadata lookups, and query controls
+* Tweak: Refresh the dashboard header design
+* Tweak: Raise the minimum supported WordPress version to 6.7
+
 = 2.3.0 =
+* Security: Harden legacy dynamic URL output
 * Feature: Add support for new Dev Tools feature in Pro
 * Feature: Add support for direct CSS editing feature in Pro
 * Feature: Add Set/Replace media block toolbar button
